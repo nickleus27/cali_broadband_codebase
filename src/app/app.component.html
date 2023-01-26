@@ -1,20 +1,40 @@
-<mat-sidenav-container class="tp-container">
-  <mat-sidenav mode="side" opened class="tp-sidenav">
-    <section class="tp-section">
-      <span>Rounds(Years)</span>
-    </section>
-    <section class="tp-section">
-      <span>Carriers</span>
-    </section>
-    <section class="tp-section">
-      <span>Phone Models</span>
-    </section>
-    <section class="tp-section">
-      <span>Servers</span>
-    </section>
-    <section class="tp-section">
-      <span>Tests</span>
-    </section>
+<mat-toolbar color="warm">
+  <button mat-icon-button (click)="sidenav.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  Graph Options
+</mat-toolbar>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="side" opened class="tp-sidenav">
+    <mat-nav-list>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          Rounds
+        </mat-expansion-panel-header>
+        <a mat-list-item routerLink="#">Round 14</a>
+        <a mat-list-item routerLink="#">Round 15</a>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          Carriers
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          Phone Models
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          Servers
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          Tests
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+    </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <app-home-page></app-home-page>
