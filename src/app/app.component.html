@@ -11,13 +11,21 @@
         <mat-expansion-panel-header>
           Rounds
         </mat-expansion-panel-header>
-        <a mat-list-item routerLink="#">Round 14</a>
-        <a mat-list-item routerLink="#">Round 15</a>
+        <mat-radio-group class="radio-group" [(ngModel)]="roundSelected" (change)="ngOnChanges($event)">
+          <mat-radio-button *ngFor="let round of rounds" [value]="round">
+            {{round}}
+          </mat-radio-button>
+        </mat-radio-group>
       </mat-expansion-panel>
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           Carriers
         </mat-expansion-panel-header>
+        <mat-radio-group class="radio-group" [(ngModel)]="carrierSelected" (change)="ngOnChanges($event)">
+          <mat-radio-button *ngFor="let carrier of carriers" [value]="carrier">
+            {{carrier}}
+          </mat-radio-button>
+        </mat-radio-group>
       </mat-expansion-panel>
       <mat-expansion-panel>
         <mat-expansion-panel-header>
