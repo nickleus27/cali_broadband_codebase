@@ -12,18 +12,20 @@ export class AppComponent implements OnInit, OnChanges {
   @ViewChild('sidenav') sidenav: MatSidenav;
   roundSelected: string;
   carrierSelected: string;
-  rounds: string[] = ['Round14', 'Round15'];
-  carriers: string[] = [];
+  phoneSelected: string;
+  rounds: string[];
+  carriers: string[];
+  phone_models: string[];
+  model_map: { [key: string]: any; } = { 'XP8800': 'Sonim XP8', 'SM-G970U': 'Galaxy S10e', 'SM-G998U': 'Galaxy S21', 'SM-G973U': 'Galaxy S10'};
   round14: { [key: string]: any; };
   round15: { [key: string]: any; };
-  roundData: {
-    [key: string]: any,
-  };
-
+  roundData: { [key: string]: any; };
 
   constructor(public getDataService: GetDataService) {
     this.roundData = {};
+    this.rounds = ['Round14', 'Round15'];
     this.carriers = [];
+    this.phone_models = [];
   }
 
   ngOnInit(): void {
@@ -43,8 +45,19 @@ export class AppComponent implements OnInit, OnChanges {
     );
   }
   ngOnChanges(changes: any): void {
-    console.log(this.roundSelected);
-    console.log(Object.keys(this.roundData[this.roundSelected]));
-    this.carriers = Object.keys(this.roundData[this.roundSelected]);
+    if (this.roundSelected) {
+      this.carriers = Object.keys(this.roundData[this.roundSelected])
+        .filter((value) => { 
+          if (value === 'na') {
+            return false;
+          } else if (value === 'Verizon Wireless') {
+            return false;
+          }
+          return true;
+        });
+    }
+    if (this.roundSelected && this.carrierSelected) {
+      this.phone_models = Object.keys(this.roundData[this.roundSelected][this.carrierSelected]);
+    }
   }
 }

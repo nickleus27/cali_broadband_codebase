@@ -31,6 +31,11 @@
         <mat-expansion-panel-header>
           Phone Models
         </mat-expansion-panel-header>
+        <mat-radio-group class="radio-group" [(ngModel)]="phoneSelected" (change)="ngOnChanges($event)">
+          <mat-radio-button *ngFor="let phone of phone_models" [value]="phone">
+            {{model_map[phone]}}
+          </mat-radio-button>
+        </mat-radio-group>
       </mat-expansion-panel>
       <mat-expansion-panel>
         <mat-expansion-panel-header>
