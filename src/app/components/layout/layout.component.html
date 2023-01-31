@@ -1,0 +1,64 @@
+<mat-sidenav-container class="tp-container">
+    <mat-sidenav #sidenav mode="side" opened class="tp-sidenav">
+        <mat-nav-list>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    Rounds
+                </mat-expansion-panel-header>
+                <mat-radio-group class="radio-group" [(ngModel)]="roundSelected" (change)="ngOnChanges($event)">
+                    <mat-radio-button *ngFor="let round of rounds" [value]="round">
+                        {{round}}
+                    </mat-radio-button>
+                </mat-radio-group>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    Carriers
+                </mat-expansion-panel-header>
+                <mat-radio-group class="radio-group" [(ngModel)]="carrierSelected" (change)="ngOnChanges($event)">
+                    <mat-radio-button *ngFor="let carrier of carriers" [value]="carrier">
+                        {{carrier}}
+                    </mat-radio-button>
+                    <div *ngIf="!roundSelected">Select Round First</div>
+                </mat-radio-group>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    Phone Models
+                </mat-expansion-panel-header>
+                <mat-radio-group class="radio-group" [(ngModel)]="phoneSelected" (change)="ngOnChanges($event)">
+                    <mat-radio-button *ngFor="let phone of phone_models" [value]="phone">
+                        {{model_map[phone]}}
+                    </mat-radio-button>
+                    <div *ngIf="!carrierSelected">Select Carrier First</div>
+                </mat-radio-group>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    Servers
+                </mat-expansion-panel-header>
+                <mat-radio-group class="radio-group" [(ngModel)]="serverSelected" (change)="ngOnChanges($event)">
+                    <mat-radio-button *ngFor="let server of servers" [value]="server">
+                        {{server_map[server]}}
+                    </mat-radio-button>
+                </mat-radio-group>
+                <div *ngIf="!phoneSelected">Select Model First</div>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    Tests
+                </mat-expansion-panel-header>
+                <div *ngIf="!serverSelected">Select Server First</div>
+            </mat-expansion-panel>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar color="warm">
+            <button mat-icon-button (click)="sidenav.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+            Graph Options
+        </mat-toolbar>
+        <app-home-page></app-home-page>
+    </mat-sidenav-content>
+</mat-sidenav-container>
