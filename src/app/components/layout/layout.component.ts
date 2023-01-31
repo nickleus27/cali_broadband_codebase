@@ -14,12 +14,14 @@ export class LayoutComponent implements OnInit, OnChanges {
   carrierSelected: string;
   phoneSelected: string;
   serverSelected: string;
+  testSelected: string;
   rounds: string[];
   carriers: string[];
   phone_models: string[];
   servers: string[];
-  model_map: { [key: string]: any; } = { 'XP8800': 'Sonim XP8', 'SM-G970U': 'Galaxy S10e', 'SM-G998U': 'Galaxy S21', 'SM-G973U': 'Galaxy S10' };
-  server_map: { [key: string]: any; } = { 'wTCPup1': "West Uploads", 'wTCPdown1': "West Downloads", 'eTCPup1': "East Uploads", 'eTCPdown1': "East Downloads" };
+  tests: string[];
+  model_map: { [key: string]: any; };
+  server_map: { [key: string]: any; };
   round14: { [key: string]: any; };
   round15: { [key: string]: any; };
   roundData: { [key: string]: any; };
@@ -27,8 +29,8 @@ export class LayoutComponent implements OnInit, OnChanges {
   constructor(public getDataService: GetDataService) {
     this.roundData = {};
     this.rounds = ['Round14', 'Round15'];
-    this.carriers = [];
-    this.phone_models = [];
+    this.model_map = { 'XP8800': 'Sonim XP8', 'SM-G970U': 'Galaxy S10e', 'SM-G998U': 'Galaxy S21', 'SM-G973U': 'Galaxy S10' };
+    this.server_map  = { 'wTCPup1': "West Uploads", 'wTCPdown1': "West Downloads", 'eTCPup1': "East Uploads", 'eTCPdown1': "East Downloads" };
   }
 
   ngOnInit(): void {
@@ -67,6 +69,9 @@ export class LayoutComponent implements OnInit, OnChanges {
         .filter((value) => {
           return (value.includes('1'));
         });
+    }
+    if (this.serverSelected) {
+      this.tests = ["Speeds", "Errors"];
     }
   }
 }

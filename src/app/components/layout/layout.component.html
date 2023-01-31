@@ -48,6 +48,11 @@
                 <mat-expansion-panel-header>
                     Tests
                 </mat-expansion-panel-header>
+                <mat-radio-group class="radio-group" [(ngModel)]="testSelected" (change)="ngOnChanges($event)">
+                    <mat-radio-button *ngFor="let test of tests" [value]="test">
+                        {{test}}
+                    </mat-radio-button>
+                </mat-radio-group>
                 <div *ngIf="!serverSelected">Select Server First</div>
             </mat-expansion-panel>
         </mat-nav-list>
