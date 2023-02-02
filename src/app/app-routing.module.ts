@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { GraphComponent } from './components/graph/graph.component';
+import { HomePageComponent } from './components/home-page/home-page.component';
 
 const routes: Routes = [
-  /*
-  { path: 'first-component', component: FirstComponent },
-  { path: 'second-component', component: SecondComponent },
-  */
+  { path: 'graphs', component: GraphComponent },
+  { path: '', component: HomePageComponent },
 ];
 
 @NgModule({

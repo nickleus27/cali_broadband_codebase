@@ -17,13 +17,15 @@ import { HomePageComponent } from './components/home-page/home-page.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import {MatButtonModule} from '@angular/material/button';
 import { GraphComponent } from './components/graph/graph.component';
+import { SideBarComponent } from './components/side-bar/side-bar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
     LayoutComponent,
-    GraphComponent
+    GraphComponent,
+    SideBarComponent
   ],
   imports: [
     BrowserModule,

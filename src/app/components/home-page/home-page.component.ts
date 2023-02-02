@@ -1,4 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ComponentDataService } from 'src/app/services/component-data/component-data.service';
 
 @Component({
   selector: 'app-home-page',
@@ -6,10 +8,18 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./home-page.component.css']
 })
 export class HomePageComponent {
-  @Input() buttonIsDisabled: boolean;
+  buttonIsDisabled: boolean;
 
-  constructor() {
-    //this.buttonIsDisabled=true;
+  constructor(
+    private compDataService: ComponentDataService,
+    private route: ActivatedRoute,
+    private router: Router
+    ) {
+    this.compDataService.displayFlag.subscribe(flag => this.buttonIsDisabled = flag);
   }
 
+  goToGraphs(args: any) {
+    console.log("clicked");
+    this.router.navigate(['graphs'], { relativeTo: this.route });
+  }
 }
