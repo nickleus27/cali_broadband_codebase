@@ -20,6 +20,7 @@ export class LayoutComponent implements OnInit, OnChanges {
   phone_models: string[];
   servers: string[];
   tests: string[];
+  graphButtonIsDisabled: boolean;
   model_map: { [key: string]: any; };
   server_map: { [key: string]: any; };
   round14: { [key: string]: any; };
@@ -31,6 +32,7 @@ export class LayoutComponent implements OnInit, OnChanges {
     this.rounds = ['Round14', 'Round15'];
     this.model_map = { 'XP8800': 'Sonim XP8', 'SM-G970U': 'Galaxy S10e', 'SM-G998U': 'Galaxy S21', 'SM-G973U': 'Galaxy S10' };
     this.server_map  = { 'wTCPup1': "West Uploads", 'wTCPdown1': "West Downloads", 'eTCPup1': "East Uploads", 'eTCPdown1': "East Downloads" };
+    this.graphButtonIsDisabled = true;
   }
 
   ngOnInit(): void {
@@ -72,6 +74,9 @@ export class LayoutComponent implements OnInit, OnChanges {
     }
     if (this.serverSelected) {
       this.tests = ["Speeds", "Errors"];
+    }
+    if (this.testSelected) {
+      this.graphButtonIsDisabled = false;
     }
   }
 }

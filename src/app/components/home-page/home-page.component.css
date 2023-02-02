@@ -13,3 +13,9 @@
     font-size: calc(10px + 7vmin);
     color: #5A5A5A
   }
+
+  .center-button-container {
+    padding-top:11vh;
+    display: flex;
+    justify-content: center;
+  }

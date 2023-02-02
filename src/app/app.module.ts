@@ -15,12 +15,15 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatRadioModule } from '@angular/material/radio';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { LayoutComponent } from './components/layout/layout.component';
+import {MatButtonModule} from '@angular/material/button';
+import { GraphComponent } from './components/graph/graph.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
-    LayoutComponent
+    LayoutComponent,
+    GraphComponent
   ],
   imports: [
     BrowserModule,
@@ -34,6 +37,7 @@ import { LayoutComponent } from './components/layout/layout.component';
     MatMenuModule,
     MatExpansionModule,
     MatRadioModule,
+    MatButtonModule,
     FormsModule,
     ReactiveFormsModule,
   ],
