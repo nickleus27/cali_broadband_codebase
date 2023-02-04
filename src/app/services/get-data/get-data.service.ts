@@ -1,19 +1,47 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GetDataService {
 
-  constructor(private http: HttpClient) { }
+  private csvFiles = ['round14.csv', 'round15.csv'];
+  private _graphData: {[key:string]: Subject<any>};
 
-  getCSV(csvFile: string): Observable<any> {
-    return this.http.get(`assets/data/${csvFile}`, { responseType: 'text' });
+  constructor(private http: HttpClient) {
+    this._graphData = {};
+    this.csvFiles.forEach((element) => {
+      this._graphData[element] = new BehaviorSubject({});
+    })
   }
 
-  processData(allText: string) {
+  public getRound(round: string): Observable<any> {
+    return this._graphData[round].asObservable();
+  }
+
+  public setCSVs(): void {
+
+    Object.keys(this._graphData).forEach(key => {
+      this.http.get(`assets/data/${key}`, { responseType: 'text' })
+        .subscribe((result) => {
+          this._graphData[key].next(this.processData(result));
+        });
+    });
+    /*
+    this.csvFiles.map((element) => {
+        this.http.get(`assets/data/${element}`, { responseType: 'text' })
+          .subscribe((result) => {
+              this._round14.next(this.processData(result));
+            }
+          );
+      }
+    );
+    */
+  }
+
+  private processData(allText: string) {
     var allTextLines = allText.split(/\r\n|\n/);
     var headers = allTextLines[0].split(',');
     type JSON_Data = {

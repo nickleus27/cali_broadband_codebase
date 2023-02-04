@@ -8,14 +8,14 @@ export class ComponentDataService {
   private _graphButtonDisabled: Subject<boolean>;
     
   constructor() {
-      this._graphButtonDisabled = new BehaviorSubject(true);
+    this._graphButtonDisabled = new BehaviorSubject(true);
   }
   
   updateFlag(value: boolean): void {
-      this._graphButtonDisabled.next(value);
+    this._graphButtonDisabled.next(value);
   }
 
   get displayFlag(): Observable<boolean> {
-      return this._graphButtonDisabled.asObservable();
+    return this._graphButtonDisabled.asObservable();
   }
 }

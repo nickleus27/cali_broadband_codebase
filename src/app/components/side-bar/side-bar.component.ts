@@ -38,6 +38,7 @@ export class SideBarComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    /*
     this.getDataService.getCSV('round14.csv').subscribe(
       data => {
         this.round14 = this.getDataService.processData(data);
@@ -52,6 +53,16 @@ export class SideBarComponent implements OnInit, OnChanges {
         //console.log(this.roundData);
       }
     );
+    */
+   this.getDataService.setCSVs();
+   this.getDataService.getRound('round14.csv')
+      .subscribe((result) => {
+        this.roundData['Round14'] = result;
+      });
+    this.getDataService.getRound('round15.csv')
+      .subscribe((result) => {
+        this.roundData['Round15'] = result;
+      });
   }
   ngOnChanges(changes: any): void {
     if (this.roundSelected) {
