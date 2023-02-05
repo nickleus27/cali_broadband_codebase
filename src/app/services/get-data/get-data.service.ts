@@ -7,38 +7,44 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 })
 export class GetDataService {
 
-  private csvFiles = ['round14.csv', 'round15.csv'];
+  private csvFiles = ['round14', 'round15'];
   private _graphData: {[key:string]: Subject<any>};
+  private _model_map: {[key:string]: string};
+  private _server_map: {[key:string]: string};
+  private _graph_params: object;
 
   constructor(private http: HttpClient) {
     this._graphData = {};
+    this._model_map = { 'XP8800': 'Sonim XP8', 'SM-G970U': 'Galaxy S10e', 'SM-G998U': 'Galaxy S21', 'SM-G973U': 'Galaxy S10' };
+    this._server_map  = { 'wTCPup1': "West Uploads", 'wTCPdown1': "West Downloads", 'eTCPup1': "East Uploads", 'eTCPdown1': "East Downloads" };
     this.csvFiles.forEach((element) => {
       this._graphData[element] = new BehaviorSubject({});
-    })
-  }
-
-  public getRound(round: string): Observable<any> {
-    return this._graphData[round].asObservable();
-  }
-
-  public setCSVs(): void {
-
+    });
     Object.keys(this._graphData).forEach(key => {
-      this.http.get(`assets/data/${key}`, { responseType: 'text' })
+      this.http.get(`assets/data/${key}.csv`, { responseType: 'text' })
         .subscribe((result) => {
           this._graphData[key].next(this.processData(result));
         });
     });
-    /*
-    this.csvFiles.map((element) => {
-        this.http.get(`assets/data/${element}`, { responseType: 'text' })
-          .subscribe((result) => {
-              this._round14.next(this.processData(result));
-            }
-          );
-      }
-    );
-    */
+    console.log("get-data service constructor");
+  }
+
+  public getGraphParams(): object {
+    return this._graph_params;
+  }
+  public setGraphParams(params: object) {
+    this._graph_params = params;
+  }
+  public getRound(round: string): Observable<any> {
+    return this._graphData[round].asObservable();
+  }
+
+  public getModelMapValue(key: string): string {
+    return this._model_map[key];
+  }
+
+  public getServerMapValue(key: string): string {
+    return this._server_map[key];
   }
 
   private processData(allText: string) {

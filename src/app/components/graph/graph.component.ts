@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router,  ParamMap} from '@angular/router';
 import { GetDataService } from 'src/app/services/get-data/get-data.service';
 
 @Component({
@@ -8,12 +9,20 @@ import { GetDataService } from 'src/app/services/get-data/get-data.service';
 })
 export class GraphComponent {
 
-  round14: any;
+  params: object;
 
-  constructor(dataService: GetDataService) {
-    dataService.getRound('round14.csv')
-      .subscribe((result) => {
-        this.round14 = JSON.stringify(result, null, 2);
+  constructor(
+    private dataService: GetDataService,
+    private route: ActivatedRoute,
+    private router: Router
+    ) {
+      this.route.paramMap.subscribe(params => {
+        let paramString = params.get('graphData');
+        if (paramString == null) {
+          paramString = "";
+        }
+        this.params = JSON.parse(paramString);
+        console.log(this.params);
       });
   }
 }
