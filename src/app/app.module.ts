@@ -18,6 +18,7 @@ import { LayoutComponent } from './components/layout/layout.component';
 import {MatButtonModule} from '@angular/material/button';
 import { GraphComponent } from './components/graph/graph.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
+import { NgChartsConfiguration, NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -42,8 +43,9 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
     MatButtonModule,
     FormsModule,
     ReactiveFormsModule,
+    NgChartsModule
   ],
-  providers: [],
+  providers: [ { provide: NgChartsConfiguration, useValue: { generateColors: false }}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -11,7 +11,7 @@ export class GetDataService {
   private _graphData: {[key:string]: Subject<any>};
   private _model_map: {[key:string]: string};
   private _server_map: {[key:string]: string};
-  private _graph_params: Subject<object>;
+  private _graph_params: Subject<any>;
 
   constructor(private http: HttpClient) {
     this._graphData = {};
@@ -30,11 +30,15 @@ export class GetDataService {
     console.log("get-data service constructor");
   }
 
-  public getGraphParams(): Observable<object> {
+  public getGraphParams(): Observable<any> {
+    console.log(this._graph_params);
     return this._graph_params.asObservable();
   }
   public setGraphParams(params: object) {
+    console.log("this is set graph params", this._graph_params);
     this._graph_params.next(params);
+    console.log("this is set graph params", this._graph_params);
+
   }
   public getRound(round: string): Observable<any> {
     return this._graphData[round].asObservable();
