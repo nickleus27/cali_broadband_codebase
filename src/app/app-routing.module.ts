@@ -4,7 +4,7 @@ import { GraphComponent } from './components/graph/graph.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 
 const routes: Routes = [
-  { path: 'graphs/:graphData', component: GraphComponent },
+  { path: 'graphs', component: GraphComponent },
   { path: '', component: HomePageComponent },
 ];
 

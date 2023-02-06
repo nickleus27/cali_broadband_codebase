@@ -25,6 +25,7 @@ export class GraphComponent implements OnInit{
   ngOnInit(): void {
   /* TODO: change the params as an observable in get-dat service */
 
+  /*
     this.route.paramMap.subscribe(params => {
       let paramString = params.get('graphData');
       if (paramString == null) {
@@ -33,6 +34,11 @@ export class GraphComponent implements OnInit{
       this.params = JSON.parse(paramString);
       console.log(this.params);
     });
+    */
+   this.dataService.getGraphParams().subscribe(result => {
+    this.params = result;
+    console.log(this.params);
+   })
     console.log("graph ngoninit");
   }
 }

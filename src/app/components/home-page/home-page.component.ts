@@ -24,6 +24,6 @@ export class HomePageComponent {
 
   goToGraphs(args: any) {
     /* TODO: change the params as an observable in get-dat service */
-    this.router.navigate(['graphs', JSON.stringify(this.getDataService.getGraphParams(), null, 2)], { relativeTo: this.route });
+    this.router.navigate(['graphs'], { relativeTo: this.route });
   }
 }
