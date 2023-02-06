@@ -18,10 +18,12 @@ export class HomePageComponent {
     private route: ActivatedRoute,
     private router: Router
     ) {
-    this.compDataService.displayFlag.subscribe(flag => this.buttonIsDisabled = flag);
+    this.compDataService.displayButtonFlag.subscribe(flag => this.buttonIsDisabled = flag);
+    this.compDataService.updateSideNavFlag(true);
   }
 
   goToGraphs(args: any) {
+    /* TODO: change the params as an observable in get-dat service */
     this.router.navigate(['graphs', JSON.stringify(this.getDataService.getGraphParams(), null, 2)], { relativeTo: this.route });
   }
 }

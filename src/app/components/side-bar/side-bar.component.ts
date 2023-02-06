@@ -1,5 +1,5 @@
 import { Component, OnChanges, OnInit, ViewChild } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
+//import { MatSidenav } from '@angular/material/sidenav';
 import { ComponentDataService } from 'src/app/services/component-data/component-data.service';
 import { GetDataService } from 'src/app/services/get-data/get-data.service';
 
@@ -10,7 +10,8 @@ import { GetDataService } from 'src/app/services/get-data/get-data.service';
 })
 export class SideBarComponent implements OnInit, OnChanges {
   title = 'cali_broadband';
-  @ViewChild('sidenav') sidenav: MatSidenav;
+  //@ViewChild('sidenav') sidenav: MatSidenav;
+  homePage: boolean;
   roundSelected: string;
   carrierSelected: string;
   phoneSelected: string;
@@ -31,6 +32,7 @@ export class SideBarComponent implements OnInit, OnChanges {
     ) {
     this.roundData = {};
     this.rounds = ['Round14', 'Round15'];
+    this.compDataService.sideNavFlag.subscribe(flag => {this.homePage = flag; console.log("sidenav flag", this.homePage)});
   }
 
   ngOnInit(): void {
@@ -76,7 +78,7 @@ export class SideBarComponent implements OnInit, OnChanges {
         server: this.serverSelected,
         test: this.testSelected
       }});
-      this.compDataService.updateFlag(false);
+      this.compDataService.updateGraphButtonFlag(false);
     }
   }
 }
