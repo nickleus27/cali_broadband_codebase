@@ -10,8 +10,6 @@ import { GetDataService } from 'src/app/services/get-data/get-data.service';
 })
 export class SideBarComponent implements OnInit, OnChanges {
   title = 'cali_broadband';
-  //@ViewChild('sidenav') sidenav: MatSidenav;
-  homePage: boolean;
   roundSelected: string;
   carrierSelected: string;
   phoneSelected: string;
@@ -31,12 +29,10 @@ export class SideBarComponent implements OnInit, OnChanges {
     private compDataService: ComponentDataService
     ) {
     this.roundData = {};
-    this.rounds = ['Round14', 'Round15'];
-    this.compDataService.sideNavFlag.subscribe(flag => {this.homePage = flag; console.log("sidenav flag", this.homePage)});
+    this.rounds = ['Round14', 'Round15', 'Round16'];
   }
 
   ngOnInit(): void {
-   //this.getDataService.setCSVs();
    this.getDataService.getRound('round14')
       .subscribe((result) => {
         this.roundData['Round14'] = result;
@@ -44,6 +40,10 @@ export class SideBarComponent implements OnInit, OnChanges {
     this.getDataService.getRound('round15')
       .subscribe((result) => {
         this.roundData['Round15'] = result;
+      });
+    this.getDataService.getRound('round16')
+      .subscribe((result) => {
+        this.roundData['Round16'] = result;
       });
   }
   ngOnChanges(changes: any): void {

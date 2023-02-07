@@ -7,7 +7,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 })
 export class GetDataService {
 
-  private csvFiles = ['round14', 'round15'];
+  private csvFiles = ['round14', 'round15', 'round16'];
   private _graphData: {[key:string]: Subject<any>};
   private _model_map: {[key:string]: string};
   private _server_map: {[key:string]: string};
@@ -15,7 +15,7 @@ export class GetDataService {
 
   constructor(private http: HttpClient) {
     this._graphData = {};
-    this._model_map = { 'XP8800': 'Sonim XP8', 'SM-G970U': 'Galaxy S10e', 'SM-G998U': 'Galaxy S21', 'SM-G973U': 'Galaxy S10' };
+    this._model_map = { 'XP8800': 'Sonim XP8', 'SM-G970U': 'Galaxy S10e', 'SM-G998U': 'Galaxy S21', 'SM-G973U': 'Galaxy S10', 'SM-S901U': 'Galaxy S22' };
     this._server_map  = { 'wTCPup1': "West Uploads", 'wTCPdown1': "West Downloads", 'eTCPup1': "East Uploads", 'eTCPdown1': "East Downloads" };
     this.csvFiles.forEach((element) => {
       this._graphData[element] = new BehaviorSubject({});

@@ -34,7 +34,6 @@ export class GraphComponent implements OnInit{
     private graphService: GraphService
     ) {
       console.log("graph constructor");
-      this.compDataService.updateSideNavFlag(false);
       this.barChartOptions = {
         responsive: true,
         // We use these empty structures as placeholders for dynamic theming.

@@ -17,7 +17,6 @@ export class HomePageComponent {
     private router: Router
     ) {
     this.compDataService.displayButtonFlag.subscribe(flag => this.buttonIsDisabled = flag);
-    this.compDataService.updateSideNavFlag(true);
   }
 
   goToGraphs(args: any) {
