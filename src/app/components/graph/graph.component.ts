@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ComponentDataService } from 'src/app/services/component-data/component-data.service';
 import { GetDataService } from 'src/app/services/get-data/get-data.service';
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
@@ -7,13 +6,14 @@ import { BaseChartDirective } from 'ng2-charts';
 import DataLabelsPlugin from 'chartjs-plugin-datalabels';
 import { GraphService } from 'src/app/services/graph/graph.service';
 import { switchMap } from 'rxjs';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-graph',
   templateUrl: './graph.component.html',
   styleUrls: ['./graph.component.css']
 })
-export class GraphComponent implements OnInit{
+export class GraphComponent implements OnInit {
 
   params: any;
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
@@ -26,76 +26,71 @@ export class GraphComponent implements OnInit{
 
   public barChartData: ChartData<'bar'>;
 
-  roundData: {[key:string]: any};
+  roundData: { [key: string]: any };
 
   constructor(
     private dataService: GetDataService,
-    private compDataService: ComponentDataService,
-    private graphService: GraphService
-    ) {
-      console.log("graph constructor");
-      this.barChartOptions = {
-        responsive: true,
-        // We use these empty structures as placeholders for dynamic theming.
-        scales: {
-          x: {},
-          y: {
-            min: 10
-          }
-        },
-        plugins: {
-          legend: {
-            display: true,
-          },
-          datalabels: {
-            anchor: 'end',
-            align: 'end'
-          }
+    private graphService: GraphService,
+    private toast: NgToastService
+  ) {
+    this.barChartOptions = {
+      responsive: true,
+      // We use these empty structures as placeholders for dynamic theming.
+      scales: {
+        x: {},
+        y: {
+          min: 10
         }
-      };
-      this.dataService.getGraphParams()
-    .pipe(
-      switchMap((params) => 
-    {
-      this.params = params;
-      return this.dataService.getRound(this.params.option1.round.toLowerCase());
-    })).subscribe((result) => 
-    {
-      this.roundData = result;
-      if (this.params.option1.test === 'Speeds') {
-        this.barChartData = this.graphService.getSpeedGraph(
-          this.roundData[this.params.option1.carrier][this.params.option1.phone][this.params.option1.server]);
-      } else {
-        this.barChartData = this.graphService.getErrorGraph(
-          this.roundData[this.params.option1.carrier][this.params.option1.phone][this.params.option1.server]);
+      },
+      plugins: {
+        legend: {
+          display: true,
+        },
+        datalabels: {
+          anchor: 'end',
+          align: 'end'
+        }
       }
-    });
+    };
+    this.dataService.getGraphParams()
+      .pipe(
+        switchMap((params) => {
+          this.params = params;
+          return this.dataService.getRound(this.params.option1.round.toLowerCase());
+        })).subscribe(
+          {
+          next: (result) => {
+            this.roundData = result;
+            let keys = Object.keys(this.roundData[this.params.option1.carrier]);
+            if (!keys.includes(this.params.option1.phone)) {
+              this.phoneModelWarning();
+              return;
+            }
+            this.barChartData = this.graphService
+              .getSingleGraph(
+                this.roundData[this.params.option1.carrier][this.params.option1.phone][this.params.option1.server]
+              );
+          },
+          error: (err) => {
+            console.log("Error caught at Subscriber Graph Component: " + err)
+          },
+        }
+        );
   }
 
   ngOnInit(): void {
-    console.log("graph ngoninit");
   }
 
   // events
   public chartClicked({ event, active }: { event?: ChartEvent, active?: {}[] }): void {
-    console.log(event, active);
+    //console.log(event, active);
   }
 
   public chartHovered({ event, active }: { event?: ChartEvent, active?: {}[] }): void {
-    console.log(event, active);
+    //console.log(event, active);
   }
 
-  public randomize(): void {
-    // Only Change 3 values
-    this.barChartData.datasets[0].data = [
-      Math.round(Math.random() * 100),
-      59,
-      80,
-      Math.round(Math.random() * 100),
-      56,
-      Math.round(Math.random() * 100),
-      40 ];
-
-    this.chart?.update();
+  private phoneModelWarning(): void {
+    this.toast.warning({detail: 'Warning:', summary: 'Please select a phone model', duration: 5000});
   }
 }

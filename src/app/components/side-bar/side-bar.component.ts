@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 //import { MatSidenav } from '@angular/material/sidenav';
 import { ComponentDataService } from 'src/app/services/component-data/component-data.service';
 import { GetDataService } from 'src/app/services/get-data/get-data.service';
@@ -14,36 +14,34 @@ export class SideBarComponent implements OnInit, OnChanges {
   carrierSelected: string;
   phoneSelected: string;
   serverSelected: string;
-  testSelected: string;
   rounds: string[];
   carriers: string[];
   phone_models: string[];
   servers: string[];
-  tests: string[];
   round14: { [key: string]: any; };
   round15: { [key: string]: any; };
   roundData: { [key: string]: any; };
 
   constructor(
-    public getDataService: GetDataService,
-    private compDataService: ComponentDataService
+    private getDataService: GetDataService,
+    public compDataService: ComponentDataService
     ) {
     this.roundData = {};
-    this.rounds = ['Round14', 'Round15', 'Round16'];
+    this.rounds = ['round14', 'round15', 'round16'];
   }
 
   ngOnInit(): void {
    this.getDataService.getRound('round14')
       .subscribe((result) => {
-        this.roundData['Round14'] = result;
+        this.roundData['round14'] = result;
       });
     this.getDataService.getRound('round15')
       .subscribe((result) => {
-        this.roundData['Round15'] = result;
+        this.roundData['round15'] = result;
       });
     this.getDataService.getRound('round16')
       .subscribe((result) => {
-        this.roundData['Round16'] = result;
+        this.roundData['round16'] = result;
       });
   }
   ngOnChanges(changes: any): void {
@@ -62,21 +60,21 @@ export class SideBarComponent implements OnInit, OnChanges {
       this.phone_models = Object.keys(this.roundData[this.roundSelected][this.carrierSelected]);
     }
     if (this.phoneSelected) {
-      this.servers = Object.keys(this.roundData[this.roundSelected][this.carrierSelected][this.phoneSelected])
-        .filter((value) => {
-          return (value.includes('1'));
-        });
+      if (this.phone_models.includes(this.phoneSelected)) {
+        this.servers = Object.keys(this.roundData[this.roundSelected][this.carrierSelected][this.phoneSelected])
+          .filter((value) => {
+            return (value.includes('1')); // filter out onley servers from group 1. example: wTCPup1
+          });
+      } else {
+        this.phoneSelected = '';
+      }
     }
     if (this.serverSelected) {
-      this.tests = ["Speeds", "Errors"];
-    }
-    if (this.testSelected) {
       this.getDataService.setGraphParams({option1:{
         round: this.roundSelected, 
         carrier: this.carrierSelected,
         phone: this.phoneSelected,
         server: this.serverSelected,
-        test: this.testSelected
       }});
       this.compDataService.updateGraphButtonFlag(false);
     }
