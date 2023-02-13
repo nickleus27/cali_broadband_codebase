@@ -7,6 +7,7 @@ import DataLabelsPlugin from 'chartjs-plugin-datalabels';
 import { GraphService } from 'src/app/services/graph/graph.service';
 import { switchMap } from 'rxjs';
 import { NgToastService } from 'ng-angular-popup';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-graph',
@@ -31,7 +32,9 @@ export class GraphComponent implements OnInit {
   constructor(
     private dataService: GetDataService,
     private graphService: GraphService,
-    private toast: NgToastService
+    private toast: NgToastService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.barChartOptions = {
       responsive: true,
@@ -63,7 +66,7 @@ export class GraphComponent implements OnInit {
             this.roundData = result;
             let keys = Object.keys(this.roundData[this.params.option1.carrier]);
             if (!keys.includes(this.params.option1.phone)) {
-              this.phoneModelWarning();
+              this.toastWarning("Missing Data", "Please select a phone model");
               return;
             }
             this.barChartData = this.graphService
@@ -72,7 +75,8 @@ export class GraphComponent implements OnInit {
               );
           },
           error: (err) => {
-            console.log("Error caught at Subscriber Graph Component: " + err)
+            this.router.navigate([''], { relativeTo: this.route });
+            //console.log("Error caught at Subscriber Graph Component: " + err)
           },
         }
         );
@@ -90,7 +94,7 @@ export class GraphComponent implements OnInit {
     //console.log(event, active);
   }
 
-  private phoneModelWarning(): void {
-    this.toast.warning({detail: 'Warning:', summary: 'Please select a phone model', duration: 5000});
+  private toastWarning(detailMsg:string, summaryMsg: string): void {
+    this.toast.warning({detail: detailMsg, summary: summaryMsg, duration: 5000});
   }
 }
