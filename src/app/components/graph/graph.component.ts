@@ -38,6 +38,7 @@ export class GraphComponent implements OnInit {
   ) {
     this.barChartOptions = {
       responsive: true,
+      maintainAspectRatio: false,
       // We use these empty structures as placeholders for dynamic theming.
       scales: {
         x: {},
@@ -55,6 +56,9 @@ export class GraphComponent implements OnInit {
         }
       }
     };
+  }
+
+  ngOnInit(): void {
     this.dataService.getGraphParams()
       .pipe(
         switchMap((params) => {
@@ -62,27 +66,24 @@ export class GraphComponent implements OnInit {
           return this.dataService.getRound(this.params.option1.round.toLowerCase());
         })).subscribe(
           {
-          next: (result) => {
-            this.roundData = result;
-            let keys = Object.keys(this.roundData[this.params.option1.carrier]);
-            if (!keys.includes(this.params.option1.phone)) {
-              this.toastWarning("Missing Data", "Please select a phone model");
-              return;
-            }
-            this.barChartData = this.graphService
-              .getSingleGraph(
-                this.roundData[this.params.option1.carrier][this.params.option1.phone][this.params.option1.server]
-              );
-          },
-          error: (err) => {
-            this.router.navigate([''], { relativeTo: this.route });
-            //console.log("Error caught at Subscriber Graph Component: " + err)
-          },
-        }
+            next: (result) => {
+              this.roundData = result;
+              let keys = Object.keys(this.roundData[this.params.option1.carrier]);
+              if (!keys.includes(this.params.option1.phone)) {
+                this.toastWarning("Missing Data", "Please select a phone model");
+                return;
+              }
+              this.barChartData = this.graphService
+                .getSingleGraph(
+                  this.roundData[this.params.option1.carrier][this.params.option1.phone][this.params.option1.server]
+                );
+            },
+            error: (err) => {
+              this.router.navigate([''], { relativeTo: this.route });
+              //console.log("Error caught at Subscriber Graph Component: " + err)
+            },
+          }
         );
-  }
-
-  ngOnInit(): void {
   }
 
   // events
@@ -94,7 +95,7 @@ export class GraphComponent implements OnInit {
     //console.log(event, active);
   }
 
-  private toastWarning(detailMsg:string, summaryMsg: string): void {
-    this.toast.warning({detail: detailMsg, summary: summaryMsg, duration: 5000});
+  private toastWarning(detailMsg: string, summaryMsg: string): void {
+    this.toast.warning({ detail: detailMsg, summary: summaryMsg, duration: 5000 });
   }
 }
