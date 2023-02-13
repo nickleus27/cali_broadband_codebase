@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-layout',
@@ -7,4 +8,12 @@ import { Component } from '@angular/core';
 })
 export class LayoutComponent {
 
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router
+  ) { }
+
+  goHome(): void {
+    this.router.navigate([''], { relativeTo: this.route });
+  }
 }

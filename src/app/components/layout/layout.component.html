@@ -3,11 +3,18 @@
         <app-side-bar #sidebar></app-side-bar>
     </mat-sidenav>
     <mat-sidenav-content>
-        <mat-toolbar color="warm">
-            <button mat-icon-button color='warm' (click)="sidenav.toggle()">
-                <mat-icon>menu</mat-icon>
-            </button>
-            Graph Options
+        <mat-toolbar class="flexSpaceBetween" color="warm">
+            <span>
+                <button mat-icon-button color='warm' (click)="sidenav.toggle()">
+                    <mat-icon>menu</mat-icon>
+                </button>
+            </span>
+            <span class="tb-buttons"></span>
+            <span>
+                <button mat-icon-button color='warm' (click)="goHome()">
+                    <mat-icon>home</mat-icon>
+                </button>
+            </span>
         </mat-toolbar>
         <router-outlet></router-outlet>
     </mat-sidenav-content>
