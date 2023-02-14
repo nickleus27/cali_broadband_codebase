@@ -8,6 +8,7 @@ import { GraphService } from 'src/app/services/graph/graph.service';
 import { switchMap } from 'rxjs';
 import { NgToastService } from 'ng-angular-popup';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ComponentDataService } from 'src/app/services/component-data/component-data.service';
 
 @Component({
   selector: 'app-graph',
@@ -32,6 +33,7 @@ export class GraphComponent implements OnInit {
   constructor(
     private dataService: GetDataService,
     private graphService: GraphService,
+    private compDataService: ComponentDataService,
     private toast: NgToastService,
     private route: ActivatedRoute,
     private router: Router
@@ -70,7 +72,8 @@ export class GraphComponent implements OnInit {
               this.roundData = result;
               let keys = Object.keys(this.roundData[this.params.option1.carrier]);
               if (!keys.includes(this.params.option1.phone)) {
-                this.toastWarning("Missing Data", "Please select a phone model");
+                //this.toastWarning("Missing Data", "Please select a phone model");
+                this.compDataService.updatePhoneFlag(keys[0]);
                 return;
               }
               this.barChartData = this.graphService

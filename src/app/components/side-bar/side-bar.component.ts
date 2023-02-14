@@ -28,6 +28,12 @@ export class SideBarComponent implements OnInit, OnChanges {
     ) {
     this.roundData = {};
     this.rounds = ['round14', 'round15', 'round16'];
+    this.compDataService.displayPhoneFlag
+      .subscribe(flag =>
+        { this.phoneSelected = flag;
+          this.ngOnChanges();
+        }
+      );
   }
 
   ngOnInit(): void {
@@ -44,7 +50,7 @@ export class SideBarComponent implements OnInit, OnChanges {
         this.roundData['round16'] = result;
       });
   }
-  ngOnChanges(changes: any): void {
+  ngOnChanges(): void {
     if (this.roundSelected) {
       this.carriers = Object.keys(this.roundData[this.roundSelected])
         .filter((value) => {
