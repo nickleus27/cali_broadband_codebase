@@ -1,10 +1,20 @@
 <mat-nav-list>
+    <mat-expansion-panel *ngIf="comparison">
+        <mat-expansion-panel-header>
+            Graph
+        </mat-expansion-panel-header>
+        <mat-radio-group class="radio-group" [(ngModel)]="graphOptions.graphSelected" (change)="ngOnChanges()">
+            <mat-radio-button *ngFor="let graph of graphOptions.graphs" [value]="graph">
+                {{this.compDataService.getGraph(graph)}}
+            </mat-radio-button>
+        </mat-radio-group>
+    </mat-expansion-panel>
     <mat-expansion-panel>
         <mat-expansion-panel-header>
             Rounds
         </mat-expansion-panel-header>
-        <mat-radio-group class="radio-group" [(ngModel)]="roundSelected" (change)="ngOnChanges()">
-            <mat-radio-button *ngFor="let round of rounds" [value]="round">
+        <mat-radio-group class="radio-group" [(ngModel)]="graphOptions.roundSelected" (change)="ngOnChanges()">
+            <mat-radio-button *ngFor="let round of graphOptions.rounds" [value]="round">
                 {{this.compDataService.getRoundMapValue(round)}}
             </mat-radio-button>
         </mat-radio-group>
@@ -13,33 +23,33 @@
         <mat-expansion-panel-header>
             Carriers
         </mat-expansion-panel-header>
-        <mat-radio-group class="radio-group" [(ngModel)]="carrierSelected" (change)="ngOnChanges()">
-            <mat-radio-button *ngFor="let carrier of carriers" [value]="carrier">
+        <mat-radio-group class="radio-group" [(ngModel)]="optionsSelected.carrierSelected" (change)="ngOnChanges()">
+            <mat-radio-button *ngFor="let carrier of optionsSelected.carriers" [value]="carrier">
                 {{carrier}}
             </mat-radio-button>
-            <div *ngIf="!roundSelected">Select Round First</div>
+            <div *ngIf="!graphOptions.roundSelected">Select Round First</div>
         </mat-radio-group>
     </mat-expansion-panel>
     <mat-expansion-panel>
         <mat-expansion-panel-header>
             Phone Models
         </mat-expansion-panel-header>
-        <mat-radio-group class="radio-group" [(ngModel)]="phoneSelected" (change)="ngOnChanges()">
-            <mat-radio-button *ngFor="let phone of phone_models" [value]="phone">
+        <mat-radio-group class="radio-group" [(ngModel)]="optionsSelected.phoneSelected" (change)="ngOnChanges()">
+            <mat-radio-button *ngFor="let phone of optionsSelected.phone_models" [value]="phone">
                 {{compDataService.getModelMapValue(phone)}}
             </mat-radio-button>
-            <div *ngIf="!carrierSelected">Select Carrier First</div>
+            <div *ngIf="!optionsSelected.carrierSelected">Select Carrier First</div>
         </mat-radio-group>
     </mat-expansion-panel>
     <mat-expansion-panel>
         <mat-expansion-panel-header>
             Servers
         </mat-expansion-panel-header>
-        <mat-radio-group class="radio-group" [(ngModel)]="serverSelected" (change)="ngOnChanges()">
-            <mat-radio-button *ngFor="let server of servers" [value]="server">
+        <mat-radio-group class="radio-group" [(ngModel)]="optionsSelected.serverSelected" (change)="ngOnChanges()">
+            <mat-radio-button *ngFor="let server of optionsSelected.servers" [value]="server">
                 {{compDataService.getServerMapValue(server)}}
             </mat-radio-button>
         </mat-radio-group>
-        <div *ngIf="!phoneSelected">Select Model First</div>
+        <div *ngIf="!optionsSelected.phoneSelected">Select Model First</div>
     </mat-expansion-panel>
 </mat-nav-list>

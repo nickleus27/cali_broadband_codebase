@@ -5,8 +5,7 @@ import { BaseChartDirective } from 'ng2-charts';
 
 import DataLabelsPlugin from 'chartjs-plugin-datalabels';
 import { GraphService } from 'src/app/services/graph/graph.service';
-import { switchMap } from 'rxjs';
-import { NgToastService } from 'ng-angular-popup';
+import { Observable, switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentDataService } from 'src/app/services/component-data/component-data.service';
 
@@ -34,7 +33,6 @@ export class GraphComponent implements OnInit {
     private dataService: GetDataService,
     private graphService: GraphService,
     private compDataService: ComponentDataService,
-    private toast: NgToastService,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -65,25 +63,28 @@ export class GraphComponent implements OnInit {
       .pipe(
         switchMap((params) => {
           this.params = params;
-          return this.dataService.getRound(this.params.option1.round.toLowerCase());
+          console.log("params,",this.params);
+          return this.dataService.getRound(this.params.roundSelected);
         })).subscribe(
           {
             next: (result) => {
+              console.log("result", result);
               this.roundData = result;
-              let keys = Object.keys(this.roundData[this.params.option1.carrier]);
-              if (!keys.includes(this.params.option1.phone)) {
-                //this.toastWarning("Missing Data", "Please select a phone model");
-                this.compDataService.updatePhoneFlag(keys[0]);
-                return;
+              if (!this.params.comparison) { //load graph for single phone carrier
+                let keys = Object.keys(this.roundData[this.params.graph1.carrierSelected]);
+                if (!keys.includes(this.params.graph1.phoneSelected)) { //update phone selection if old phone is not in carrier phone set
+                  this.compDataService.updatePhoneFlag(keys[0]);
+                  return;
+                }
+                this.barChartData = this.graphService
+                  .getSingleGraph(
+                    this.roundData[this.params.graph1.carrierSelected][this.params.graph1.phoneSelected][this.params.graph1.serverSelected]
+                  );
               }
-              this.barChartData = this.graphService
-                .getSingleGraph(
-                  this.roundData[this.params.option1.carrier][this.params.option1.phone][this.params.option1.server]
-                );
             },
             error: (err) => {
               this.router.navigate([''], { relativeTo: this.route });
-              //console.log("Error caught at Subscriber Graph Component: " + err)
+              console.log("Error caught at Subscriber Graph Component: " + err)
             },
           }
         );
@@ -96,9 +97,5 @@ export class GraphComponent implements OnInit {
 
   public chartHovered({ event, active }: { event?: ChartEvent, active?: {}[] }): void {
     //console.log(event, active);
-  }
-
-  private toastWarning(detailMsg: string, summaryMsg: string): void {
-    this.toast.warning({ detail: detailMsg, summary: summaryMsg, duration: 5000 });
   }
 }

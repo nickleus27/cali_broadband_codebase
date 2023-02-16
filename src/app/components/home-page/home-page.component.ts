@@ -9,6 +9,7 @@ import { ComponentDataService } from 'src/app/services/component-data/component-
 })
 export class HomePageComponent {
   buttonIsDisabled: boolean;
+  compButtonDisabled: boolean;
   params: any;
 
   constructor(
@@ -17,9 +18,16 @@ export class HomePageComponent {
     private router: Router
     ) {
     this.compDataService.displayButtonFlag.subscribe(flag => this.buttonIsDisabled = flag);
+    this.compDataService.displayCompButtonFlag.subscribe(flag => this.compButtonDisabled = flag);
   }
 
-  goToGraphs(args: any) {
+  goToGraphs() {
     this.router.navigate(['graphs'], { relativeTo: this.route });
+  }
+
+  comparison() {
+    this.compDataService.updateGraphButtonFlag(true);
+    this.compDataService.updateCompButtonFlag(true);
+    this.compDataService.updateSideNavComp(true);
   }
 }

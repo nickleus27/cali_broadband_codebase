@@ -1,7 +1,7 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
-//import { MatSidenav } from '@angular/material/sidenav';
 import { ComponentDataService } from 'src/app/services/component-data/component-data.service';
 import { GetDataService } from 'src/app/services/get-data/get-data.service';
+import { GraphOptions } from './GraphOptions';
 
 @Component({
   selector: 'app-side-bar',
@@ -10,16 +10,10 @@ import { GetDataService } from 'src/app/services/get-data/get-data.service';
 })
 export class SideBarComponent implements OnInit, OnChanges {
   title = 'cali_broadband';
-  roundSelected: string;
-  carrierSelected: string;
-  phoneSelected: string;
-  serverSelected: string;
-  rounds: string[];
-  carriers: string[];
-  phone_models: string[];
-  servers: string[];
-  round14: { [key: string]: any; };
-  round15: { [key: string]: any; };
+  comparison: boolean;
+  graphOptions: GraphOptions;
+  optionsSelected: any;
+  graphs: string[];
   roundData: { [key: string]: any; };
 
   constructor(
@@ -27,10 +21,28 @@ export class SideBarComponent implements OnInit, OnChanges {
     public compDataService: ComponentDataService
     ) {
     this.roundData = {};
-    this.rounds = ['round14', 'round15', 'round16'];
+    this.graphOptions = { 
+      comparison: false,
+      rounds:['round14', 'round15', 'round16'],
+      graphs: ['graph1', 'graph2'], graphSelected:'graph1',
+      graph1: {},
+      graph2: {},
+      graph3: {}
+    };
+    this.optionsSelected = this.graphOptions.graph1;
+    this.compDataService.displaySideNavComp.subscribe(flag =>
+      {
+        this.comparison = flag;
+        this.graphOptions.comparison = flag;
+        if (this.comparison) {
+          this.graphOptions.graphSelected = 'graph2';
+          this.optionsSelected = this.graphOptions.graph2;
+          this.ngOnChanges();
+        }
+      });
     this.compDataService.displayPhoneFlag
       .subscribe(flag =>
-        { this.phoneSelected = flag;
+        { this.optionsSelected.phoneSelected = flag;
           this.ngOnChanges();
         }
       );
@@ -51,8 +63,8 @@ export class SideBarComponent implements OnInit, OnChanges {
       });
   }
   ngOnChanges(): void {
-    if (this.roundSelected) {
-      this.carriers = Object.keys(this.roundData[this.roundSelected])
+    if (this.graphOptions.roundSelected) {
+      this.optionsSelected.carriers = Object.keys(this.roundData[this.graphOptions.roundSelected])
         .filter((value) => {
           if (value === 'na') {
             return false;
@@ -62,27 +74,23 @@ export class SideBarComponent implements OnInit, OnChanges {
           return true;
         });
     }
-    if (this.carrierSelected) {
-      this.phone_models = Object.keys(this.roundData[this.roundSelected][this.carrierSelected]);
+    if (this.optionsSelected.carrierSelected) {
+      this.optionsSelected.phone_models = Object.keys(this.roundData[this.graphOptions.roundSelected!][this.optionsSelected.carrierSelected]);
     }
-    if (this.phoneSelected) {
-      if (this.phone_models.includes(this.phoneSelected)) {
-        this.servers = Object.keys(this.roundData[this.roundSelected][this.carrierSelected][this.phoneSelected])
+    if (this.optionsSelected.phoneSelected) {
+      if (this.optionsSelected.phone_models.includes(this.optionsSelected.phoneSelected)) {
+        this.optionsSelected.servers = Object.keys(this.roundData[this.graphOptions.roundSelected!][this.optionsSelected.carrierSelected][this.optionsSelected.phoneSelected])
           .filter((value) => {
-            return (value.includes('1')); // filter out onley servers from group 1. example: wTCPup1
+            return (value.includes('1')); // filter out only servers from group 1. example: wTCPup1
           });
       } else {
-        this.phoneSelected = '';
+        this.optionsSelected.phoneSelected = '';
       }
     }
-    if (this.serverSelected) {
-      this.getDataService.setGraphParams({option1:{
-        round: this.roundSelected, 
-        carrier: this.carrierSelected,
-        phone: this.phoneSelected,
-        server: this.serverSelected,
-      }});
+    if (this.optionsSelected.serverSelected) {
+      this.getDataService.setGraphParams(this.graphOptions);
       this.compDataService.updateGraphButtonFlag(false);
+      this.compDataService.updateCompButtonFlag(false);
     }
   }
 }
