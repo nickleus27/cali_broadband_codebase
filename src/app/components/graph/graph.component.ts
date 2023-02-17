@@ -80,6 +80,9 @@ export class GraphComponent implements OnInit {
                   .getSingleGraph(
                     this.roundData[this.params.graph1.carrierSelected][this.params.graph1.phoneSelected][this.params.graph1.serverSelected]
                   );
+              } else {
+                this.barChartData = this.graphService.comparisonGraph(this.roundData, this.params);
+                  console.log(this.barChartData);
               }
             },
             error: (err) => {
