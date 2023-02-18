@@ -24,7 +24,7 @@ export class SideBarComponent implements OnInit, OnChanges {
     this.graphOptions = { 
       comparison: false,
       rounds:['round14', 'round15', 'round16'],
-      graphs: ['graph1', 'graph2'], graphSelected:'graph1',
+      graphs: ['graph1', 'graph2', 'graph3'], graphSelected:'graph1',
       graph1: {},
       graph2: {},
       graph3: {}
@@ -35,8 +35,10 @@ export class SideBarComponent implements OnInit, OnChanges {
         this.comparison = flag;
         this.graphOptions.comparison = flag;
         if (this.comparison) {
-          this.graphOptions.graphSelected = 'graph2';
-          this.optionsSelected = this.graphOptions.graph2;
+          this.compDataService.updateNumCompGraphs();
+          let index:number = this.compDataService.numCompGraphs;
+          this.graphOptions.graphSelected = this.graphOptions.graphs[index];
+          this.optionsSelected = this.graphOptions[this.graphOptions.graphSelected as keyof GraphOptions];
           this.ngOnChanges();
         }
       });
@@ -63,6 +65,7 @@ export class SideBarComponent implements OnInit, OnChanges {
       });
   }
   ngOnChanges(): void {
+    this.optionsSelected = this.graphOptions[this.graphOptions.graphSelected as keyof GraphOptions];
     if (this.graphOptions.roundSelected) {
       this.optionsSelected.carriers = Object.keys(this.roundData[this.graphOptions.roundSelected])
         .filter((value) => {
@@ -84,13 +87,15 @@ export class SideBarComponent implements OnInit, OnChanges {
             return (value.includes('1')); // filter out only servers from group 1. example: wTCPup1
           });
       } else {
-        this.optionsSelected.phoneSelected = '';
+        this.optionsSelected.phoneSelected = this.optionsSelected.phone_models[0];
       }
     }
     if (this.optionsSelected.serverSelected) {
       this.getDataService.setGraphParams(this.graphOptions);
       this.compDataService.updateGraphButtonFlag(false);
-      this.compDataService.updateCompButtonFlag(false);
+      if (this.compDataService.numCompGraphs < 2) {
+        this.compDataService.updateCompButtonFlag(false);
+      }
     }
   }
 }

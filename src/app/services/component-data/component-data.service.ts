@@ -6,6 +6,7 @@ import { NgToastService } from 'ng-angular-popup';
   providedIn: 'root'
 })
 export class ComponentDataService {
+  private _numCompGraphs: number;
   private _graphButtonDisabled: Subject<boolean>;
   private _compButtonDisabled: Subject<boolean>;
   private _sideNav_GraphComp: Subject<boolean>;
@@ -24,6 +25,7 @@ export class ComponentDataService {
     this._server_map  = { 'wTCPup1': "West Uploads", 'wTCPdown1': "West Downloads", 'eTCPup1': "East Uploads", 'eTCPdown1': "East Downloads" };
     this._round_map = { 'round14': 'Spring 2021', 'round15': 'Fall 2021', 'round16': 'Summer 2022'};
     this._graph_map = { 'graph1': 'Graph 1', 'graph2': 'Graph 2', 'graph3': 'Graph 3'};
+    this._numCompGraphs = 0;
   }
   
   updateGraphButtonFlag(value: boolean): void {
@@ -80,5 +82,13 @@ export class ComponentDataService {
 
   public toastWarning(detailMsg: string, summaryMsg: string): void {
     this.toast.warning({ detail: detailMsg, summary: summaryMsg, duration: 5000 });
+  }
+
+  updateNumCompGraphs() {
+    this._numCompGraphs++;
+  }
+
+  get numCompGraphs(): number {
+    return this._numCompGraphs;
   }
 }
