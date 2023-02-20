@@ -39,13 +39,10 @@ export class GraphService {
     const errors = ["timeout", "no effective service", "connect_error2", "bad_output", "unknown_error"];
 
     const keys = ['graph1', 'graph2', 'graph3'];
-    console.log("test options", testOptions);
-    console.log("keys ", keys);
     keys.forEach(key =>
       {
         let option = testOptions[key];
         if (!option.carrierSelected) {
-          console.log("return comp graph");
           return;
         }
         let testData = roundData[option.carrierSelected][option.phoneSelected][option.serverSelected];

@@ -63,12 +63,10 @@ export class GraphComponent implements OnInit {
       .pipe(
         switchMap((params) => {
           this.params = params;
-          console.log("params,",this.params);
           return this.dataService.getRound(this.params.roundSelected);
         })).subscribe(
           {
             next: (result) => {
-              console.log("result", result);
               this.roundData = result;
               if (!this.params.comparison) { //load graph for single phone carrier
                 let keys = Object.keys(this.roundData[this.params.graph1.carrierSelected]);
@@ -81,9 +79,7 @@ export class GraphComponent implements OnInit {
                     this.roundData[this.params.graph1.carrierSelected][this.params.graph1.phoneSelected][this.params.graph1.serverSelected]
                   );
               } else {
-                console.log("comp graph");
                 this.barChartData = this.graphService.comparisonGraph(this.roundData, this.params);
-                  console.log(this.barChartData);
               }
             },
             error: (err) => {

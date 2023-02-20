@@ -67,6 +67,20 @@ export class SideBarComponent implements OnInit, OnChanges {
       });
   }
 
+  private _setPhoneModels(): void {
+    this.optionsSelected.phone_models = Object.keys(this.roundData[this.graphOptions.roundSelected!][this.optionsSelected.carrierSelected]);
+    this.graphOptions.graphs.forEach( graph =>
+      {
+        let option: any = this.graphOptions[graph as keyof GraphOptions];
+        if (option && option.phoneSelected) {
+          let carrier_phone_options = Object.keys(this.roundData[this.graphOptions.roundSelected!][option.carrierSelected]);
+          if (!carrier_phone_options.includes(option.phoneSelected)) {
+            option.phoneSelected = carrier_phone_options[0];
+          }
+        }
+      })
+  }
+
   ngOnChanges(): void {
     this.optionsSelected = this.graphOptions[this.graphOptions.graphSelected as keyof GraphOptions];
     if (this.graphOptions.roundSelected) {
@@ -81,7 +95,8 @@ export class SideBarComponent implements OnInit, OnChanges {
         });
     }
     if (this.optionsSelected.carrierSelected) {
-      this.optionsSelected.phone_models = Object.keys(this.roundData[this.graphOptions.roundSelected!][this.optionsSelected.carrierSelected]);
+      this._setPhoneModels();
+      //this.optionsSelected.phone_models = Object.keys(this.roundData[this.graphOptions.roundSelected!][this.optionsSelected.carrierSelected]);
     }
     if (this.optionsSelected.phoneSelected) {
       if (this.optionsSelected.phone_models.includes(this.optionsSelected.phoneSelected)) {
