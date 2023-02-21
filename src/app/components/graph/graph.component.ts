@@ -43,7 +43,7 @@ export class GraphComponent implements OnInit {
       scales: {
         x: {},
         y: {
-          min: 10
+          min: 0
         }
       },
       plugins: {

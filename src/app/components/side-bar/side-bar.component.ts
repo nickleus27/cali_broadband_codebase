@@ -32,6 +32,7 @@ export class SideBarComponent implements OnInit, OnChanges {
       graph3: {}
     };
     this.optionsSelected = this.graphOptions.graph1;
+    // subscribe to comparison button click...
     this.compDataService.displaySideNavComp.subscribe(flag => {
       this.comparison = flag;
       this.graphOptions.comparison = flag;
@@ -41,6 +42,7 @@ export class SideBarComponent implements OnInit, OnChanges {
         this.graphOptions.graphSelected = this.graphOptions.graphs[index];
         this.optionsSelected = this.graphOptions[this.graphOptions.graphSelected as keyof GraphOptions];
         this.sidebarState.state = this.graphOptions.graphSelected;
+        this.graphs.push(this.graphOptions.graphSelected); //add another graph radio button to sidenav
         this.ngOnChanges();
       }
     });
@@ -48,8 +50,8 @@ export class SideBarComponent implements OnInit, OnChanges {
       .subscribe(flag => {
         this.optionsSelected.phoneSelected = flag;
         this.ngOnChanges();
-      }
-      );
+      });
+    this.graphs = [this.graphOptions.graphs[0]];
   }
 
   ngOnInit(): void {
@@ -67,6 +69,7 @@ export class SideBarComponent implements OnInit, OnChanges {
       });
   }
 
+  /* update all phone selected between multiple graph options */
   private _setPhoneModels(): void {
     this.optionsSelected.phone_models = Object.keys(this.roundData[this.graphOptions.roundSelected!][this.optionsSelected.carrierSelected]);
     this.graphOptions.graphs.forEach( graph =>
@@ -74,6 +77,8 @@ export class SideBarComponent implements OnInit, OnChanges {
         let option: any = this.graphOptions[graph as keyof GraphOptions];
         if (option && option.phoneSelected) {
           let carrier_phone_options = Object.keys(this.roundData[this.graphOptions.roundSelected!][option.carrierSelected]);
+          /* not all rounds have the same phone models per carrier */
+          /* check for phone models for each graph and pick the first phone option if phone is no longer present */
           if (!carrier_phone_options.includes(option.phoneSelected)) {
             option.phoneSelected = carrier_phone_options[0];
           }

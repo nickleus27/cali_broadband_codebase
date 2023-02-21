@@ -59,11 +59,11 @@ export class GraphService {
 
         speeds.forEach(element => 
           {
-            let value = parseInt(((parseInt(testData[element])/totalTests)*100).toFixed())
+            let value = parseInt(((parseInt(testData[element])/totalTests)*100).toFixed());
             dataSeries.push(value);
           }
         );
-        dataSets.push({data: dataSeries, label: '% of ' + option.carrierSelected + ' ' + option.phoneSelected});
+        dataSets.push({data: dataSeries, label: '% ' + option.carrierSelected + ' ' + option.phoneSelected});
       });
 
     

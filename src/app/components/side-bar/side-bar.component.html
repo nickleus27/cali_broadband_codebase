@@ -4,7 +4,7 @@
             Graph
         </mat-expansion-panel-header>
         <mat-radio-group class="radio-group" [(ngModel)]="graphOptions.graphSelected" (change)="ngOnChanges()">
-            <mat-radio-button *ngFor="let graph of graphOptions.graphs" [value]="graph">
+            <mat-radio-button *ngFor="let graph of graphs" [value]="graph">
                 {{this.compDataService.getGraph(graph)}}
             </mat-radio-button>
         </mat-radio-group>

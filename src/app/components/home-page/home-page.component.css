@@ -29,11 +29,7 @@
 
 /* Centered text */
 .centered-text {
-  position: absolute;
-  color: gray;
-  font-size: medium;
-  padding-top: 3vh;
-  top: 75%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin: auto;
+  width: 50%;
+  padding: 10px;
 }
