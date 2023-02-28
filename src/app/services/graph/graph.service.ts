@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { GraphOptions } from 'src/app/components/side-bar/GraphOptions';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +34,7 @@ export class GraphService {
 
   }
 
-  public comparisonGraph(roundData: {[key:string]:any}, testOptions: {[key:string]:any}): any {
+  public comparisonGraph(roundData: {[key:string]:any}, testOptions: GraphOptions): any {
     var dataSets: any = [];
     const speeds = ["0M-10M", "10M-50M", "50M-100M", "100M-200M", "200M+"];
     const errors = ["timeout", "no effective service", "connect_error2", "bad_output", "unknown_error"];
@@ -41,11 +42,11 @@ export class GraphService {
     const keys = ['graph1', 'graph2', 'graph3'];
     keys.forEach(key =>
       {
-        let option = testOptions[key];
+        let option: any = testOptions[key as keyof GraphOptions];
         if (!option.carrierSelected) {
           return;
         }
-        let testData = roundData[option.carrierSelected][option.phoneSelected][option.serverSelected];
+        let testData = roundData[option.carrierSelected][option.phoneSelected][testOptions.serverSelected!];
         let totalError: number = 0;
         let totalTests: number = parseInt(testData['total tests']);
         var dataSeries: number[] = [];

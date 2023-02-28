@@ -3,6 +3,7 @@ export interface GraphOptions {
     rounds:string[],
     graphs:string[],
     roundSelected?: string,
+    serverSelected?: string
     graphSelected: string,
     graph1:{
         carriers?: string[],
@@ -10,7 +11,6 @@ export interface GraphOptions {
         servers?: string[],
         carrierSelected?: string,
         phoneSelected?: string,
-        serverSelected?: string
     },
     graph2:{
         carriers?: string[],
@@ -18,7 +18,6 @@ export interface GraphOptions {
         servers?: string[],
         carrierSelected?: string,
         phoneSelected?: string,
-        serverSelected?: string
     },
     graph3:{
         carriers?: string[],
@@ -26,6 +25,5 @@ export interface GraphOptions {
         servers?: string[],
         carrierSelected?: string,
         phoneSelected?: string,
-        serverSelected?: string
     }
 }

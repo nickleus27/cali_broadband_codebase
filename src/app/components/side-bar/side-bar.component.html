@@ -45,7 +45,7 @@
         <mat-expansion-panel-header>
             Servers
         </mat-expansion-panel-header>
-        <mat-radio-group class="radio-group" [(ngModel)]="optionsSelected.serverSelected" (change)="ngOnChanges()">
+        <mat-radio-group class="radio-group" [(ngModel)]="graphOptions.serverSelected" (change)="ngOnChanges()">
             <mat-radio-button *ngFor="let server of optionsSelected.servers" [value]="server">
                 {{compDataService.getServerMapValue(server)}}
             </mat-radio-button>

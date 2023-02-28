@@ -76,7 +76,7 @@ export class GraphComponent implements OnInit {
                 }
                 this.barChartData = this.graphService
                   .getSingleGraph(
-                    this.roundData[this.params.graph1.carrierSelected][this.params.graph1.phoneSelected][this.params.graph1.serverSelected]
+                    this.roundData[this.params.graph1.carrierSelected][this.params.graph1.phoneSelected][this.params.serverSelected]
                   );
               } else {
                 this.barChartData = this.graphService.comparisonGraph(this.roundData, this.params);

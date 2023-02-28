@@ -113,7 +113,8 @@ export class SideBarComponent implements OnInit, OnChanges {
         this.optionsSelected.phoneSelected = this.optionsSelected.phone_models[0];
       }
     }
-    if (this.optionsSelected.serverSelected) {
+    //check for both phoneSelected & serverSelected for comparison graph which will already have server always selected
+    if (this.optionsSelected.phoneSelected && this.graphOptions.serverSelected) {
       this.sidebarState.acceptingState(this.graphOptions.graphSelected);
       this.getDataService.setGraphParams(this.graphOptions);
       if (this.sidebarState.accepting) {
