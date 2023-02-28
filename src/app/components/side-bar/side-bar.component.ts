@@ -11,7 +11,7 @@ import { GraphOptions } from './GraphOptions';
 })
 export class SideBarComponent implements OnInit, OnChanges {
   title = 'cali_broadband';
-  comparison: boolean;
+  graphSelected: string;
   graphOptions: GraphOptions;
   optionsSelected: any;
   graphs: string[];
@@ -26,7 +26,8 @@ export class SideBarComponent implements OnInit, OnChanges {
     this.graphOptions = {
       comparison: false,
       rounds: ['round14', 'round15', 'round16'],
-      graphs: ['graph1', 'graph2', 'graph3'], graphSelected: 'graph1',
+      graphs: ['graph1', 'graph2', 'graph3'],
+      graphSelected: 'graph1',
       graph1: {},
       graph2: {},
       graph3: {}
@@ -34,9 +35,8 @@ export class SideBarComponent implements OnInit, OnChanges {
     this.optionsSelected = this.graphOptions.graph1;
     // subscribe to comparison button click...
     this.compDataService.displaySideNavComp.subscribe(flag => {
-      this.comparison = flag;
       this.graphOptions.comparison = flag;
-      if (this.comparison) {
+      if (this.graphOptions.comparison) {
         this.compDataService.updateNumCompGraphs();
         let index: number = this.compDataService.numCompGraphs;
         this.graphOptions.graphSelected = this.graphOptions.graphs[index];
@@ -52,6 +52,7 @@ export class SideBarComponent implements OnInit, OnChanges {
         this.ngOnChanges();
       });
     this.graphs = [this.graphOptions.graphs[0]];
+    this.graphSelected = this.graphOptions.graphSelected
   }
 
   ngOnInit(): void {
@@ -112,6 +113,12 @@ export class SideBarComponent implements OnInit, OnChanges {
       } else {
         this.optionsSelected.phoneSelected = this.optionsSelected.phone_models[0];
       }
+    }
+    // check to see if change was graphselected
+    // if it was do not setGraphParams
+    if (this.graphSelected !== this.graphOptions.graphSelected) {
+      this.graphSelected = this.graphOptions.graphSelected;
+      return;
     }
     //check for both phoneSelected & serverSelected for comparison graph which will already have server always selected
     if (this.optionsSelected.phoneSelected && this.graphOptions.serverSelected) {
