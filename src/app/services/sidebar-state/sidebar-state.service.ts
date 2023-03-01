@@ -27,4 +27,13 @@ export class SidebarStateService {
   acceptingState(state: string) {
     this._sidebarState[state] = true;
   }
+
+  reset(): void {
+    this._sidebarState = {
+      state: 'graph1',
+      graph1: false,
+      graph2: false,
+      graph3: false,
+      };
+  }
 }

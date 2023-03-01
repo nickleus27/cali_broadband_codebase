@@ -23,16 +23,11 @@ export class SideBarComponent implements OnInit, OnChanges {
     private sidebarState: SidebarStateService
   ) {
     this.roundData = {};
-    this.graphOptions = {
-      comparison: false,
-      rounds: ['round14', 'round15', 'round16'],
-      graphs: ['graph1', 'graph2', 'graph3'],
-      graphSelected: 'graph1',
-      graph1: {},
-      graph2: {},
-      graph3: {}
-    };
-    this.optionsSelected = this.graphOptions.graph1;
+
+    this.setSideNavOptions();
+
+    this.compDataService.reset_opts = this.reSetSideNavOptions;
+
     // subscribe to comparison button click...
     this.compDataService.displaySideNavComp.subscribe(flag => {
       this.graphOptions.comparison = flag;
@@ -46,13 +41,12 @@ export class SideBarComponent implements OnInit, OnChanges {
         this.ngOnChanges();
       }
     });
+
     this.compDataService.displayPhoneFlag
       .subscribe(flag => {
         this.optionsSelected.phoneSelected = flag;
         this.ngOnChanges();
       });
-    this.graphs = [this.graphOptions.graphs[0]];
-    this.graphSelected = this.graphOptions.graphSelected
   }
 
   ngOnInit(): void {
@@ -68,6 +62,28 @@ export class SideBarComponent implements OnInit, OnChanges {
       .subscribe((result) => {
         this.roundData['round16'] = result;
       });
+  }
+
+  private setSideNavOptions(): void{
+    this.graphOptions = {
+      comparison: false,
+      rounds: ['round14', 'round15', 'round16'],
+      graphs: ['graph1', 'graph2', 'graph3'],
+      graphSelected: 'graph1',
+      graph1: {},
+      graph2: {},
+      graph3: {}
+    };
+    this.optionsSelected = this.graphOptions.graph1;
+    this.graphs = [this.graphOptions.graphs[0]];
+    this.graphSelected = this.graphOptions.graphSelected;
+  }
+
+  reSetSideNavOptions = () => {
+    this.setSideNavOptions();
+    this.compDataService.numCompGraphs = 0; // reset number of graphs
+    this.sidebarState.reset(); // reset sidenav state
+    this.ngOnChanges(); // re-render sidenav
   }
 
   /* update all phone selected between multiple graph options */

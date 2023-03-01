@@ -30,4 +30,11 @@ export class HomePageComponent {
     this.compDataService.updateCompButtonFlag(true);
     this.compDataService.updateSideNavComp(true);
   }
+
+  resetSideNav() {
+    this.compDataService.updateGraphButtonFlag(true);
+    this.compDataService.updateCompButtonFlag(true);
+    this.compDataService.updateSideNavComp(false);
+    this.compDataService.reset_opts();
+  }
 }
