@@ -11,6 +11,16 @@
             </span>
             <span class="tb-buttons"></span>
             <span>
+                <mat-button-toggle-group [value]="graphTypeSelected" (change)="onChange($event)">
+                    <mat-button-toggle color='warm' [value]="graphTypeEnum.barGraph">
+                        <mat-icon>bar_chart</mat-icon>
+                    </mat-button-toggle>
+                    <mat-button-toggle color='warm' [value]="graphTypeEnum.lineGraph">
+                        <mat-icon>multiline_chart</mat-icon>
+                    </mat-button-toggle>
+                </mat-button-toggle-group>
+            </span>
+            <span>
                 <button mat-icon-button color='warm' (click)="goHome()">
                     <mat-icon>home</mat-icon>
                 </button>
