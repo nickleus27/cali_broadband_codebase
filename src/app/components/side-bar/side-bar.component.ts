@@ -26,6 +26,8 @@ export class SideBarComponent implements OnInit, OnChanges {
 
     this.setSideNavOptions();
 
+    this.compDataService.isBarGraph.subscribe(value => this.graphOptions.isBarGraph = value);
+
     this.compDataService.reset_opts = this.reSetSideNavOptions;
 
     // subscribe to comparison button click...

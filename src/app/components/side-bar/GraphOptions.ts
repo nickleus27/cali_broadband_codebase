@@ -2,9 +2,12 @@ export interface GraphOptions {
     comparison: boolean,
     rounds: string[],
     graphs: string[],
+    tests?: string[];
     roundSelected?: string,
     serverSelected?: string
     graphSelected: string,
+    testSelected?: any,
+    isBarGraph?: boolean,
     graph1: {
         carriers?: string[],
         phone_models?: string[],

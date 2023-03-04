@@ -10,6 +10,7 @@ export class ComponentDataService {
   private _graphButtonDisabled: Subject<boolean>;
   private _compButtonDisabled: Subject<boolean>;
   private _sideNav_GraphComp: Subject<boolean>;
+  private _isBarGraph: Subject<boolean>;
   private _phoneModel: Subject<string>;
   private _model_map: {[key:string]: string};
   private _server_map: {[key:string]: string};
@@ -21,6 +22,7 @@ export class ComponentDataService {
     this._graphButtonDisabled = new BehaviorSubject(true);
     this._compButtonDisabled = new BehaviorSubject(true);
     this._sideNav_GraphComp = new BehaviorSubject(false);
+    this._isBarGraph = new BehaviorSubject(true);
     this._phoneModel = new BehaviorSubject('');
     this._model_map = { 'XP8800': 'Sonim XP8', 'SM-G970U': 'Galaxy S10e', 'SM-G998U': 'Galaxy S21', 'SM-G973U': 'Galaxy S10', 'SM-S901U': 'Galaxy S22' };
     this._server_map  = { 'wTCPup1': "West Uploads", 'wTCPdown1': "West Downloads", 'eTCPup1': "East Uploads", 'eTCPdown1': "East Downloads" };
@@ -51,6 +53,14 @@ export class ComponentDataService {
 
   get displaySideNavComp(): Observable<boolean> {
     return this._sideNav_GraphComp.asObservable();
+  }
+
+  updateIsBarGraph(value: boolean) : void {
+    this._isBarGraph.next(value);
+  }
+
+  get isBarGraph(): Observable<boolean> {
+    return this._isBarGraph.asObservable();
   }
 
   updatePhoneFlag(value: string): void {

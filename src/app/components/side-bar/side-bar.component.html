@@ -52,4 +52,15 @@
         </mat-radio-group>
         <div *ngIf="!optionsSelected.phoneSelected">Select Model First</div>
     </mat-expansion-panel>
+    <mat-expansion-panel *ngIf="!graphOptions.isBarGraph">
+        <mat-expansion-panel-header>
+            Test
+        </mat-expansion-panel-header>
+        <mat-radio-group class="radio-group" [(ngModel)]="graphOptions.testSelected" (change)="ngOnChanges()">
+            <mat-radio-button *ngFor="let test of graphOptions.tests" [value]="test">
+                {{test}}
+            </mat-radio-button>
+        </mat-radio-group>
+        <div *ngIf="!optionsSelected.phoneSelected && !graphOptions.serverSelected">Select Server First</div>
+    </mat-expansion-panel>
 </mat-nav-list>
