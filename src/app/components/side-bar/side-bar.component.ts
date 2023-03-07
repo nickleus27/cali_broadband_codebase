@@ -55,14 +55,20 @@ export class SideBarComponent implements OnInit, OnChanges {
     this.getDataService.getRound('round14')
       .subscribe((result) => {
         this.roundData['round14'] = result;
+        //work around for now
+        this.compDataService.round_data = this.roundData;
       });
     this.getDataService.getRound('round15')
       .subscribe((result) => {
         this.roundData['round15'] = result;
+        //work around for now
+        this.compDataService.round_data = this.roundData;
       });
     this.getDataService.getRound('round16')
       .subscribe((result) => {
         this.roundData['round16'] = result;
+        //work around for now
+        this.compDataService.round_data = this.roundData;
       });
   }
 
@@ -72,6 +78,7 @@ export class SideBarComponent implements OnInit, OnChanges {
       rounds: ['round14', 'round15', 'round16'],
       graphs: ['graph1', 'graph2', 'graph3'],
       graphSelected: 'graph1',
+      tests: ["0M-10M", "10M-50M", "50M-100M", "100M-200M", "200M+"],
       graph1: {},
       graph2: {},
       graph3: {}
@@ -139,7 +146,19 @@ export class SideBarComponent implements OnInit, OnChanges {
       return;
     }
     //check for both phoneSelected & serverSelected for comparison graph which will already have server always selected
-    if (this.optionsSelected.phoneSelected && this.graphOptions.serverSelected) {
+    if (this.graphOptions.isBarGraph && this.optionsSelected.phoneSelected && this.graphOptions.serverSelected) {
+      console.log("server selected");
+      this.sidebarState.acceptingState(this.graphOptions.graphSelected);
+      this.getDataService.setGraphParams(this.graphOptions);
+      if (this.sidebarState.accepting) {
+        this.compDataService.updateGraphButtonFlag(false);
+        if (this.compDataService.numCompGraphs < 2) {
+          this.compDataService.updateCompButtonFlag(false);
+        }
+      }
+    }
+    if (!this.graphOptions.isBarGraph && this.graphOptions.testSelected) {
+      console.log("test selected");
       this.sidebarState.acceptingState(this.graphOptions.graphSelected);
       this.getDataService.setGraphParams(this.graphOptions);
       if (this.sidebarState.accepting) {

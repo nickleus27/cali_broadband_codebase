@@ -10,7 +10,7 @@ import { ComponentDataService } from 'src/app/services/component-data/component-
 export class HomePageComponent {
   buttonIsDisabled: boolean;
   compButtonDisabled: boolean;
-  params: any;
+  isBarGraph: boolean;
 
   constructor(
     private compDataService: ComponentDataService,
@@ -19,10 +19,15 @@ export class HomePageComponent {
     ) {
     this.compDataService.displayButtonFlag.subscribe(flag => this.buttonIsDisabled = flag);
     this.compDataService.displayCompButtonFlag.subscribe(flag => this.compButtonDisabled = flag);
+    this.compDataService.isBarGraph.subscribe(flag => this.isBarGraph = flag);
   }
 
   goToGraphs() {
-    this.router.navigate(['graphs'], { relativeTo: this.route });
+    if (this.isBarGraph) {
+      this.router.navigate(['graphs'], { relativeTo: this.route });
+    } else {
+      this.router.navigate(['lineGraphs'], { relativeTo: this.route });
+    }
   }
 
   comparison() {

@@ -21,6 +21,7 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { NgChartsConfiguration, NgChartsModule } from 'ng2-charts';
 import { NgToastModule } from 'ng-angular-popup';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { LineGraphComponent } from './components/line-graph/line-graph.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     HomePageComponent,
     LayoutComponent,
     GraphComponent,
-    SideBarComponent
+    SideBarComponent,
+    LineGraphComponent
   ],
   imports: [
     BrowserModule,

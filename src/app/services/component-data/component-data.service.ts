@@ -17,6 +17,7 @@ export class ComponentDataService {
   private _round_map: {[key:string]: string};
   private _graph_map: {[key:string]: string};
   private _reset_opts_func: () => void;
+  private _round_data: {[key:string]: string};
   
   constructor(private toast: NgToastService) {
     this._graphButtonDisabled = new BehaviorSubject(true);
@@ -31,6 +32,14 @@ export class ComponentDataService {
     this._numCompGraphs = 0;
   }
   
+  set round_data(value: {[key:string]: string}) {
+    this._round_data = value;
+  }
+
+  get round_data(): {[key:string]: string} {
+    return this._round_data;
+  }
+
   updateGraphButtonFlag(value: boolean): void {
     this._graphButtonDisabled.next(value);
   }

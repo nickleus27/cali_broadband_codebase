@@ -37,6 +37,10 @@ export class GetDataService {
     return this._graphData[round].asObservable();
   }
 
+  public getAllRounds(): any {
+    return this._graphData;
+  }
+
   private processData(allText: string) {
     var allTextLines = allText.split(/\r\n|\n/);
     var headers = allTextLines[0].split(',');

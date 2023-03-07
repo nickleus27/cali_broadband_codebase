@@ -29,9 +29,59 @@ export class GraphService {
 
     return {labels: ['N/A',...speeds],
       datasets: [{ data: dataSeries, label: 'Total Tests: ' + testData['total tests'] },]
-      //{ data: [ 28, 48, 40, 19, 86, 27, 90 ], label: 'Series B' }
     };
 
+  }
+
+  public getSingleLineGraph(graphOptions: GraphOptions, roundData: {[key:string]:any}): any {
+    var labels: string[] = [
+      "Spring 2021",
+      "Fall 2021",
+      "Summer 2022"
+    ];
+    var dataSeries: number[] = [];
+    var roundKeys = Object.keys(roundData);
+    roundKeys.forEach(key => 
+      {
+        let carrier = graphOptions.graph1.carrierSelected;
+        let phone = graphOptions.graph1.phoneSelected;
+        let server = graphOptions.serverSelected;
+        let test = graphOptions.testSelected;
+        if (graphOptions.testSelected === 'N/A') {
+          const errors = ["timeout", "no effective service", "connect_error2", "bad_output", "unknown_error"];
+          let totalError = 0;
+          errors.forEach(element => 
+            {
+              totalError += parseInt(roundData[key][carrier!][phone!][server!][element]);
+            }
+          );
+          dataSeries.push(totalError);
+        } else {
+          console.log("key", key);
+          console.log("carrier", carrier);
+          console.log("phone", phone);
+          console.log("server", server);
+          console.log("test: ", test);
+          dataSeries.push(
+            parseInt(roundData[key][carrier!][phone!][server!][test])
+          );
+        }
+      }
+    );
+
+    return {
+      labels: labels,
+      datasets: [
+        {
+          data: dataSeries,
+          label: 'Series A',
+          fill: true,
+          tension: 0.5,
+          borderColor: 'black',
+          backgroundColor: 'rgba(255,0,0,0.3)'
+        }
+      ]
+    };
   }
 
   public comparisonGraph(roundData: {[key:string]:any}, testOptions: GraphOptions): any {
