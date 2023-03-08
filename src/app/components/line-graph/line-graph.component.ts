@@ -4,17 +4,17 @@ import { ChartConfiguration, ChartOptions } from 'chart.js';
 import { ComponentDataService } from 'src/app/services/component-data/component-data.service';
 import { GetDataService } from 'src/app/services/get-data/get-data.service';
 import { GraphService } from 'src/app/services/graph/graph.service';
+import { UnSubscribeAdaptor } from '../Adaptors/UnSubscribeAdaptor';
 
 @Component({
   selector: 'app-line-graph',
   templateUrl: './line-graph.component.html',
   styleUrls: ['./line-graph.component.css']
 })
-export class LineGraphComponent implements OnInit {
+export class LineGraphComponent extends UnSubscribeAdaptor implements OnInit {
   lineChartData: ChartConfiguration<'line'>['data'];
   lineChartOptions: ChartOptions<'line'>;
   lineChartLegend;
-  dataSubscription: any;
 
   constructor(
     private graphService: GraphService,
@@ -23,14 +23,15 @@ export class LineGraphComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
     ) {
-    this.lineChartOptions = {
-      responsive: true
-    };
-    this.lineChartLegend = true;
+      super();
+      this.lineChartOptions = {
+        responsive: true
+      };
+      this.lineChartLegend = true;
   }
 
   ngOnInit() {
-    this.dataSubscription = this.getDataService.getGraphParams().subscribe(
+    this.sub.sink = this.getDataService.getGraphParams().subscribe(
       {
         next: (result) => {
           this.lineChartData = this.graphService.getSingleLineGraph(result, this.compDataService.round_data);
@@ -43,7 +44,4 @@ export class LineGraphComponent implements OnInit {
     );
   }
 
-  ngOnDestroy() {
-    this.dataSubscription.unsubscribe();
-  }
 }

@@ -21,6 +21,7 @@ export class HomePageComponent extends UnSubscribeAdaptor {
     super();
     this.sub.sink = this.compDataService.displayButtonFlag.subscribe(flag => this.buttonIsDisabled = flag);
     this.sub.sink = this.compDataService.displayCompButtonFlag.subscribe(flag => this.compButtonDisabled = flag);
+    this.sub.sink = this.compDataService.isBarGraph.subscribe(flag => this.isBarGraph = flag);
   }
 
   goToGraphs() {
