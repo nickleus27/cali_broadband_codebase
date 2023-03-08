@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { NgToastService } from 'ng-angular-popup';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +16,7 @@ export class ComponentDataService {
   private _graph_map: {[key:string]: string};
   private _reset_opts_func: () => void;
   
-  constructor(private toast: NgToastService) {
+  constructor() {
     this._graphButtonDisabled = new BehaviorSubject(true);
     this._compButtonDisabled = new BehaviorSubject(true);
     this._sideNav_GraphComp = new BehaviorSubject(false);
@@ -75,14 +74,6 @@ export class ComponentDataService {
 
   public getGraph(key: string): string {
     return this._graph_map[key];
-  }
-  
-  public toastInfo(detailMsg: string, summaryMsg: string): void {
-    this.toast.info({ detail: detailMsg, summary: summaryMsg, duration: 5000 });
-  }
-
-  public toastWarning(detailMsg: string, summaryMsg: string): void {
-    this.toast.warning({ detail: detailMsg, summary: summaryMsg, duration: 5000 });
   }
 
   updateNumCompGraphs() {
