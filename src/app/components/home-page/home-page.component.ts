@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentDataService } from 'src/app/services/component-data/component-data.service';
+import { UnSubscribeAdaptor } from '../Adaptors/UnSubscribeAdaptor';
 
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css']
 })
-export class HomePageComponent {
+export class HomePageComponent extends UnSubscribeAdaptor {
   buttonIsDisabled: boolean;
   compButtonDisabled: boolean;
   isBarGraph: boolean;
@@ -17,9 +18,9 @@ export class HomePageComponent {
     private route: ActivatedRoute,
     private router: Router
     ) {
-    this.compDataService.displayButtonFlag.subscribe(flag => this.buttonIsDisabled = flag);
-    this.compDataService.displayCompButtonFlag.subscribe(flag => this.compButtonDisabled = flag);
-    this.compDataService.isBarGraph.subscribe(flag => this.isBarGraph = flag);
+    super();
+    this.sub.sink = this.compDataService.displayButtonFlag.subscribe(flag => this.buttonIsDisabled = flag);
+    this.sub.sink = this.compDataService.displayCompButtonFlag.subscribe(flag => this.compButtonDisabled = flag);
   }
 
   goToGraphs() {

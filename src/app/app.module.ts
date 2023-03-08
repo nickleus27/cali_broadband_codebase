@@ -19,7 +19,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { GraphComponent } from './components/graph/graph.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { NgChartsConfiguration, NgChartsModule } from 'ng2-charts';
-import { NgToastModule } from 'ng-angular-popup';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { LineGraphComponent } from './components/line-graph/line-graph.component';
 
@@ -48,8 +47,7 @@ import { LineGraphComponent } from './components/line-graph/line-graph.component
     MatButtonToggleModule,
     FormsModule,
     ReactiveFormsModule,
-    NgChartsModule,
-    NgToastModule
+    NgChartsModule
   ],
   providers: [ { provide: NgChartsConfiguration, useValue: { generateColors: false }}],
   bootstrap: [AppComponent]

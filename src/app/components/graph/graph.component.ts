@@ -5,16 +5,17 @@ import { BaseChartDirective } from 'ng2-charts';
 
 import DataLabelsPlugin from 'chartjs-plugin-datalabels';
 import { GraphService } from 'src/app/services/graph/graph.service';
-import { Observable, switchMap } from 'rxjs';
+import { switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentDataService } from 'src/app/services/component-data/component-data.service';
+import { UnSubscribeAdaptor } from '../Adaptors/UnSubscribeAdaptor';
 
 @Component({
   selector: 'app-graph',
   templateUrl: './graph.component.html',
   styleUrls: ['./graph.component.css']
 })
-export class GraphComponent implements OnInit {
+export class GraphComponent extends UnSubscribeAdaptor implements OnInit {
 
   params: any;
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
@@ -36,6 +37,7 @@ export class GraphComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
   ) {
+    super();
     this.barChartOptions = {
       responsive: true,
       maintainAspectRatio: false,
@@ -59,7 +61,7 @@ export class GraphComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dataService.getGraphParams()
+    this.sub.sink = this.dataService.getGraphParams()
       .pipe(
         switchMap((params) => {
           this.params = params;
