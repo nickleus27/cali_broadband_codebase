@@ -39,9 +39,6 @@ export class HomePageComponent extends UnSubscribeAdaptor {
   }
 
   resetSideNav() {
-    this.compDataService.updateGraphButtonFlag(true);
-    this.compDataService.updateCompButtonFlag(true);
-    this.compDataService.updateSideNavComp(false);
     this.compDataService.reset_opts();
   }
 }

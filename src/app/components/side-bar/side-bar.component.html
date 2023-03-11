@@ -9,7 +9,7 @@
             </mat-radio-button>
         </mat-radio-group>
     </mat-expansion-panel>
-    <mat-expansion-panel>
+    <mat-expansion-panel *ngIf="compDataService.isBarGraph | async">
         <mat-expansion-panel-header>
             Rounds
         </mat-expansion-panel-header>
@@ -27,7 +27,7 @@
             <mat-radio-button *ngFor="let carrier of optionsSelected.carriers" [value]="carrier">
                 {{carrier}}
             </mat-radio-button>
-            <div *ngIf="!graphOptions.roundSelected">Select Round First</div>
+            <div *ngIf="graphOptions.isBarGraph && !graphOptions.roundSelected">Select Round First</div>
         </mat-radio-group>
     </mat-expansion-panel>
     <mat-expansion-panel>
@@ -46,18 +46,20 @@
             Servers
         </mat-expansion-panel-header>
         <mat-radio-group class="radio-group" [(ngModel)]="graphOptions.serverSelected" (change)="ngOnChanges()">
-            <mat-radio-button *ngFor="let server of optionsSelected.servers" [value]="server">
-                {{compDataService.getServerMapValue(server)}}
-            </mat-radio-button>
+            <ng-container *ngIf="optionsSelected.phoneSelected">
+                <mat-radio-button *ngFor="let server of optionsSelected.servers" [value]="server">
+                    {{compDataService.getServerMapValue(server)}}
+                </mat-radio-button>
+            </ng-container>
         </mat-radio-group>
         <div *ngIf="!optionsSelected.phoneSelected">Select Model First</div>
     </mat-expansion-panel>
-    <mat-expansion-panel *ngIf="!graphOptions.isBarGraph">
+    <mat-expansion-panel *ngIf="(compDataService.isBarGraph | async) == false">
         <mat-expansion-panel-header>
             Test
         </mat-expansion-panel-header>
         <mat-radio-group class="radio-group" [(ngModel)]="graphOptions.testSelected" (change)="ngOnChanges()">
-            <mat-radio-button *ngFor="let test of graphOptions.tests" [value]="test">
+            <mat-radio-button *ngFor="let test of lineGraphOptions.tests" [value]="test">
                 {{test}}
             </mat-radio-button>
         </mat-radio-group>
