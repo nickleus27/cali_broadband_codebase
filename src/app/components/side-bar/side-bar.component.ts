@@ -57,10 +57,8 @@ export class SideBarComponent implements OnInit, OnChanges {
     this.compDataService.isBarGraph.subscribe(value =>
       {
         this.graphOptions.isBarGraph = value;
-        console.log(this.graphOptions.isBarGraph);
         if (!this.isLoading) {
           this.reSetSideNavOptions();
-          console.log("not loading")
         }
       }
     );
@@ -154,9 +152,7 @@ export class SideBarComponent implements OnInit, OnChanges {
       }
     } else {
       if (this.optionsSelected.carrierSelected) {
-        console.log(this.optionsSelected.carrierSelected);
         this.optionsSelected.phone_models = this.lineGraphOptions.carriers[this.optionsSelected.carrierSelected];
-        console.log(this.optionsSelected.phone_models);
       }
     }
   }
@@ -194,7 +190,6 @@ export class SideBarComponent implements OnInit, OnChanges {
 
   private _changeLineGraphState(): void {
     if (!this.graphOptions.isBarGraph && this.optionsSelected.phoneSelected && this.graphOptions.testSelected) {
-      console.log("test selected");
       this.sidebarState.acceptingState(this.graphOptions.graphSelected);
       this.getDataService.setGraphParams(this.graphOptions);
       if (this.sidebarState.accepting) {

@@ -66,11 +66,6 @@ export class GraphService {
           );
           dataSeries.push(totalError);
         } else {
-          console.log("key", key);
-          console.log("carrier", carrier);
-          console.log("phone", phone);
-          console.log("server", server);
-          console.log("test: ", test);
           let i = 0;
           while (!roundData[key][carrier!][phone!]) {
             phone = lineGraphOptions.carriers[carrier!][i];
@@ -95,7 +90,6 @@ export class GraphService {
               callbacks: {
                 label: (item: { xLabel: string; yLabel: string; }, data: any) => 
                 {
-                  console.log(item);
                   return 'Label: ' + item.xLabel + ' ' + item.yLabel
                 }
               }
@@ -144,11 +138,6 @@ export class GraphService {
               );
               dataSeries.push(totalError);
             } else {
-              console.log("key", key);
-              console.log("carrier", carrier);
-              console.log("phone", phone);
-              console.log("server", server);
-              console.log("test: ", test);
               let i = 0;
               while (!roundData[key][carrier!][phone!]) {
                 phone = lineGraphOptions.carriers[carrier!][i];
@@ -172,7 +161,6 @@ export class GraphService {
                   callbacks: {
                     label: (item: { xLabel: string; yLabel: string; }, data: any) => 
                     {
-                      console.log(item);
                       return 'Label: ' + item.xLabel + ' ' + item.yLabel
                     }
                   }
