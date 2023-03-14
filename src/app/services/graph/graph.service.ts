@@ -51,28 +51,25 @@ export class GraphService {
         let phone = graphOptions.graph1.phoneSelected;
         let server = graphOptions.serverSelected;
         let test = graphOptions.testSelected;
+        let i = 0;
+        while (!roundData[key][carrier!][phone!]) {
+          phone = lineGraphOptions.carriers[carrier!][i];
+          i++;
+        }
+        let totalTests = parseInt(roundData[key][carrier!][phone!][server!]['total tests']);
         if (graphOptions.testSelected === 'N/A') {
           const errors = ["timeout", "no effective service", "connect_error2", "bad_output", "unknown_error"];
-          let i = 0;
-          while (!roundData[key][carrier!][phone!]) {
-            phone = lineGraphOptions.carriers[carrier!][i];
-            i++;
-          }
           let totalError = 0;
           errors.forEach(element => 
             {
               totalError += parseInt(roundData[key][carrier!][phone!][server!][element]);
             }
           );
+          totalError = parseInt(((totalError/totalTests)*100).toFixed());
           dataSeries.push(totalError);
         } else {
-          let i = 0;
-          while (!roundData[key][carrier!][phone!]) {
-            phone = lineGraphOptions.carriers[carrier!][i];
-            i++;
-          }
           dataSeries.push(
-            parseInt(roundData[key][carrier!][phone!][server!][test])
+            parseInt(((parseInt(roundData[key][carrier!][phone!][server!][test])/totalTests)*100).toFixed())
           );
         }
       }
@@ -123,28 +120,25 @@ export class GraphService {
             if (!carrier) {
               return;
             }
+            let i = 0;
+            while (!roundData[key][carrier!][phone!]) {
+              phone = lineGraphOptions.carriers[carrier!][i];
+              i++;
+            }
+            let totalTests = parseInt(roundData[key][carrier][phone][server!]['total tests']);
             if (test === 'N/A') {
               const errors = ["timeout", "no effective service", "connect_error2", "bad_output", "unknown_error"];
-              let i = 0;
-              while (!roundData[key][carrier!][phone!]) {
-                phone = lineGraphOptions.carriers[carrier!][i];
-                i++;
-              }
               let totalError = 0;
               errors.forEach(element => 
                 {
                   totalError += parseInt(roundData[key][carrier!][phone!][server!][element]);
                 }
               );
+              totalError = parseInt(((totalError/totalTests)*100).toFixed());
               dataSeries.push(totalError);
             } else {
-              let i = 0;
-              while (!roundData[key][carrier!][phone!]) {
-                phone = lineGraphOptions.carriers[carrier!][i];
-                i++;
-              }
               dataSeries.push(
-                parseInt(roundData[key][carrier!][phone!][server!][test])
+                parseInt(((parseInt(roundData[key][carrier!][phone!][server!][test])/totalTests)*100).toFixed())
               );
             }
           }
