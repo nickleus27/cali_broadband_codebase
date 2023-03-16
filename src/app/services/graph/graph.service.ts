@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { GraphOptions } from 'src/app/components/side-bar/GraphOptions';
 import { lineGraphOptions } from 'src/app/components/side-bar/LineGraphOptions';
+import { ComponentDataService } from '../component-data/component-data.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,14 +9,15 @@ import { lineGraphOptions } from 'src/app/components/side-bar/LineGraphOptions';
 export class GraphService {
   linegraphOptions;
 
-  constructor() { 
+  constructor(private compDataService: ComponentDataService) { 
     this.linegraphOptions = lineGraphOptions;
   }
 
-  public getSingleGraph(testData: {[key:string]:any}): any {
+  public getSingleGraph(testData: {[key:string]:any}, testOptions: GraphOptions): any {
     var dataSeries: number[] = [];
     const speeds = ["0M-10M", "10M-50M", "50M-100M", "100M-200M", "200M+"];
     const errors = ["timeout", "no effective service", "connect_error2", "bad_output", "unknown_error"];
+    let totalTests: number = parseInt(testData['total tests']);
 
     let totalError = 0;
     errors.forEach(element =>
@@ -23,18 +25,64 @@ export class GraphService {
         totalError += parseInt(testData[element]);
       }
     );
+    totalError = parseInt(((totalError/totalTests)*100).toFixed());
     dataSeries.push(totalError);
 
     speeds.forEach(element =>
       {
-        dataSeries.push(parseInt(testData[element]));
+        let value: number = parseInt(testData[element]);
+        dataSeries.push(parseInt(((value/totalTests)*100).toFixed()));
       }
     );
 
     return {labels: ['N/A',...speeds],
-      datasets: [{ data: dataSeries, label: 'Total Tests: ' + testData['total tests'] },]
+      datasets: [
+        {
+          data: dataSeries, 
+          label: testOptions.graph1.carrierSelected + " " + this.compDataService.getModelMapValue(testOptions.graph1.phoneSelected!)
+        }
+      ]
     };
 
+  }
+
+  public comparisonGraph(roundData: {[key:string]:any}, testOptions: GraphOptions): any {
+    var dataSets: any = [];
+    const speeds = ["0M-10M", "10M-50M", "50M-100M", "100M-200M", "200M+"];
+    const errors = ["timeout", "no effective service", "connect_error2", "bad_output", "unknown_error"];
+
+    const keys = ['graph1', 'graph2', 'graph3'];
+    keys.forEach(key =>
+      {
+        let option: any = testOptions[key as keyof GraphOptions];
+        if (!option.carrierSelected) {
+          return;
+        }
+        let testData = roundData[option.carrierSelected][option.phoneSelected][testOptions.serverSelected!];
+        let totalError: number = 0;
+        let totalTests: number = parseInt(testData['total tests']);
+        var dataSeries: number[] = [];
+        errors.forEach(element => 
+          {
+            totalError += parseInt(testData[element]);
+          }
+        );
+        totalError = parseInt(((totalError/totalTests)*100).toFixed());
+        dataSeries.push(totalError);
+
+        speeds.forEach(element => 
+          {
+            let value = parseInt(((parseInt(testData[element])/totalTests)*100).toFixed());
+            dataSeries.push(value);
+          }
+        );
+        dataSets.push({data: dataSeries, label: option.carrierSelected + ' ' + option.phoneSelected});
+      });
+
+    
+    return {labels: ['N/A',...speeds],
+      datasets: dataSets
+    };
   }
 
   public getSingleLineGraph(graphOptions: GraphOptions, roundData: {[key:string]:any}): any {
@@ -82,16 +130,6 @@ export class GraphService {
           label: graphOptions.graph1.carrierSelected,
           fill: true,
           tension: 0.5,
-          options: {
-            tooltips: {
-              callbacks: {
-                label: (item: { xLabel: string; yLabel: string; }, data: any) => 
-                {
-                  return 'Label: ' + item.xLabel + ' ' + item.yLabel
-                }
-              }
-            }
-          }
           //borderColor: 'black',
           //backgroundColor: 'rgba(255,0,0,0.3)'
         }
@@ -150,16 +188,6 @@ export class GraphService {
               label: graph.carrierSelected,
               fill: false,
               tension: 0.5,
-              options: {
-                tooltips: {
-                  callbacks: {
-                    label: (item: { xLabel: string; yLabel: string; }, data: any) => 
-                    {
-                      return 'Label: ' + item.xLabel + ' ' + item.yLabel
-                    }
-                  }
-                }
-              }
               //borderColor: 'black',
               //backgroundColor: 'rgba(255,0,0,0.3)'
             }
@@ -171,43 +199,5 @@ export class GraphService {
       datasets: dataSets
     };
   }
-
-  public comparisonGraph(roundData: {[key:string]:any}, testOptions: GraphOptions): any {
-    var dataSets: any = [];
-    const speeds = ["0M-10M", "10M-50M", "50M-100M", "100M-200M", "200M+"];
-    const errors = ["timeout", "no effective service", "connect_error2", "bad_output", "unknown_error"];
-
-    const keys = ['graph1', 'graph2', 'graph3'];
-    keys.forEach(key =>
-      {
-        let option: any = testOptions[key as keyof GraphOptions];
-        if (!option.carrierSelected) {
-          return;
-        }
-        let testData = roundData[option.carrierSelected][option.phoneSelected][testOptions.serverSelected!];
-        let totalError: number = 0;
-        let totalTests: number = parseInt(testData['total tests']);
-        var dataSeries: number[] = [];
-        errors.forEach(element => 
-          {
-            totalError += parseInt(testData[element]);
-          }
-        );
-        totalError = parseInt(((totalError/totalTests)*100).toFixed());
-        dataSeries.push(totalError);
-
-        speeds.forEach(element => 
-          {
-            let value = parseInt(((parseInt(testData[element])/totalTests)*100).toFixed());
-            dataSeries.push(value);
-          }
-        );
-        dataSets.push({data: dataSeries, label: '% ' + option.carrierSelected + ' ' + option.phoneSelected});
-      });
-
-    
-    return {labels: ['N/A',...speeds],
-      datasets: dataSets
-    };
-  }
 }
+

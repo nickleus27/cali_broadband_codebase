@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { GetDataService } from 'src/app/services/get-data/get-data.service';
-import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
+import { ChartConfiguration, ChartData, ChartEvent, ChartType, ChartTypeRegistry, TooltipItem, TooltipModel } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
 import DataLabelsPlugin from 'chartjs-plugin-datalabels';
@@ -55,8 +55,15 @@ export class GraphComponent extends UnSubscribeAdaptor implements OnInit {
         datalabels: {
           anchor: 'end',
           align: 'end'
-        }
-      }
+        },
+        tooltip: {
+          callbacks: {
+              label: function(this: TooltipModel<keyof ChartTypeRegistry>, tooltipItem: TooltipItem<keyof ChartTypeRegistry>) {
+                return tooltipItem.dataset.label + " : " + tooltipItem.formattedValue + "%";
+              }
+          }
+        },
+      },
     };
   }
 
@@ -78,7 +85,8 @@ export class GraphComponent extends UnSubscribeAdaptor implements OnInit {
                 }
                 this.barChartData = this.graphService
                   .getSingleGraph(
-                    this.roundData[this.params.graph1.carrierSelected][this.params.graph1.phoneSelected][this.params.serverSelected]
+                    this.roundData[this.params.graph1.carrierSelected][this.params.graph1.phoneSelected][this.params.serverSelected],
+                    this.params
                   );
               } else {
                 this.barChartData = this.graphService.comparisonGraph(this.roundData, this.params);

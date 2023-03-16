@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ChartConfiguration, ChartOptions } from 'chart.js';
+import { ChartConfiguration, ChartOptions, ChartTypeRegistry, TooltipItem, TooltipModel } from 'chart.js';
 import { ComponentDataService } from 'src/app/services/component-data/component-data.service';
 import { GetDataService } from 'src/app/services/get-data/get-data.service';
 import { GraphService } from 'src/app/services/graph/graph.service';
@@ -25,7 +25,16 @@ export class LineGraphComponent extends UnSubscribeAdaptor implements OnInit {
     ) {
       super();
       this.lineChartOptions = {
-        responsive: true
+        responsive: true,
+        plugins: {
+          tooltip: {
+            callbacks: {
+                label: function(this: TooltipModel<keyof ChartTypeRegistry>, tooltipItem: TooltipItem<keyof ChartTypeRegistry>) {
+                    return tooltipItem.dataset.label + " : " + tooltipItem.formattedValue + "%";
+                }
+            }
+          }
+        },
       };
       this.lineChartLegend = true;
   }
