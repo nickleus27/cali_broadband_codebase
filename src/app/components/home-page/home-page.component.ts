@@ -27,6 +27,7 @@ export class HomePageComponent extends UnSubscribeAdaptor implements OnInit {
     this.sub.sink = this.compDataService.displayButtonFlag.subscribe(flag => this.buttonIsDisabled = flag);
     this.sub.sink = this.compDataService.displayCompButtonFlag.subscribe(flag => this.compButtonDisabled = flag);
     this.sub.sink = this.compDataService.isBarGraph.subscribe(flag => this.isBarGraph = flag);
+    this.compDataService.overlay_close = this.overlay_close;
   }
 
   ngOnInit(): void {
@@ -51,6 +52,8 @@ export class HomePageComponent extends UnSubscribeAdaptor implements OnInit {
     this.compDataService.reset_opts();
   }
 
+  //overlayConfig(position: any, )
+
   overlay_open() {
     const positionStrategy = this.overlay.position()
       .global()
@@ -66,5 +69,12 @@ export class HomePageComponent extends UnSubscribeAdaptor implements OnInit {
     //this.overlayRef.addPanelClass("flexbox-container");
     //We render the portal in the overlay
     this.overlayRef.attach(componentPortal);
+  }
+  overlay_close = () => {
+    this.overlayRef.dispose();
+  }
+
+  tut_step1 = () => {
+    this.overlayRef.dispose();
   }
 }

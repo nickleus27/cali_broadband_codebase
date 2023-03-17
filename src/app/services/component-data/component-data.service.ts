@@ -17,6 +17,8 @@ export class ComponentDataService {
   private _graph_map: {[key:string]: string};
   private _reset_opts_func: () => void;
   private _round_data: {[key:string]: string};
+  private _overlay_close_func: () => void;
+  private _modal_state: number;
   
   constructor() {
     this._graphButtonDisabled = new BehaviorSubject(true);
@@ -29,6 +31,7 @@ export class ComponentDataService {
     this._round_map = { 'round14': 'Spring 2021', 'round15': 'Fall 2021', 'round16': 'Summer 2022'};
     this._graph_map = { 'graph1': 'Graph 1', 'graph2': 'Graph 2', 'graph3': 'Graph 3'};
     this._numCompGraphs = 0;
+    this._modal_state = 0;
   }
   
   set round_data(value: {[key:string]: string}) {
@@ -113,5 +116,21 @@ export class ComponentDataService {
 
   get reset_opts(): () => void {
     return this._reset_opts_func;
+  }
+
+  get overlay_close(): () => void {
+    return this._overlay_close_func;
+  }
+
+  set overlay_close(func: () => void) {
+    this._overlay_close_func = func;
+  }
+
+  get modalState(): number {
+    return this._modal_state;
+  }
+
+  updateModal() {
+    this._modal_state++;
   }
 }
