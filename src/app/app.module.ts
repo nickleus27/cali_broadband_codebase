@@ -21,6 +21,8 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { NgChartsConfiguration, NgChartsModule } from 'ng2-charts';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { LineGraphComponent } from './components/line-graph/line-graph.component';
+import { OverlayModule } from "@angular/cdk/overlay";
+import { TutorialOverlayComponent } from './components/tutorial-overlay/tutorial-overlay.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { LineGraphComponent } from './components/line-graph/line-graph.component
     LayoutComponent,
     GraphComponent,
     SideBarComponent,
-    LineGraphComponent
+    LineGraphComponent,
+    TutorialOverlayComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +50,8 @@ import { LineGraphComponent } from './components/line-graph/line-graph.component
     MatButtonToggleModule,
     FormsModule,
     ReactiveFormsModule,
-    NgChartsModule
+    NgChartsModule,
+    OverlayModule
   ],
   providers: [ { provide: NgChartsConfiguration, useValue: { generateColors: false }}],
   bootstrap: [AppComponent]
