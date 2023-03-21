@@ -16,7 +16,7 @@ export class ComponentDataService {
   private _round_map: {[key:string]: string};
   private _graph_map: {[key:string]: string};
   private _reset_opts_func: () => void;
-  private _round_data: {[key:string]: string};
+  private _round_data: any;
   
   constructor() {
     this._graphButtonDisabled = new BehaviorSubject(true);
@@ -31,11 +31,11 @@ export class ComponentDataService {
     this._numCompGraphs = 0;
   }
   
-  set round_data(value: {[key:string]: string}) {
+  set round_data(value: any) {
     this._round_data = value;
   }
 
-  get round_data(): {[key:string]: string} {
+  get round_data(): any {
     return this._round_data;
   }
 

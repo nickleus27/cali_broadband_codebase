@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -37,8 +37,14 @@ export class GetDataService {
     return this._graphData[round].asObservable();
   }
 
-  public getAllRounds(): any {
-    return this._graphData;
+  public getAllRounds(): Observable<any[]> {
+    return forkJoin(
+      [
+        this.getRound("round14"),
+        this.getRound("round15"),
+        this.getRound("round16")
+      ]
+    );
   }
 
   private processData(allText: string) {

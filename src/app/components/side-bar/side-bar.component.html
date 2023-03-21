@@ -13,7 +13,7 @@
         <mat-expansion-panel-header>
             Rounds
         </mat-expansion-panel-header>
-        <mat-radio-group class="radio-group" [(ngModel)]="graphOptions.roundSelected" (change)="ngOnChanges()">
+        <mat-radio-group class="radio-group" [(ngModel)]="optionsSelected.roundSelected" (change)="ngOnChanges()">
             <mat-radio-button *ngFor="let round of graphOptions.rounds" [value]="round">
                 {{this.compDataService.getRoundMapValue(round)}}
             </mat-radio-button>
@@ -27,7 +27,7 @@
             <mat-radio-button *ngFor="let carrier of optionsSelected.carriers" [value]="carrier">
                 {{carrier}}
             </mat-radio-button>
-            <div *ngIf="graphOptions.isBarGraph && !graphOptions.roundSelected">Select Round First</div>
+            <div *ngIf="graphOptions.isBarGraph && !optionsSelected.roundSelected">Select Round First</div>
         </mat-radio-group>
     </mat-expansion-panel>
     <mat-expansion-panel>

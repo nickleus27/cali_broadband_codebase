@@ -5,7 +5,6 @@ import { BaseChartDirective } from 'ng2-charts';
 
 import DataLabelsPlugin from 'chartjs-plugin-datalabels';
 import { GraphService } from 'src/app/services/graph/graph.service';
-import { switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentDataService } from 'src/app/services/component-data/component-data.service';
 import { UnSubscribeAdaptor } from '../Adaptors/UnSubscribeAdaptor';
@@ -27,8 +26,6 @@ export class GraphComponent extends UnSubscribeAdaptor implements OnInit {
   ];
 
   public barChartData: ChartData<'bar'>;
-
-  roundData: { [key: string]: any };
 
   constructor(
     private dataService: GetDataService,
@@ -69,35 +66,28 @@ export class GraphComponent extends UnSubscribeAdaptor implements OnInit {
 
   ngOnInit(): void {
     this.sub.sink = this.dataService.getGraphParams()
-      .pipe(
-        switchMap((params) => {
-          this.params = params;
-          return this.dataService.getRound(this.params.roundSelected);
-        })).subscribe(
-          {
-            next: (result) => {
-              this.roundData = result;
-              if (!this.params.comparison) { //load graph for single phone carrier
-                let keys = Object.keys(this.roundData[this.params.graph1.carrierSelected]);
-                if (!keys.includes(this.params.graph1.phoneSelected)) { //update phone selection if old phone is not in carrier phone set
-                  this.compDataService.updatePhoneFlag(keys[0]);
-                  return;
-                }
-                this.barChartData = this.graphService
-                  .getSingleGraph(
-                    this.roundData[this.params.graph1.carrierSelected][this.params.graph1.phoneSelected][this.params.serverSelected],
-                    this.params
-                  );
-              } else {
-                this.barChartData = this.graphService.comparisonGraph(this.roundData, this.params);
+      .subscribe(
+        {
+          next: (params) => {
+            this.params = params;
+            const roundData = this.compDataService.round_data[this.params.graph1.roundSelected];
+            if (!this.params.comparison) { //load graph for single phone carrier
+              let keys = Object.keys(roundData[this.params.graph1.carrierSelected]);
+              if (!keys.includes(this.params.graph1.phoneSelected)) { //update phone selection if old phone is not in carrier phone set
+                this.compDataService.updatePhoneFlag(keys[0]);
+                return;
               }
-            },
-            error: (err) => {
-              this.router.navigate([''], { relativeTo: this.route });
-              console.log("Error caught at Subscriber Graph Component: " + err)
-            },
-          }
-        );
+              this.barChartData = this.graphService.getSingleGraph(this.params);
+            } else {
+              this.barChartData = this.graphService.comparisonGraph(this.params);
+            }
+          },
+          error: (err) => {
+            this.router.navigate([''], { relativeTo: this.route });
+            console.log("Error caught at Subscriber Graph Component: " + err)
+          },
+        }
+      );
   }
 
   // events

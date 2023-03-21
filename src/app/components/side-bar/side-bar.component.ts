@@ -115,8 +115,8 @@ export class SideBarComponent implements OnInit, OnChanges {
 
   private _changeRound(): void {
     if (this.graphOptions.isBarGraph) {
-      if (this.graphOptions.roundSelected) {
-        this.optionsSelected.carriers = Object.keys(this.roundData[this.graphOptions.roundSelected])
+      if (this.optionsSelected.roundSelected) {
+        this.optionsSelected.carriers = Object.keys(this.roundData[this.optionsSelected.roundSelected])
           .filter((value) => {
             if (value === 'na') {
               return false;
@@ -135,20 +135,7 @@ export class SideBarComponent implements OnInit, OnChanges {
   private _changePhoneModels(): void {
     if (this.graphOptions.isBarGraph) {
       if (this.optionsSelected.carrierSelected) {
-        this.optionsSelected.phone_models = Object.keys(this.roundData[this.graphOptions.roundSelected!][this.optionsSelected.carrierSelected]);
-        this.graphOptions.graphs.forEach( graph =>
-          {
-            let option: any = this.graphOptions[graph as keyof GraphOptions];
-            if (option && option.phoneSelected) {
-              let carrier_phone_options = Object.keys(this.roundData[this.graphOptions.roundSelected!][option.carrierSelected]);
-              /* not all rounds have the same phone models per carrier */
-              /* check for phone models for each graph and pick the first phone option if phone is no longer present */
-              if (!carrier_phone_options.includes(option.phoneSelected)) {
-                option.phoneSelected = carrier_phone_options[0];
-              }
-            }
-          }
-        );
+        this.optionsSelected.phone_models = Object.keys(this.roundData[this.optionsSelected.roundSelected!][this.optionsSelected.carrierSelected]);
       }
     } else {
       if (this.optionsSelected.carrierSelected) {
@@ -161,7 +148,7 @@ export class SideBarComponent implements OnInit, OnChanges {
     if (this.graphOptions.isBarGraph) {
       if (this.optionsSelected.phoneSelected) {
         if (this.optionsSelected.phone_models.includes(this.optionsSelected.phoneSelected)) {
-          this.optionsSelected.servers = Object.keys(this.roundData[this.graphOptions.roundSelected!][this.optionsSelected.carrierSelected][this.optionsSelected.phoneSelected])
+          this.optionsSelected.servers = Object.keys(this.roundData[this.optionsSelected.roundSelected!][this.optionsSelected.carrierSelected][this.optionsSelected.phoneSelected])
             .filter((value) => {
               return (value.includes('1')); // filter out only servers from group 1. example: wTCPup1
             });

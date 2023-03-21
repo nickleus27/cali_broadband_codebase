@@ -13,7 +13,8 @@ export class GraphService {
     this.linegraphOptions = lineGraphOptions;
   }
 
-  public getSingleGraph(testData: {[key:string]:any}, testOptions: GraphOptions): any {
+  public getSingleGraph(testOptions: GraphOptions): any {
+    const testData =  this.compDataService.round_data[testOptions.graph1.roundSelected!][testOptions.graph1.carrierSelected!][testOptions.graph1.phoneSelected!][testOptions.serverSelected!];
     var dataSeries: number[] = [];
     const speeds = ["0M-10M", "10M-50M", "50M-100M", "100M-200M", "200M+"];
     const errors = ["timeout", "no effective service", "connect_error2", "bad_output", "unknown_error"];
@@ -46,7 +47,8 @@ export class GraphService {
 
   }
 
-  public comparisonGraph(roundData: {[key:string]:any}, testOptions: GraphOptions): any {
+  public comparisonGraph(testOptions: GraphOptions): any {
+    const roundData = this.compDataService.round_data;
     var dataSets: any = [];
     const speeds = ["0M-10M", "10M-50M", "50M-100M", "100M-200M", "200M+"];
     const errors = ["timeout", "no effective service", "connect_error2", "bad_output", "unknown_error"];
@@ -58,7 +60,7 @@ export class GraphService {
         if (!option.carrierSelected) {
           return;
         }
-        let testData = roundData[option.carrierSelected][option.phoneSelected][testOptions.serverSelected!];
+        let testData = roundData[option.roundSelected!][option.carrierSelected][option.phoneSelected][testOptions.serverSelected!];
         let totalError: number = 0;
         let totalTests: number = parseInt(testData['total tests']);
         var dataSeries: number[] = [];
@@ -76,7 +78,12 @@ export class GraphService {
             dataSeries.push(value);
           }
         );
-        dataSets.push({data: dataSeries, label: option.carrierSelected + ' ' + option.phoneSelected});
+        dataSets.push(
+          {
+            data: dataSeries, 
+            label: `${this.compDataService.getRoundMapValue(option.roundSelected)} : ${option.carrierSelected} ${this.compDataService.getModelMapValue(option.phoneSelected)}`
+          }
+        );
       });
 
     
