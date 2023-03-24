@@ -18,7 +18,7 @@ const lineGraphOptions: LineGraphOptions = {
         'T-Mobile': ['SM-S901U', 'SM-G998U', 'SM-G970U'],
         'Verizon': ['SM-S901U', 'SM-G998U', 'SM-G970U']
     },
-    servers: ['wTCPup1', 'wTCPdown1', 'eTCPup1', 'eTCPdown1'],
+    servers: ['wTCPdown1', 'eTCPdown1'],
     tests: ["N/A", "0M-10M", "10M-50M", "50M-100M", "100M-200M", "200M+"]
 }
 

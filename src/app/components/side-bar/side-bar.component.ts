@@ -147,11 +147,10 @@ export class SideBarComponent implements OnInit, OnChanges {
   private _changeServers(): void {
     if (this.graphOptions.isBarGraph) {
       if (this.optionsSelected.phoneSelected) {
+        // if the phone selected is not in phone_models array, carrier/round was switched
+        // select first option in the new phone_models array
         if (this.optionsSelected.phone_models.includes(this.optionsSelected.phoneSelected)) {
-          this.optionsSelected.servers = Object.keys(this.roundData[this.optionsSelected.roundSelected!][this.optionsSelected.carrierSelected][this.optionsSelected.phoneSelected])
-            .filter((value) => {
-              return (value.includes('1')); // filter out only servers from group 1. example: wTCPup1
-            });
+          this.optionsSelected.servers = ['wTCPdown1', 'eTCPdown1']; // add in the servers to be displayed
         } else {
           this.optionsSelected.phoneSelected = this.optionsSelected.phone_models[0];
         }
