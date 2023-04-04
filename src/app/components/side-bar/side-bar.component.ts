@@ -144,25 +144,16 @@ export class SideBarComponent implements OnInit, OnChanges {
     }
   }
 
-  private _changeServers(): void {
-    if (this.graphOptions.isBarGraph) {
-      if (this.optionsSelected.phoneSelected) {
-        // if the phone selected is not in phone_models array, carrier/round was switched
-        // select first option in the new phone_models array
-        if (this.optionsSelected.phone_models.includes(this.optionsSelected.phoneSelected)) {
-          this.optionsSelected.servers = ['wTCPdown1', 'eTCPdown1']; // add in the servers to be displayed
-        } else {
-          this.optionsSelected.phoneSelected = this.optionsSelected.phone_models[0];
-        }
-      }
-    } else {
-      this.optionsSelected.servers = this.lineGraphOptions.servers;
+  private _checkPhoneSelected(): void {
+    // check to see if phone model is still included in phone options if carrier or round changed
+    if (this.optionsSelected.phoneSelected && !this.optionsSelected.phone_models.includes(this.optionsSelected.phoneSelected)) {
+      // if not in the list select the first model in the list
+      this.optionsSelected.phoneSelected = this.optionsSelected.phone_models[0];
     }
   }
 
   private _changeBarGraphState(): void {
-    //check for both phoneSelected & serverSelected for comparison graph which will already have server always selected
-    if (this.graphOptions.isBarGraph && this.optionsSelected.phoneSelected && this.graphOptions.serverSelected) {
+    if (this.graphOptions.isBarGraph && this.optionsSelected.phoneSelected) {
       this.sidebarState.acceptingState(this.graphOptions.graphSelected);
       this.getDataService.setGraphParams(this.graphOptions);
       if (this.sidebarState.accepting) {
@@ -191,7 +182,7 @@ export class SideBarComponent implements OnInit, OnChanges {
     this.optionsSelected = this.graphOptions[this.graphOptions.graphSelected as keyof GraphOptions];
     this._changeRound();
     this._changePhoneModels();
-    this._changeServers();
+    this._checkPhoneSelected();
     // check to see if change was graphselected
     // if it was do not setGraphParams
     if (this.graphSelected !== this.graphOptions.graphSelected) {

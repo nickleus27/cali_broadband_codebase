@@ -41,19 +41,6 @@
             <div *ngIf="!optionsSelected.carrierSelected">Select Carrier First</div>
         </mat-radio-group>
     </mat-expansion-panel>
-    <mat-expansion-panel>
-        <mat-expansion-panel-header>
-            Servers
-        </mat-expansion-panel-header>
-        <mat-radio-group class="radio-group" [(ngModel)]="graphOptions.serverSelected" (change)="ngOnChanges()">
-            <ng-container *ngIf="optionsSelected.phoneSelected">
-                <mat-radio-button *ngFor="let server of optionsSelected.servers" [value]="server">
-                    {{compDataService.getServerMapValue(server)}}
-                </mat-radio-button>
-            </ng-container>
-        </mat-radio-group>
-        <div *ngIf="!optionsSelected.phoneSelected">Select Model First</div>
-    </mat-expansion-panel>
     <mat-expansion-panel *ngIf="(compDataService.isBarGraph | async) == false">
         <mat-expansion-panel-header>
             Test

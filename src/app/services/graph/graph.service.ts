@@ -14,26 +14,17 @@ export class GraphService {
   }
 
   public getSingleGraph(testOptions: GraphOptions): any {
-    const testData =  this.compDataService.round_data[testOptions.graph1.roundSelected!][testOptions.graph1.carrierSelected!][testOptions.graph1.phoneSelected!][testOptions.serverSelected!];
     var dataSeries: number[] = [];
     const speeds = ["0M-10M", "10M-50M", "50M-100M", "100M-200M", "200M+"];
-    const errors = ["timeout", "no effective service", "connect_error2", "bad_output", "unknown_error"];
-    let totalTests: number = parseInt(testData['total tests']);
+    
+    dataSeries.push(this.findHighestErrors(
+      testOptions.graph1.roundSelected!, testOptions.graph1.carrierSelected!, testOptions.graph1.phoneSelected!
+    ));
 
-    let totalError = 0;
-    errors.forEach(element =>
-      {
-        totalError += parseInt(testData[element]);
-      }
-    );
-    totalError = parseInt(((totalError/totalTests)*100).toFixed());
-    dataSeries.push(totalError);
-
-    speeds.forEach(element =>
-      {
-        let value: number = parseInt(testData[element]);
-        dataSeries.push(parseInt(((value/totalTests)*100).toFixed()));
-      }
+    dataSeries.push(
+      ...this.findBestSpeeds(
+      testOptions.graph1.roundSelected!, testOptions.graph1.carrierSelected!, testOptions.graph1.phoneSelected!
+      )
     );
 
     return {labels: ['N/A',...speeds],
@@ -48,10 +39,8 @@ export class GraphService {
   }
 
   public comparisonGraph(testOptions: GraphOptions): any {
-    const roundData = this.compDataService.round_data;
     var dataSets: any = [];
     const speeds = ["0M-10M", "10M-50M", "50M-100M", "100M-200M", "200M+"];
-    const errors = ["timeout", "no effective service", "connect_error2", "bad_output", "unknown_error"];
 
     const keys = ['graph1', 'graph2', 'graph3'];
     keys.forEach(key =>
@@ -60,23 +49,15 @@ export class GraphService {
         if (!option.carrierSelected) {
           return;
         }
-        let testData = roundData[option.roundSelected!][option.carrierSelected][option.phoneSelected][testOptions.serverSelected!];
-        let totalError: number = 0;
-        let totalTests: number = parseInt(testData['total tests']);
         var dataSeries: number[] = [];
-        errors.forEach(element => 
-          {
-            totalError += parseInt(testData[element]);
-          }
-        );
-        totalError = parseInt(((totalError/totalTests)*100).toFixed());
-        dataSeries.push(totalError);
+        dataSeries.push(this.findHighestErrors(
+          option.roundSelected!, option.carrierSelected!, option.phoneSelected!
+        ));
 
-        speeds.forEach(element => 
-          {
-            let value = parseInt(((parseInt(testData[element])/totalTests)*100).toFixed());
-            dataSeries.push(value);
-          }
+        dataSeries.push(
+          ...this.findBestSpeeds(
+            option.roundSelected!, option.carrierSelected!, option.phoneSelected!
+          )
         );
         dataSets.push(
           {
@@ -93,38 +74,33 @@ export class GraphService {
   }
 
   public getSingleLineGraph(graphOptions: GraphOptions, roundData: {[key:string]:any}): any {
-    var labels: string[] = [
+    const labels: string[] = [
       "Spring 2021",
       "Fall 2021",
       "Summer 2022"
     ];
+    const speeds: {[key:string]:number} = {"0M-10M":0, "10M-50M":1, "50M-100M":2, "100M-200M":3, "200M+":4};
     var dataSeries: number[] = [];
     var roundKeys = Object.keys(roundData);
     roundKeys.forEach(key => 
       {
         let carrier = graphOptions.graph1.carrierSelected;
         let phone = graphOptions.graph1.phoneSelected;
-        let server = graphOptions.serverSelected;
         let test = graphOptions.testSelected;
         let i = 0;
+        // move to next phone if not in this round
         while (!roundData[key][carrier!][phone!]) {
           phone = lineGraphOptions.carriers[carrier!][i];
           i++;
         }
-        let totalTests = parseInt(roundData[key][carrier!][phone!][server!]['total tests']);
         if (graphOptions.testSelected === 'N/A') {
-          const errors = ["timeout", "no effective service", "connect_error2", "bad_output", "unknown_error"];
-          let totalError = 0;
-          errors.forEach(element => 
-            {
-              totalError += parseInt(roundData[key][carrier!][phone!][server!][element]);
-            }
-          );
-          totalError = parseInt(((totalError/totalTests)*100).toFixed());
-          dataSeries.push(totalError);
-        } else {
           dataSeries.push(
-            parseInt(((parseInt(roundData[key][carrier!][phone!][server!][test])/totalTests)*100).toFixed())
+            this.findHighestErrors(key, carrier!, phone!)
+          );
+        } else {
+
+          dataSeries.push(
+            this.findBestSpeeds(key, carrier!, phone!)[speeds[test]]
           );
         }
       }
@@ -145,11 +121,12 @@ export class GraphService {
   }
 
   public comparisonLineGraph(graphOptions: GraphOptions, roundData: {[key:string]:any}): any {
-    var labels: string[] = [
+    const labels: string[] = [
       "Spring 2021",
       "Fall 2021",
       "Summer 2022"
     ];
+    const speeds: {[key:string]:number} = {"0M-10M":0, "10M-50M":1, "50M-100M":2, "100M-200M":3, "200M+":4};
     var dataSets: any = [];
     graphOptions.graphs.forEach(graphKey =>
       {
@@ -160,30 +137,23 @@ export class GraphService {
           {
             let carrier = graph.carrierSelected;
             let phone = graph.phoneSelected;
-            let server = graphOptions.serverSelected;
             let test = graphOptions.testSelected;
             if (!carrier) {
               return;
             }
             let i = 0;
+            // move to next phone if it is not in this round
             while (!roundData[key][carrier!][phone!]) {
               phone = lineGraphOptions.carriers[carrier!][i];
               i++;
             }
-            let totalTests = parseInt(roundData[key][carrier][phone][server!]['total tests']);
             if (test === 'N/A') {
-              const errors = ["timeout", "no effective service", "connect_error2", "bad_output", "unknown_error"];
-              let totalError = 0;
-              errors.forEach(element => 
-                {
-                  totalError += parseInt(roundData[key][carrier!][phone!][server!][element]);
-                }
+              dataSeries.push(
+                this.findHighestErrors(key, carrier!, phone!)
               );
-              totalError = parseInt(((totalError/totalTests)*100).toFixed());
-              dataSeries.push(totalError);
             } else {
               dataSeries.push(
-                parseInt(((parseInt(roundData[key][carrier!][phone!][server!][test])/totalTests)*100).toFixed())
+                this.findBestSpeeds(key, carrier!, phone!)[speeds[test!]]
               );
             }
           }
@@ -205,6 +175,59 @@ export class GraphService {
     return {labels: labels,
       datasets: dataSets
     };
+  }
+
+  private findTotalErrors(testData:any, server: string):number {
+    const errors = ["timeout", "no effective service", "connect_error2", "bad_output", "unknown_error"];
+    testData = testData[server];
+    let totalTests: number = parseInt(testData['total tests']);
+    let totalError = 0;
+    errors.forEach(element =>
+      {
+        totalError += parseInt(testData[element]);
+      }
+    );
+    totalError = parseInt(((totalError/totalTests)*100).toFixed());
+    return totalError;
+  }
+  private findHighestErrors(round: string, carrier: string, phone: string): number {
+    const testData = this.compDataService.round_data[round][carrier][phone];
+    const servers = ["wTCPdown1", "wTCPdown2", "eTCPdown1", "eTCPdown2"];
+    let maxErrors: number = 0;
+    servers.forEach(server =>
+      {
+        let errors = this.findTotalErrors(testData, server);
+        if (!maxErrors || maxErrors < errors) {
+          maxErrors = errors;
+        }
+      }
+    );
+    return maxErrors;
+  }
+
+  private findBestSpeeds(round:string, carrier:string, phone:string): [] {
+    const speeds = ["0M-10M", "10M-50M", "50M-100M", "100M-200M", "200M+"];
+    const servers = ["wTCPdown1", "wTCPdown2", "eTCPdown1", "eTCPdown2"];
+    const testData = this.compDataService.round_data[round][carrier][phone];
+    let bestSpeeds:any = [];
+    speeds.forEach(speed =>
+      {
+        let maxSpeed = 0;
+        let totalTests = 0;
+        servers.forEach(server =>
+          {
+            let serverData = testData[server];
+            let value: number = parseInt(serverData[speed]);
+            if (!maxSpeed || maxSpeed < value) {
+              maxSpeed = value;
+              totalTests = parseInt(serverData['total tests']);
+            }
+          }
+        );
+        bestSpeeds.push(parseInt(((maxSpeed/totalTests)*100).toFixed()));
+      }
+    );
+    return bestSpeeds;
   }
 }
 

@@ -2,7 +2,6 @@ export interface GraphOptions {
     comparison: boolean,
     rounds: string[],
     graphs: string[],
-    serverSelected?: string
     graphSelected: string,
     testSelected?: any,
     isBarGraph?: boolean,
@@ -10,7 +9,6 @@ export interface GraphOptions {
         roundSelected?: string,
         carriers?: string[],
         phone_models?: string[],
-        servers?: string[],
         carrierSelected?: string,
         phoneSelected?: string,
     },
@@ -18,7 +16,6 @@ export interface GraphOptions {
         roundSelected?: string,
         carriers?: string[],
         phone_models?: string[],
-        servers?: string[],
         carrierSelected?: string,
         phoneSelected?: string,
     },
@@ -26,7 +23,6 @@ export interface GraphOptions {
         roundSelected?: string,
         carriers?: string[],
         phone_models?: string[],
-        servers?: string[],
         carrierSelected?: string,
         phoneSelected?: string,
     }
