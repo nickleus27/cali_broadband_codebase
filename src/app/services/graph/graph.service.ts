@@ -17,12 +17,12 @@ export class GraphService {
     var dataSeries: number[] = [];
     const speeds = ["0M-10M", "10M-50M", "50M-100M", "100M-200M", "200M+"];
     
-    dataSeries.push(this.findHighestErrors(
+    dataSeries.push(this.getErrors(
       testOptions.graph1.roundSelected!, testOptions.graph1.carrierSelected!, testOptions.graph1.phoneSelected!
     ));
 
     dataSeries.push(
-      ...this.findBestSpeeds(
+      ...this.getSpeeds(
       testOptions.graph1.roundSelected!, testOptions.graph1.carrierSelected!, testOptions.graph1.phoneSelected!
       )
     );
@@ -50,12 +50,12 @@ export class GraphService {
           return;
         }
         var dataSeries: number[] = [];
-        dataSeries.push(this.findHighestErrors(
+        dataSeries.push(this.getErrors(
           option.roundSelected!, option.carrierSelected!, option.phoneSelected!
         ));
 
         dataSeries.push(
-          ...this.findBestSpeeds(
+          ...this.getSpeeds(
             option.roundSelected!, option.carrierSelected!, option.phoneSelected!
           )
         );
@@ -79,6 +79,7 @@ export class GraphService {
       "Fall 2021",
       "Summer 2022"
     ];
+    // use speeds to pick correct value from getSpeeds array returned
     const speeds: {[key:string]:number} = {"0M-10M":0, "10M-50M":1, "50M-100M":2, "100M-200M":3, "200M+":4};
     var dataSeries: number[] = [];
     var roundKeys = Object.keys(roundData);
@@ -95,12 +96,12 @@ export class GraphService {
         }
         if (graphOptions.testSelected === 'N/A') {
           dataSeries.push(
-            this.findHighestErrors(key, carrier!, phone!)
+            this.getErrors(key, carrier!, phone!)
           );
         } else {
-
+          // pick just the test speed from getSpeeds array
           dataSeries.push(
-            this.findBestSpeeds(key, carrier!, phone!)[speeds[test]]
+            this.getSpeeds(key, carrier!, phone!)[speeds[test]]
           );
         }
       }
@@ -126,6 +127,7 @@ export class GraphService {
       "Fall 2021",
       "Summer 2022"
     ];
+    // use speeds to pick correct value from getSpeeds array returned
     const speeds: {[key:string]:number} = {"0M-10M":0, "10M-50M":1, "50M-100M":2, "100M-200M":3, "200M+":4};
     var dataSets: any = [];
     graphOptions.graphs.forEach(graphKey =>
@@ -149,11 +151,12 @@ export class GraphService {
             }
             if (test === 'N/A') {
               dataSeries.push(
-                this.findHighestErrors(key, carrier!, phone!)
+                this.getErrors(key, carrier!, phone!)
               );
             } else {
+              // pick just the test speed from getSpeeds array
               dataSeries.push(
-                this.findBestSpeeds(key, carrier!, phone!)[speeds[test!]]
+                this.getSpeeds(key, carrier!, phone!)[speeds[test!]]
               );
             }
           }
@@ -177,57 +180,25 @@ export class GraphService {
     };
   }
 
-  private findTotalErrors(testData:any, server: string):number {
-    const errors = ["timeout", "no effective service", "connect_error2", "bad_output", "unknown_error"];
-    testData = testData[server];
-    let totalTests: number = parseInt(testData['total tests']);
-    let totalError = 0;
-    errors.forEach(element =>
-      {
-        totalError += parseInt(testData[element]);
-      }
-    );
-    totalError = parseInt(((totalError/totalTests)*100).toFixed());
-    return totalError;
-  }
-  private findHighestErrors(round: string, carrier: string, phone: string): number {
+  private getErrors(round: string, carrier: string, phone: string): number {
     const testData = this.compDataService.round_data[round][carrier][phone];
-    const servers = ["wTCPdown1", "wTCPdown2", "eTCPdown1", "eTCPdown2"];
-    let maxErrors: number = 0;
-    servers.forEach(server =>
-      {
-        let errors = this.findTotalErrors(testData, server);
-        if (!maxErrors || maxErrors < errors) {
-          maxErrors = errors;
-        }
-      }
-    );
-    return maxErrors;
+    let totalError: number = testData["best d/l speeds"]["N/A"]; // n/a represents errors or tests with speeds not available
+    let totalTests: number = testData["best d/l speeds"]["total tests"];
+    return parseInt(((totalError/totalTests)*100).toFixed());
   }
 
-  private findBestSpeeds(round:string, carrier:string, phone:string): [] {
-    const speeds = ["0M-10M", "10M-50M", "50M-100M", "100M-200M", "200M+"];
-    const servers = ["wTCPdown1", "wTCPdown2", "eTCPdown1", "eTCPdown2"];
+  private getSpeeds(round:string, carrier:string, phone:string): number[] {
+    const speedRanges = ["0M-10M", "10M-50M", "50M-100M", "100M-200M", "200M+"];
     const testData = this.compDataService.round_data[round][carrier][phone];
-    let bestSpeeds:any = [];
-    speeds.forEach(speed =>
+    let speeds:number[] = [];
+    let totalTests = testData["best d/l speeds"]['total tests'];
+    speedRanges.forEach(speed =>
       {
-        let maxSpeed = 0;
-        let totalTests = 0;
-        servers.forEach(server =>
-          {
-            let serverData = testData[server];
-            let value: number = parseInt(serverData[speed]);
-            if (!maxSpeed || maxSpeed < value) {
-              maxSpeed = value;
-              totalTests = parseInt(serverData['total tests']);
-            }
-          }
-        );
-        bestSpeeds.push(parseInt(((maxSpeed/totalTests)*100).toFixed()));
+        let speedValue = testData["best d/l speeds"][speed];
+        speeds.push(parseInt(((speedValue/totalTests)*100).toFixed()));
       }
     );
-    return bestSpeeds;
+    return speeds;
   }
 }
 
