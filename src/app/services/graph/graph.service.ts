@@ -184,7 +184,7 @@ export class GraphService {
     const testData = this.compDataService.round_data[round][carrier][phone];
     let totalError: number = testData["best d/l speeds"]["N/A"]; // n/a represents errors or tests with speeds not available
     let totalTests: number = testData["best d/l speeds"]["total tests"];
-    return parseInt(((totalError/totalTests)*100).toFixed());
+    return parseFloat(((totalError/totalTests)*100).toFixed(1));
   }
 
   private getSpeeds(round:string, carrier:string, phone:string): number[] {
@@ -195,7 +195,7 @@ export class GraphService {
     speedRanges.forEach(speed =>
       {
         let speedValue = testData["best d/l speeds"][speed];
-        speeds.push(parseInt(((speedValue/totalTests)*100).toFixed()));
+        speeds.push(parseFloat(((speedValue/totalTests)*100).toFixed(1)));
       }
     );
     return speeds;
