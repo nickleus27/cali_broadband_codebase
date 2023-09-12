@@ -9,7 +9,7 @@ export class ComponentDataService {
   private _graphButtonDisabled: Subject<boolean>;
   private _compButtonDisabled: Subject<boolean>;
   private _sideNav_GraphComp: Subject<boolean>;
-  private _isBarGraph: Subject<boolean>;
+  private _graphType: Subject<string>;
   private _phoneModel: Subject<string>;
   private _model_map: {[key:string]: string};
   private _round_map: {[key:string]: string};
@@ -21,7 +21,7 @@ export class ComponentDataService {
     this._graphButtonDisabled = new BehaviorSubject(true);
     this._compButtonDisabled = new BehaviorSubject(true);
     this._sideNav_GraphComp = new BehaviorSubject(false);
-    this._isBarGraph = new BehaviorSubject(true);
+    this._graphType = new BehaviorSubject("bar-graph");
     this._phoneModel = new BehaviorSubject('');
     this._model_map = { 'XP8800': 'Sonim XP8', 'SM-G970U': 'Galaxy S10e', 'SM-G998U': 'Galaxy S21', 'SM-G973U': 'Galaxy S10', 'SM-S901U': 'Galaxy S22' };
     this._round_map = { 'round14': 'Spring 2021', 'round15': 'Fall 2021', 'round16': 'Summer 2022'};
@@ -61,12 +61,12 @@ export class ComponentDataService {
     return this._sideNav_GraphComp.asObservable();
   }
 
-  updateIsBarGraph(value: boolean) : void {
-    this._isBarGraph.next(value);
+  updateGraphType(value: string) : void {
+    this._graphType.next(value);
   }
 
-  get isBarGraph(): Observable<boolean> {
-    return this._isBarGraph.asObservable();
+  get graphType(): Observable<string> {
+    return this._graphType.asObservable();
   }
 
   updatePhoneFlag(value: string): void {

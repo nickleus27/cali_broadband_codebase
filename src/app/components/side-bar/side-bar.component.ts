@@ -53,9 +53,9 @@ export class SideBarComponent implements OnInit, OnChanges {
         }
       });
 
-    this.compDataService.isBarGraph.subscribe(value =>
+    this.compDataService.graphType.subscribe(value =>
       {
-        this.graphOptions.isBarGraph = value;
+        this.graphOptions.graphType = value;
         if (!this.isLoading) {
           this.reSetSideNavOptions();
         }
@@ -91,6 +91,7 @@ export class SideBarComponent implements OnInit, OnChanges {
       comparison: false,
       rounds: ['round14', 'round15', 'round16'],
       graphs: ['graph1', 'graph2', 'graph3'],
+      counties: ['placeholder1', 'placeholder2'],
       graphSelected: 'graph1',
       graph1: {},
       graph2: {},
@@ -99,7 +100,7 @@ export class SideBarComponent implements OnInit, OnChanges {
     this.optionsSelected = this.graphOptions.graph1;
     this.graphs = [this.graphOptions.graphs[0]];
     this.graphSelected = this.graphOptions.graphSelected;
-    this.compDataService.isBarGraph.subscribe(value => this.graphOptions.isBarGraph = value);
+    this.compDataService.graphType.subscribe(value => this.graphOptions.graphType = value);
   }
 
   reSetSideNavOptions = () => {
@@ -113,7 +114,7 @@ export class SideBarComponent implements OnInit, OnChanges {
   }
 
   private _changeRound(): void {
-    if (this.graphOptions.isBarGraph) {
+    if (this.graphOptions.graphType == 'bar-graph') {
       if (this.optionsSelected.roundSelected) {
         this.optionsSelected.carriers = Object.keys(this.roundData[this.optionsSelected.roundSelected])
           .filter((value) => {
@@ -132,7 +133,7 @@ export class SideBarComponent implements OnInit, OnChanges {
 
   /* update all phone selected between multiple graph options */
   private _changePhoneModels(): void {
-    if (this.graphOptions.isBarGraph) {
+    if (this.graphOptions.graphType == 'bar-graph') {
       if (this.optionsSelected.carrierSelected) {
         this.optionsSelected.phone_models = Object.keys(this.roundData[this.optionsSelected.roundSelected!][this.optionsSelected.carrierSelected]);
       }
@@ -152,7 +153,7 @@ export class SideBarComponent implements OnInit, OnChanges {
   }
 
   private _changeBarGraphState(): void {
-    if (this.graphOptions.isBarGraph && this.optionsSelected.phoneSelected) {
+    if (this.graphOptions.graphType == 'bar-graph' && this.optionsSelected.phoneSelected) {
       this.sidebarState.acceptingState(this.graphOptions.graphSelected);
       this.getDataService.setGraphParams(this.graphOptions);
       if (this.sidebarState.accepting) {
@@ -165,7 +166,7 @@ export class SideBarComponent implements OnInit, OnChanges {
   }
 
   private _changeLineGraphState(): void {
-    if (!this.graphOptions.isBarGraph && this.optionsSelected.phoneSelected && this.graphOptions.testSelected) {
+    if (this.graphOptions.graphType == 'line-graph' && this.optionsSelected.phoneSelected && this.graphOptions.testSelected) {
       this.sidebarState.acceptingState(this.graphOptions.graphSelected);
       this.getDataService.setGraphParams(this.graphOptions);
       if (this.sidebarState.accepting) {

@@ -11,7 +11,7 @@ import { UnSubscribeAdaptor } from '../Adaptors/UnSubscribeAdaptor';
 export class HomePageComponent extends UnSubscribeAdaptor {
   buttonIsDisabled: boolean;
   compButtonDisabled: boolean;
-  isBarGraph: boolean;
+  graphType: string;
 
   constructor(
     private compDataService: ComponentDataService,
@@ -21,14 +21,16 @@ export class HomePageComponent extends UnSubscribeAdaptor {
     super();
     this.sub.sink = this.compDataService.displayButtonFlag.subscribe(flag => this.buttonIsDisabled = flag);
     this.sub.sink = this.compDataService.displayCompButtonFlag.subscribe(flag => this.compButtonDisabled = flag);
-    this.sub.sink = this.compDataService.isBarGraph.subscribe(flag => this.isBarGraph = flag);
+    this.sub.sink = this.compDataService.graphType.subscribe(flag => this.graphType = flag);
   }
 
   goToGraphs() {
-    if (this.isBarGraph) {
+    if (this.graphType == 'bar-graph') {
       this.router.navigate(['graphs'], { relativeTo: this.route });
-    } else {
+    } else if (this.graphType == 'line-graph') {
       this.router.navigate(['lineGraphs'], { relativeTo: this.route });
+    } else {
+      this.router.navigate(['lineCountyGraphs'], { relativeTo: this.route });
     }
   }
 

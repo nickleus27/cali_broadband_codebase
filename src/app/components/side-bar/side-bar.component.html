@@ -9,7 +9,7 @@
             </mat-radio-button>
         </mat-radio-group>
     </mat-expansion-panel>
-    <mat-expansion-panel *ngIf="compDataService.isBarGraph | async">
+    <mat-expansion-panel *ngIf="(compDataService.graphType | async) == 'bar-graph'">
         <mat-expansion-panel-header>
             Rounds
         </mat-expansion-panel-header>
@@ -27,7 +27,7 @@
             <mat-radio-button *ngFor="let carrier of optionsSelected.carriers" [value]="carrier">
                 {{carrier}}
             </mat-radio-button>
-            <div *ngIf="graphOptions.isBarGraph && !optionsSelected.roundSelected">Select Round First</div>
+            <div *ngIf="graphOptions.graphType=='bar-graph' && !optionsSelected.roundSelected">Select Round First</div>
         </mat-radio-group>
     </mat-expansion-panel>
     <mat-expansion-panel>
@@ -41,13 +41,23 @@
             <div *ngIf="!optionsSelected.carrierSelected">Select Carrier First</div>
         </mat-radio-group>
     </mat-expansion-panel>
-    <mat-expansion-panel *ngIf="(compDataService.isBarGraph | async) == false">
+    <mat-expansion-panel *ngIf="(compDataService.graphType | async) == 'line-graph'">
         <mat-expansion-panel-header>
             Test
         </mat-expansion-panel-header>
         <mat-radio-group class="radio-group" [(ngModel)]="graphOptions.testSelected" (change)="ngOnChanges()">
             <mat-radio-button *ngFor="let test of lineGraphOptions.tests" [value]="test">
                 {{test}}
+            </mat-radio-button>
+        </mat-radio-group>
+    </mat-expansion-panel>
+    <mat-expansion-panel *ngIf="(compDataService.graphType | async) == 'line-county-graph'">
+        <mat-expansion-panel-header>
+            Counties
+        </mat-expansion-panel-header>
+        <mat-radio-group class="radio-group" [(ngModel)]="optionsSelected.countySelected" (change)="ngOnChanges()">
+            <mat-radio-button *ngFor="let county of graphOptions.counties" [value]="county">
+                {{county}}
             </mat-radio-button>
         </mat-radio-group>
     </mat-expansion-panel>

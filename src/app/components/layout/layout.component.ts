@@ -4,7 +4,8 @@ import { ComponentDataService } from 'src/app/services/component-data/component-
 
 export enum GraphTypeEnum {
     barGraph,
-    lineGraph
+    lineGraph,
+    lineCountyGraph
 }
 
 @Component({
@@ -34,9 +35,12 @@ export class LayoutComponent {
   onChange(event: any): void {
     this.graphTypeSelected = event.value;
     if (this.graphTypeSelected === this.graphTypeEnum.barGraph) {
-      this.compDataService.updateIsBarGraph(true);
+      this.compDataService.updateGraphType('bar-graph');
+    } else if (this.graphTypeSelected === this.graphTypeEnum.lineGraph) {
+      this.compDataService.updateGraphType('line-graph');
     } else {
-      this.compDataService.updateIsBarGraph(false);
+      this.compDataService.updateGraphType('line-county-graph');
+
     }
   }
 }
