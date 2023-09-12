@@ -11,7 +11,6 @@ import { lineGraphOptions, LineGraphOptions } from './LineGraphOptions';
   styleUrls: ['./side-bar.component.css']
 })
 export class SideBarComponent implements OnInit, OnChanges {
-  title = 'cali_broadband';
   graphSelected: string;
   graphOptions: GraphOptions;
   optionsSelected: any;

@@ -12,11 +12,14 @@
             <span class="tb-buttons"></span>
             <span>
                 <mat-button-toggle-group [value]="graphTypeSelected" (change)="onChange($event)">
-                    <mat-button-toggle color='warm' [value]="graphTypeEnum.barGraph">
+                    <mat-button-toggle color='warm' [value]="graphTypeEnum.barGraph" matTooltip="Bar Graphs">
                         <mat-icon>bar_chart</mat-icon>
                     </mat-button-toggle>
-                    <mat-button-toggle color='warm' [value]="graphTypeEnum.lineGraph">
+                    <mat-button-toggle color='warm' [value]="graphTypeEnum.lineGraph" matTooltip="Line Graphs">
                         <mat-icon>multiline_chart</mat-icon>
+                    </mat-button-toggle>
+                    <mat-button-toggle color='warm' matTooltip="Graphs By County">
+                        <mat-icon>area_chart</mat-icon>
                     </mat-button-toggle>
                 </mat-button-toggle-group>
             </span>
