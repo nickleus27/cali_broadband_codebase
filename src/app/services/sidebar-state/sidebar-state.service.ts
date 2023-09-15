@@ -8,6 +8,7 @@ export class SidebarStateService {
   private _sidebarState: any;
 
   constructor() { 
+    // state table
     this._sidebarState = {
       state: 'graph1',
       graph1: false,

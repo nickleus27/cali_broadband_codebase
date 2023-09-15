@@ -123,10 +123,6 @@ export class SideBarComponent implements OnInit, OnChanges {
       if (this.optionsSelected.carrierSelected) {
         this.optionsSelected.phone_models = Object.keys(this.roundData[this.optionsSelected.roundSelected!][this.optionsSelected.carrierSelected]);
       }
-    } else if (this.graphOptions.graphType == 'line-graph'){
-      if (this.optionsSelected.carrierSelected) {
-        this.optionsSelected.phone_models = this.lineGraphOptions.carriers[this.optionsSelected.carrierSelected];
-      }
     } else {
       if (!this.graphOptions.counties.length) {
         this.graphOptions.counties = Object.keys(this.roundData['countyData'].ctyfa2017).sort();
@@ -170,6 +166,18 @@ export class SideBarComponent implements OnInit, OnChanges {
       }
     }
   }
+  private _changeCountyLineGraphState(): void {
+    if (this.graphOptions.graphType == 'line-county-graph' && this.optionsSelected.phoneSelected && this.optionsSelected.countySelected) {
+      this.sidebarState.acceptingState(this.graphOptions.graphSelected);
+      this.getDataService.setGraphParams(this.graphOptions);
+      if (this.sidebarState.accepting) {
+        this.compDataService.updateGraphButtonFlag(false);
+        if (this.compDataService.numCompGraphs < 2) {
+          this.compDataService.updateCompButtonFlag(false);
+        }
+      }
+    }
+  }
 
   ngOnChanges(): void {
     this.optionsSelected = this.graphOptions[this.graphOptions.graphSelected as keyof GraphOptions];
@@ -184,5 +192,6 @@ export class SideBarComponent implements OnInit, OnChanges {
     }
     this._changeBarGraphState();
     this._changeLineGraphState();
+    this._changeCountyLineGraphState();
   }
 }
