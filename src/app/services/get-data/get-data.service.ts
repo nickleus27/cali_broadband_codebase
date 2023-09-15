@@ -1,34 +1,31 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, forkJoin, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, forkJoin, from, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GetDataService {
-
-  /**
-   * TODO: Need to add county_data_* CSVs to this service
-   */
   private _csvFiles = ['round14', 'round15', 'round16',
-    'county_data_fall_2017', 'county_data_fall_2021', 'county_data_spring_2021',
-    'county_data_spring_2023', 'county_data_summer_2020', 'county_data_summer_2022'
+    'ctyfa2017', 'ctyfa2021', 'ctysp2021',
+    'ctysp2023', 'ctysu2020', 'ctysu2022'
   ];
-  private _graphData: { [key: string]: Subject<any> };
+  private _graphData: { [key: string]: any };
   private _graph_params: Subject<any>;
 
   constructor(private http: HttpClient) {
     this._graphData = {};
-    this._csvFiles.forEach((element) => {
-      this._graphData[element] = new BehaviorSubject({});
-    });
-    Object.keys(this._graphData).forEach(key => {
+    this._csvFiles.forEach(key => {
       this.http.get(`assets/data/${key}.csv`, { responseType: 'text' })
         .subscribe((result) => {
           if (key.includes('round')) {
-            this._graphData[key].next(this.processData(result));
+            this._graphData[key] = this.processData(result);
           } else {
-            this._graphData[key].next(this.processCountyData(result));
+            if (!this._graphData["countyData"]) {
+              this._graphData["countyData"] = { [key]: this.processCountyData(result) };
+            } else {
+              this._graphData["countyData"][key] = this.processCountyData(result);
+            }
           }
         });
     });
@@ -51,25 +48,10 @@ export class GetDataService {
     return this._graphData[round].asObservable();
   }
 
-  /**
-   * TODO: This is not being used any where, can I use this?
-   * This should return an array...
-   */
-  public getAllRounds(): Observable<any[]> {
-    return forkJoin(
-      [
-        this.getRound("round14"),
-        this.getRound("round15"),
-        this.getRound("round16")
-      ]
-    );
+  public get roundData(): Observable<any> {
+    return from([this._graphData]);
   }
 
-  /**
-   * 
-   * TODO: Need to processData for county_data_* CSVs
-   * however, hte processing should be much simpler
-   */
   private processCountyData(allText: string) {
     var allTextLines = allText.split(/\r\n|\n/);
     var headers = allTextLines[0].split(',');

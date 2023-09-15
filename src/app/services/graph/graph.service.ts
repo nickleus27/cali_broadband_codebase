@@ -85,6 +85,10 @@ export class GraphService {
     var roundKeys = Object.keys(roundData);
     roundKeys.forEach(key => 
       {
+        // county data not needed here. pass over it
+        if (key == 'countyData') {
+          return;
+        }
         let carrier = graphOptions.graph1.carrierSelected;
         let phone = graphOptions.graph1.phoneSelected;
         let test = graphOptions.testSelected;
@@ -137,6 +141,10 @@ export class GraphService {
         var roundKeys = Object.keys(roundData);
         roundKeys.forEach(key => 
           {
+            // county data not needed here. pass over it
+            if (key == 'countyData') {
+              return;
+            }
             let carrier = graph.carrierSelected;
             let phone = graph.phoneSelected;
             let test = graphOptions.testSelected;

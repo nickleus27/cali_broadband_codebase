@@ -40,7 +40,6 @@ export class LayoutComponent {
       this.compDataService.updateGraphType('line-graph');
     } else {
       this.compDataService.updateGraphType('line-county-graph');
-
     }
   }
 }

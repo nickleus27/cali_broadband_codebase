@@ -66,33 +66,10 @@ export class SideBarComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    /** 
-     * TODO: need to get county aggregated csv data here
-     */
-    this.getDataService.getRound('round14')
-      .subscribe((result) => {
-        this.roundData['round14'] = result;
-        //work around for now
-        this.compDataService.round_data = this.roundData;
-      });
-    this.getDataService.getRound('round15')
-      .subscribe((result) => {
-        this.roundData['round15'] = result;
-        //work around for now
-        this.compDataService.round_data = this.roundData;
-      });
-    this.getDataService.getRound('round16')
-      .subscribe((result) => {
-        this.roundData['round16'] = result;
-        //work around for now
-        this.compDataService.round_data = this.roundData;
-      });
-      // this.getDataService.getCountyData('county_data_fall_2017').subscribe(result => console.log(1));
-      // this.getDataService.getCountyData('county_data_fall_2021').subscribe(result => console.log(2));
-      // this.getDataService.getCountyData('county_data_spring_2021').subscribe(result => console.log(3));
-      // this.getDataService.getCountyData('county_data_spring_2023').subscribe(result => console.log(4));
-      // this.getDataService.getCountyData('county_data_summer_2020').subscribe(result => console.log(5));
-      // this.getDataService.getCountyData('county_data_summer_2022').subscribe(result => console.log(6));
+    this.getDataService.roundData.subscribe(result => {
+      this.roundData = result;
+      this.compDataService.round_data = this.roundData;
+    });
   }
 
   private setSideNavOptions(): void{
@@ -100,10 +77,7 @@ export class SideBarComponent implements OnInit, OnChanges {
       comparison: false,
       rounds: ['round14', 'round15', 'round16'],
       graphs: ['graph1', 'graph2', 'graph3'],
-      /**
-       * TODO: add correct county list in. need to add csv's in.
-       */
-      counties: ['placeholder1', 'placeholder2'],
+      counties: [],
       graphSelected: 'graph1',
       graph1: {},
       graph2: {},
@@ -149,7 +123,14 @@ export class SideBarComponent implements OnInit, OnChanges {
       if (this.optionsSelected.carrierSelected) {
         this.optionsSelected.phone_models = Object.keys(this.roundData[this.optionsSelected.roundSelected!][this.optionsSelected.carrierSelected]);
       }
+    } else if (this.graphOptions.graphType == 'line-graph'){
+      if (this.optionsSelected.carrierSelected) {
+        this.optionsSelected.phone_models = this.lineGraphOptions.carriers[this.optionsSelected.carrierSelected];
+      }
     } else {
+      if (!this.graphOptions.counties.length) {
+        this.graphOptions.counties = Object.keys(this.roundData['countyData'].ctyfa2017).sort();
+      }
       if (this.optionsSelected.carrierSelected) {
         this.optionsSelected.phone_models = this.lineGraphOptions.carriers[this.optionsSelected.carrierSelected];
       }
