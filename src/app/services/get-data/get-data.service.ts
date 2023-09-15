@@ -7,8 +7,14 @@ import { BehaviorSubject, forkJoin, Observable, Subject } from 'rxjs';
 })
 export class GetDataService {
 
-  private _csvFiles = ['round14', 'round15', 'round16'];
-  private _graphData: {[key:string]: Subject<any>};
+  /**
+   * TODO: Need to add county_data_* CSVs to this service
+   */
+  private _csvFiles = ['round14', 'round15', 'round16',
+    'county_data_fall_2017', 'county_data_fall_2021', 'county_data_spring_2021',
+    'county_data_spring_2023', 'county_data_summer_2020', 'county_data_summer_2022'
+  ];
+  private _graphData: { [key: string]: Subject<any> };
   private _graph_params: Subject<any>;
 
   constructor(private http: HttpClient) {
@@ -19,7 +25,11 @@ export class GetDataService {
     Object.keys(this._graphData).forEach(key => {
       this.http.get(`assets/data/${key}.csv`, { responseType: 'text' })
         .subscribe((result) => {
-          this._graphData[key].next(this.processData(result));
+          if (key.includes('round')) {
+            this._graphData[key].next(this.processData(result));
+          } else {
+            this._graphData[key].next(this.processCountyData(result));
+          }
         });
     });
     this._graph_params = new BehaviorSubject({});
@@ -37,6 +47,14 @@ export class GetDataService {
     return this._graphData[round].asObservable();
   }
 
+  public getCountyData(round: string): Observable<any> {
+    return this._graphData[round].asObservable();
+  }
+
+  /**
+   * TODO: This is not being used any where, can I use this?
+   * This should return an array...
+   */
   public getAllRounds(): Observable<any[]> {
     return forkJoin(
       [
@@ -45,6 +63,35 @@ export class GetDataService {
         this.getRound("round16")
       ]
     );
+  }
+
+  /**
+   * 
+   * TODO: Need to processData for county_data_* CSVs
+   * however, hte processing should be much simpler
+   */
+  private processCountyData(allText: string) {
+    var allTextLines = allText.split(/\r\n|\n/);
+    var headers = allTextLines[0].split(',');
+    type JSON_Data = {
+      [key: string]: any;
+    }
+    var json: JSON_Data = {};
+
+    for (var i = 1; i < allTextLines.length; i++) {
+      var data = allTextLines[i].split(',');
+      if (data.length === headers.length) {
+        const [county, carrier, phone, tests, income, avgDl, population] = data;
+        if (!json[county]) {
+          json[county] = { [carrier]: { [phone]: { "numTests": tests, "avgDl": avgDl } }, "medianIncome": income, "population": population };
+        } else if (!json[county][carrier]) {
+          json[county][carrier] = { [phone]: { "numTests": tests, "avgDl": avgDl } };
+        } else if (!json[county][carrier][phone]) {
+          json[county][carrier][phone] = { "numTests": tests, "avgDl": avgDl };
+        }
+      }
+    }
+    return json;
   }
 
   private processData(allText: string) {
@@ -86,7 +133,7 @@ export class GetDataService {
         }
         let statistic = data[2]; // statistic is the string of speed range
         let carrier_phone = json[carrier][phone_model];
-        let bestDL = headers.length-3;
+        let bestDL = headers.length - 3;
         carrier_phone[headers[bestDL]][statistic] = parseInt(data[bestDL]);
         carrier_phone[headers[bestDL]]["total tests"] = parseInt(data[data.length - 2]);
         carrier_phone["total in batch"] = parseInt(data[data.length - 1]);

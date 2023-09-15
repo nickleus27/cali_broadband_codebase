@@ -66,6 +66,9 @@ export class SideBarComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    /** 
+     * TODO: need to get county aggregated csv data here
+     */
     this.getDataService.getRound('round14')
       .subscribe((result) => {
         this.roundData['round14'] = result;
@@ -84,6 +87,12 @@ export class SideBarComponent implements OnInit, OnChanges {
         //work around for now
         this.compDataService.round_data = this.roundData;
       });
+      // this.getDataService.getCountyData('county_data_fall_2017').subscribe(result => console.log(1));
+      // this.getDataService.getCountyData('county_data_fall_2021').subscribe(result => console.log(2));
+      // this.getDataService.getCountyData('county_data_spring_2021').subscribe(result => console.log(3));
+      // this.getDataService.getCountyData('county_data_spring_2023').subscribe(result => console.log(4));
+      // this.getDataService.getCountyData('county_data_summer_2020').subscribe(result => console.log(5));
+      // this.getDataService.getCountyData('county_data_summer_2022').subscribe(result => console.log(6));
   }
 
   private setSideNavOptions(): void{
@@ -91,6 +100,9 @@ export class SideBarComponent implements OnInit, OnChanges {
       comparison: false,
       rounds: ['round14', 'round15', 'round16'],
       graphs: ['graph1', 'graph2', 'graph3'],
+      /**
+       * TODO: add correct county list in. need to add csv's in.
+       */
       counties: ['placeholder1', 'placeholder2'],
       graphSelected: 'graph1',
       graph1: {},

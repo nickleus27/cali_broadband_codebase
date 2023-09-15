@@ -5,7 +5,6 @@ export interface GraphOptions {
     counties: string[],
     graphSelected: string,
     testSelected?: any,
-    countySelected?: string,
     graphType?: string,
     graph1: {
         roundSelected?: string,
@@ -13,6 +12,7 @@ export interface GraphOptions {
         phone_models?: string[],
         carrierSelected?: string,
         phoneSelected?: string,
+        countySelected?: string,
     },
     graph2: {
         roundSelected?: string,
@@ -20,6 +20,7 @@ export interface GraphOptions {
         phone_models?: string[],
         carrierSelected?: string,
         phoneSelected?: string,
+        countySelected?: string,
     },
     graph3: {
         roundSelected?: string,
@@ -27,5 +28,6 @@ export interface GraphOptions {
         phone_models?: string[],
         carrierSelected?: string,
         phoneSelected?: string,
+        countySelected?: string,
     }
 }
