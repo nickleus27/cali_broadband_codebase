@@ -197,10 +197,9 @@ export class GraphService {
     const labels: string[] = [
       "Fall 2017", "Summer 2020", "Spring 2021", "Fall 2021", "Summer 2022", "Spring 2023"
     ];
+    const rounds = ['ctyfa2017', 'ctysu2020', 'ctysp2021', 'ctyfa2021', 'ctysu2022', 'ctysp2023'];
     const avgDls: number[] = [];
-    const rounds = Object.keys(roundData);
     rounds.forEach(round => {
-      if (round.includes("round")) { return; }
       const countyData: any = roundData[round][graphOptions.graph1.countySelected!];
       const carrier = graphOptions.graph1.carrierSelected!;
       const phone = this.getCurrPhone(carrier, graphOptions.graph1.phoneSelected!, countyData);
