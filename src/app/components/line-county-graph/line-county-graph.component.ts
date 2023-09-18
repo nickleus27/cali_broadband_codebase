@@ -30,7 +30,7 @@ export class LineCountyGraphComponent extends UnSubscribeAdaptor implements OnIn
         tooltip: {
           callbacks: {
             label: function (this: TooltipModel<keyof ChartTypeRegistry>, tooltipItem: TooltipItem<keyof ChartTypeRegistry>) {
-              return tooltipItem.dataset.label + " : " + tooltipItem.formattedValue + "%";
+              return tooltipItem.dataset.label + " : " + tooltipItem.formattedValue;
             }
           }
         }
@@ -40,25 +40,21 @@ export class LineCountyGraphComponent extends UnSubscribeAdaptor implements OnIn
   }
 
   ngOnInit() {
-    /**
-     * TODO: need to set up data for county line graph to use
-     */
-
-    // this.sub.sink = this.getDataService.graphParams.subscribe(
-    //   {
-    //     next: (result) => {
-    //       if (!result.comparison) {
-    //         this.lineChartData = this.graphService.getSingleLineGraph(result, this.compDataService.roundData);
-    //       } else {
-    //         this.lineChartData = this.graphService.comparisonLineGraph(result, this.compDataService.roundData);
-    //       }
-    //     },
-    //     error: (err) => {
-    //       this.router.navigate([''], { relativeTo: this.route });
-    //       console.log("Error caught at Subscriber Graph Component: " + err)
-    //     },
-    //   }
-    // );
+    this.sub.sink = this.getDataService.graphParams.subscribe({
+      next: (options) => {
+        if (!options.comparison) {
+          this.lineChartData = this.graphService.countyLineGraph(options, this.compDataService.roundData);
+        } else {
+          // TODO: need to add comparison graph for county data
+          // this.lineChartData = this.graphService.comparisonLineGraph(options, this.compDataService.roundData);
+        }
+      },
+      error: (err) => {
+        this.router.navigate([''], { relativeTo: this.route });
+        console.log("Error caught at Subscriber Graph Component: " + err)
+      },
+      complete: () => {}
+    });
   }
 
 }

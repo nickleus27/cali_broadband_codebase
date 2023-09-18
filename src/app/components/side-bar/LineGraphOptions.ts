@@ -8,9 +8,6 @@ interface LineGraphOptions {
     tests: string[],
 }
 
-/**
- * TODO: make this work with county-line-graph options, or something similar
- */
 const lineGraphOptions: LineGraphOptions = {
     carriers:
     {

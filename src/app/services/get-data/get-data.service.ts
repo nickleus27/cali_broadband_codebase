@@ -1,42 +1,54 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, forkJoin, from, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, forkJoin, from, map, Observable, pipe, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GetDataService {
   private _csvFiles = ['round14', 'round15', 'round16',
-    'ctyfa2017', 'ctyfa2021', 'ctysp2021',
-    'ctysp2023', 'ctysu2020', 'ctysu2022'
+    'ctyfa2017', 'ctysu2020', 'ctysp2021', 'ctyfa2021', 'ctysu2022', 'ctysp2023'
   ];
-  private _graphData: { [key: string]: any };
+  private _graphData: Observable<any>;
   private _graphParams: Subject<any>;
 
   constructor(private http: HttpClient) {
-    this._graphData = {};
+    const forkJoinData: any = {};
     this._csvFiles.forEach(key => {
-      this.http.get(`assets/data/${key}.csv`, { responseType: 'text' })
-        .subscribe(
-          {
-            next: (result) => {
-              if (key.includes('round')) {
-                this._graphData[key] = this.processData(result);
-              } else {
-                if (!this._graphData["countyData"]) {
-                  this._graphData["countyData"] = { [key]: this.processCountyData(result) };
-                } else {
-                  this._graphData["countyData"][key] = this.processCountyData(result);
-                }
-              }
-            },
-            error: (err) => {
-              console.error('something wrong occurred: ' + err);
-            },
-            complete: async () => {
-            }
-          })
-    });
+      if (key.includes('round')) {
+        forkJoinData[key] = this.http.get(`assets/data/${key}.csv`, { responseType: 'text' })
+          .pipe(map(data => { return this.processData(data) }));
+      } else {
+        forkJoinData[key] = this.http.get(`assets/data/${key}.csv`, { responseType: 'text' })
+          .pipe(map(data => { return this.processCountyData(data) }));
+      }
+    }
+      // TODO: remove this code?
+      //   })
+      //     .subscribe(
+      //       {
+      //         next: (result) => {
+      //           if (key.includes('round')) {
+      //             this._graphData[key] = this.processData(result);
+      //           } else {
+      //             if (!this._graphData["countyData"]) {
+      //               this._graphData["countyData"] = { [key]: this.processCountyData(result) };
+      //             } else {
+      //               this._graphData["countyData"][key] = this.processCountyData(result);
+      //             }
+      //           }
+      //         },
+      //         error: (err) => {
+      //           console.error('something wrong occurred: ' + err);
+      //         },
+      //         complete: async () => {
+      //         }
+      //       })
+      // });
+    );
+    // forkJoinData["countyData"] = from(forkJoinData["countyData"]);
+    // console.log(forkJoinData)
+    this._graphData = forkJoin(forkJoinData);
     this._graphParams = new BehaviorSubject({});
   }
 
@@ -49,7 +61,8 @@ export class GetDataService {
   }
 
   public get roundData(): Observable<any> {
-    return from([this._graphData]);
+    //return from([this._graphData]);
+    return this._graphData;
   }
 
   private processCountyData(allText: string) {
@@ -60,11 +73,6 @@ export class GetDataService {
     }
     var json: JSON_Data = {};
 
-    /**
-     * TODO: Need to aggregate data that is universal accross all 6 csv's
-     * for county/carrier/phone. Maybe temporarily make a set for each
-     * csv round and append to json object belowto compare similarities and differences
-     */
     for (var i = 1; i < allTextLines.length; i++) {
       var data = allTextLines[i].split(',');
       if (data.length === headers.length) {

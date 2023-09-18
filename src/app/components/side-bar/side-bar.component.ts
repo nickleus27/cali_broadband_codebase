@@ -68,13 +68,14 @@ export class SideBarComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.getDataService.roundData.subscribe({
       next: (data) => {
+        // console.log(data);
         this.roundData = data;
         this.compDataService.roundData = this.roundData;
       },
       error: (err) => {
         console.error('something wrong occurred: ' + err);
       },
-      complete: async () => {
+      complete: () => {
         // console.log('done');
       }
     });
@@ -123,9 +124,9 @@ export class SideBarComponent implements OnInit, OnChanges {
     } else {
       this.optionsSelected.carriers = Object.keys(this.lineGraphOptions.carriers);
     }
-    /**
-     * TODO: need to make this.optionsSelected.carriers for county-line-graph
-     */
+    if (this.graphOptions.graphType == 'line-county-graph') {
+      this.optionsSelected.carriers = this.optionsSelected.carriers.filter((carrier: string) => carrier != 'FirstNet' && carrier != 'Sprint');
+    }
   }
 
   /* update all phone selected between multiple graph options */

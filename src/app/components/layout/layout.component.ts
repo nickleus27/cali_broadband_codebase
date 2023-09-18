@@ -36,10 +36,13 @@ export class LayoutComponent {
     this.graphTypeSelected = event.value;
     if (this.graphTypeSelected === this.graphTypeEnum.barGraph) {
       this.compDataService.updateGraphType('bar-graph');
+      this.goHome();
     } else if (this.graphTypeSelected === this.graphTypeEnum.lineGraph) {
       this.compDataService.updateGraphType('line-graph');
+      this.goHome();
     } else {
       this.compDataService.updateGraphType('line-county-graph');
+      this.goHome();
     }
   }
 }

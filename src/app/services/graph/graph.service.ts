@@ -86,7 +86,7 @@ export class GraphService {
     var roundKeys = Object.keys(roundData);
     roundKeys.forEach(key => {
       // county data not needed here. pass over it
-      if (key == 'countyData') {
+      if (!key.includes('round')) {
         return;
       }
       let carrier = graphOptions.graph1.carrierSelected;
@@ -140,7 +140,7 @@ export class GraphService {
       var roundKeys = Object.keys(roundData);
       roundKeys.forEach(key => {
         // county data not needed here. pass over it
-        if (key == 'countyData') {
+        if (!key.includes('round')) {
           return;
         }
         let carrier = graph.carrierSelected;
@@ -187,6 +187,49 @@ export class GraphService {
     };
   }
 
+  /**
+   * TODO: should i rename this directory graph-adaptor? ...
+   * addapt data from csv to graph from options chosen
+   * @param graphOptions 
+   * @param roundData 
+   */
+  public countyLineGraph(graphOptions: GraphOptions, roundData: { [key: string]: any }): any {
+    const labels: string[] = [
+      "Fall 2017", "Summer 2020", "Spring 2021", "Fall 2021", "Summer 2022", "Spring 2023"
+    ];
+    const avgDls: number[] = [];
+    const rounds = Object.keys(roundData);
+    rounds.forEach(round => {
+      if (round.includes("round")) { return; }
+      const countyData: any = roundData[round][graphOptions.graph1.countySelected!];
+      const carrier = graphOptions.graph1.carrierSelected!;
+      const phone = this.getCurrPhone(carrier, graphOptions.graph1.phoneSelected!, countyData);
+      avgDls.push(parseInt(countyData[carrier][phone]["avgDl"]))
+    });
+    return {
+      labels: labels,
+      datasets: [
+        {
+          data: avgDls,
+          label: graphOptions.graph1.carrierSelected! + " " + graphOptions.graph1.countySelected!,
+          fill: true,
+          tension: 0.5,
+          //borderColor: 'black',
+          //backgroundColor: 'rgba(255,0,0,0.3)'
+        }
+      ]
+    };
+  }
+
+  /**
+   * TODO: need to make adaptor for comparison graph
+   * @param graphOptions 
+   * @param roundData 
+   */
+  public countyComparisonLineGraph(graphOptions: GraphOptions, roundData: { [key: string]: any }): any {
+
+  }
+
   private getErrors(round: string, carrier: string, phone: string): number {
     const testData = this.compDataService.roundData[round][carrier][phone];
     let totalError: number = testData["best d/l speeds"]["N/A"]; // n/a represents errors or tests with speeds not available
@@ -205,6 +248,26 @@ export class GraphService {
     }
     );
     return speeds;
+  }
+
+  private getCurrPhone(carrier: string, phone: string, countyData: any): string {
+    if (!!countyData[carrier][phone]) {
+      return phone;
+    }
+    const phoneMap: { [key: string]: any } = {
+      'AT&T': ['SM-S901U', 'SM-G998U', 'SM-G970U', 'SM-G930A'],
+      'FirstNet': ['XP8800', 'SM-G998U'],
+      'Sprint': ['SM-G973U', 'SM-G930P'],
+      'T-Mobile': ['SM-S901U', 'SM-G998U', 'SM-G970U', "SM-G930T"],
+      'Verizon': ['SM-S901U', 'SM-G998U', 'SM-G970U', "SM-G930V"]
+    };
+    const models = phoneMap[carrier];
+    const roundModels = Object.keys(countyData[carrier]);
+    return models.find((model: string) => {
+      return roundModels.find((roundModel: string) => {
+        return roundModel == model
+      });
+    });
   }
 }
 
