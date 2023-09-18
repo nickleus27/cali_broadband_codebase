@@ -40,13 +40,13 @@ export class LineGraphComponent extends UnSubscribeAdaptor implements OnInit {
   }
 
   ngOnInit() {
-    this.sub.sink = this.getDataService.getGraphParams().subscribe(
+    this.sub.sink = this.getDataService.graphParams.subscribe(
       {
         next: (result) => {
           if (!result.comparison) {
-            this.lineChartData = this.graphService.getSingleLineGraph(result, this.compDataService.round_data);
+            this.lineChartData = this.graphService.getSingleLineGraph(result, this.compDataService.roundData);
           } else {
-            this.lineChartData = this.graphService.comparisonLineGraph(result, this.compDataService.round_data);
+            this.lineChartData = this.graphService.comparisonLineGraph(result, this.compDataService.roundData);
           }
         },
         error: (err) => {

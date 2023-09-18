@@ -11,41 +11,41 @@ export class GetDataService {
     'ctysp2023', 'ctysu2020', 'ctysu2022'
   ];
   private _graphData: { [key: string]: any };
-  private _graph_params: Subject<any>;
+  private _graphParams: Subject<any>;
 
   constructor(private http: HttpClient) {
     this._graphData = {};
     this._csvFiles.forEach(key => {
       this.http.get(`assets/data/${key}.csv`, { responseType: 'text' })
-        .subscribe((result) => {
-          if (key.includes('round')) {
-            this._graphData[key] = this.processData(result);
-          } else {
-            if (!this._graphData["countyData"]) {
-              this._graphData["countyData"] = { [key]: this.processCountyData(result) };
-            } else {
-              this._graphData["countyData"][key] = this.processCountyData(result);
+        .subscribe(
+          {
+            next: (result) => {
+              if (key.includes('round')) {
+                this._graphData[key] = this.processData(result);
+              } else {
+                if (!this._graphData["countyData"]) {
+                  this._graphData["countyData"] = { [key]: this.processCountyData(result) };
+                } else {
+                  this._graphData["countyData"][key] = this.processCountyData(result);
+                }
+              }
+            },
+            error: (err) => {
+              console.error('something wrong occurred: ' + err);
+            },
+            complete: async () => {
             }
-          }
+          })
         });
-    });
-    this._graph_params = new BehaviorSubject({});
+    this._graphParams = new BehaviorSubject({});
   }
 
-  public getGraphParams(): Observable<any> {
-    return this._graph_params.asObservable();
+  public get graphParams(): Observable<any> {
+    return this._graphParams.asObservable();
   }
 
   public setGraphParams(params: object) {
-    this._graph_params.next(params);
-  }
-
-  public getRound(round: string): Observable<any> {
-    return this._graphData[round].asObservable();
-  }
-
-  public getCountyData(round: string): Observable<any> {
-    return this._graphData[round].asObservable();
+    this._graphParams.next(params);
   }
 
   public get roundData(): Observable<any> {
@@ -60,6 +60,11 @@ export class GetDataService {
     }
     var json: JSON_Data = {};
 
+  /**
+   * TODO: Need to aggregate data that is universal accross all 6 csv's
+   * for county/carrier/phone. Maybe temporarily make a set for each
+   * csv round and append to json object belowto compare similarities and differences
+   */
     for (var i = 1; i < allTextLines.length; i++) {
       var data = allTextLines[i].split(',');
       if (data.length === headers.length) {

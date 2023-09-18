@@ -65,12 +65,12 @@ export class GraphComponent extends UnSubscribeAdaptor implements OnInit {
   }
 
   ngOnInit(): void {
-    this.sub.sink = this.dataService.getGraphParams()
+    this.sub.sink = this.dataService.graphParams
       .subscribe(
         {
           next: (params) => {
             this.params = params;
-            const roundData = this.compDataService.round_data[this.params.graph1.roundSelected];
+            const roundData = this.compDataService.roundData[this.params.graph1.roundSelected];
             if (!this.params.comparison) { //load graph for single phone carrier
               let keys = Object.keys(roundData[this.params.graph1.carrierSelected]);
               if (!keys.includes(this.params.graph1.phoneSelected)) { //update phone selection if old phone is not in carrier phone set

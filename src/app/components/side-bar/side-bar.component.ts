@@ -4,6 +4,7 @@ import { GetDataService } from 'src/app/services/get-data/get-data.service';
 import { SidebarStateService } from 'src/app/services/sidebar-state/sidebar-state.service';
 import { GraphOptions } from './GraphOptions';
 import { lineGraphOptions, LineGraphOptions } from './LineGraphOptions';
+import { counties } from './counties';
 
 @Component({
   selector: 'app-side-bar',
@@ -66,9 +67,17 @@ export class SideBarComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.getDataService.roundData.subscribe(result => {
-      this.roundData = result;
-      this.compDataService.round_data = this.roundData;
+    this.getDataService.roundData.subscribe({
+      next: (data) => {
+        this.roundData = data;
+        this.compDataService.roundData = this.roundData;
+      },
+      error: (err) => {
+        console.error('something wrong occurred: ' + err);
+      },
+      complete: async () => {
+        // console.log('done');
+      }
     });
   }
 
@@ -77,7 +86,7 @@ export class SideBarComponent implements OnInit, OnChanges {
       comparison: false,
       rounds: ['round14', 'round15', 'round16'],
       graphs: ['graph1', 'graph2', 'graph3'],
-      counties: [],
+      counties: counties,
       graphSelected: 'graph1',
       graph1: {},
       graph2: {},
@@ -115,6 +124,9 @@ export class SideBarComponent implements OnInit, OnChanges {
     } else {
       this.optionsSelected.carriers = Object.keys(this.lineGraphOptions.carriers);
     }
+    /**
+     * TODO: need to make this.optionsSelected.carriers for county-line-graph
+     */
   }
 
   /* update all phone selected between multiple graph options */
@@ -124,12 +136,12 @@ export class SideBarComponent implements OnInit, OnChanges {
         this.optionsSelected.phone_models = Object.keys(this.roundData[this.optionsSelected.roundSelected!][this.optionsSelected.carrierSelected]);
       }
     } else {
-      if (!this.graphOptions.counties.length) {
-        this.graphOptions.counties = Object.keys(this.roundData['countyData'].ctyfa2017).sort();
-      }
       if (this.optionsSelected.carrierSelected) {
         this.optionsSelected.phone_models = this.lineGraphOptions.carriers[this.optionsSelected.carrierSelected];
       }
+      /**
+       * TODO: Need to make this.optionsSelected.phone_models link to county data separate from line graph data
+       */
     }
   }
 
@@ -180,6 +192,10 @@ export class SideBarComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
+    /**
+     * TODO: should I create a lock to prevent entering this code section
+     * while already in it?
+     */
     this.optionsSelected = this.graphOptions[this.graphOptions.graphSelected as keyof GraphOptions];
     this._changeRound();
     this._changePhoneModels();

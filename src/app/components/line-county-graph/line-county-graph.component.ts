@@ -40,7 +40,25 @@ export class LineCountyGraphComponent extends UnSubscribeAdaptor implements OnIn
   }
 
   ngOnInit() {
+    /**
+     * TODO: need to set up data for county line graph to use
+     */
     
+    // this.sub.sink = this.getDataService.graphParams.subscribe(
+    //   {
+    //     next: (result) => {
+    //       if (!result.comparison) {
+    //         this.lineChartData = this.graphService.getSingleLineGraph(result, this.compDataService.roundData);
+    //       } else {
+    //         this.lineChartData = this.graphService.comparisonLineGraph(result, this.compDataService.roundData);
+    //       }
+    //     },
+    //     error: (err) => {
+    //       this.router.navigate([''], { relativeTo: this.route });
+    //       console.log("Error caught at Subscriber Graph Component: " + err)
+    //     },
+    //   }
+    // );
   }
 
 }
