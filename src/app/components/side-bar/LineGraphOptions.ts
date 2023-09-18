@@ -14,8 +14,8 @@ interface LineGraphOptions {
 const lineGraphOptions: LineGraphOptions = {
     carriers:
     {
-        'AT&T': ['SM-S901U', 'SM-G998U', 'SM-G970U'], 
-        'FirstNet': ['XP8800', 'SM-G998U'], 
+        'AT&T': ['SM-S901U', 'SM-G998U', 'SM-G970U'],
+        'FirstNet': ['XP8800', 'SM-G998U'],
         'Sprint': ['SM-G973U'],
         'T-Mobile': ['SM-S901U', 'SM-G998U', 'SM-G970U'],
         'Verizon': ['SM-S901U', 'SM-G998U', 'SM-G970U']
@@ -23,4 +23,4 @@ const lineGraphOptions: LineGraphOptions = {
     tests: ["N/A", "0M-10M", "10M-50M", "50M-100M", "100M-200M", "200M+"]
 }
 
-export { LineGraphOptions, lineGraphOptions};
+export { LineGraphOptions, lineGraphOptions };

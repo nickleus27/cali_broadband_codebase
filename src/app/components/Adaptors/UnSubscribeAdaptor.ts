@@ -4,7 +4,7 @@ import { SubSink } from 'subsink';
 /* Adaptor parent class to unsubscribe from all subscriptions OnDestroy */
 @Component({
     template: ''
-  })
+})
 export abstract class UnSubscribeAdaptor implements OnDestroy {
 
     sub: SubSink;

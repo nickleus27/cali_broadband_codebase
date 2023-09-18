@@ -7,15 +7,15 @@ export class SidebarStateService {
 
   private _sidebarState: any;
 
-  constructor() { 
+  constructor() {
     // state table
     this._sidebarState = {
       state: 'graph1',
       graph1: false,
       graph2: false,
       graph3: false,
-      };
-    }
+    };
+  }
 
   get accepting(): boolean {
     return this._sidebarState[this._sidebarState.state];
@@ -35,6 +35,6 @@ export class SidebarStateService {
       graph1: false,
       graph2: false,
       graph3: false,
-      };
+    };
   }
 }

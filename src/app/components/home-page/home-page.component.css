@@ -20,10 +20,12 @@
   display: flex;
   justify-content: center;
 }
-.left-button{
+
+.left-button {
   margin-right: 1vh;
 }
-.right-button{
+
+.right-button {
   margin-left: 1vh;
   margin-right: 1vh;
 }

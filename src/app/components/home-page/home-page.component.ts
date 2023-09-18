@@ -17,7 +17,7 @@ export class HomePageComponent extends UnSubscribeAdaptor {
     private compDataService: ComponentDataService,
     private route: ActivatedRoute,
     private router: Router
-    ) {
+  ) {
     super();
     this.sub.sink = this.compDataService.displayButtonFlag.subscribe(flag => this.buttonIsDisabled = flag);
     this.sub.sink = this.compDataService.displayCompButtonFlag.subscribe(flag => this.compButtonDisabled = flag);

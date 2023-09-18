@@ -22,21 +22,21 @@ export class LineGraphComponent extends UnSubscribeAdaptor implements OnInit {
     private compDataService: ComponentDataService,
     private route: ActivatedRoute,
     private router: Router
-    ) {
-      super();
-      this.lineChartOptions = {
-        responsive: true,
-        plugins: {
-          tooltip: {
-            callbacks: {
-                label: function(this: TooltipModel<keyof ChartTypeRegistry>, tooltipItem: TooltipItem<keyof ChartTypeRegistry>) {
-                    return tooltipItem.dataset.label + " : " + tooltipItem.formattedValue + "%";
-                }
+  ) {
+    super();
+    this.lineChartOptions = {
+      responsive: true,
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function (this: TooltipModel<keyof ChartTypeRegistry>, tooltipItem: TooltipItem<keyof ChartTypeRegistry>) {
+              return tooltipItem.dataset.label + " : " + tooltipItem.formattedValue + "%";
             }
           }
-        },
-      };
-      this.lineChartLegend = true;
+        }
+      },
+    };
+    this.lineChartLegend = true;
   }
 
   ngOnInit() {

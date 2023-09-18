@@ -55,9 +55,9 @@ export class GraphComponent extends UnSubscribeAdaptor implements OnInit {
         },
         tooltip: {
           callbacks: {
-              label: function(this: TooltipModel<keyof ChartTypeRegistry>, tooltipItem: TooltipItem<keyof ChartTypeRegistry>) {
-                return tooltipItem.dataset.label + " : " + tooltipItem.formattedValue + "%";
-              }
+            label: function (this: TooltipModel<keyof ChartTypeRegistry>, tooltipItem: TooltipItem<keyof ChartTypeRegistry>) {
+              return tooltipItem.dataset.label + " : " + tooltipItem.formattedValue + "%";
+            }
           }
         },
       },

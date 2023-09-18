@@ -3,9 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentDataService } from 'src/app/services/component-data/component-data.service';
 
 export enum GraphTypeEnum {
-    barGraph,
-    lineGraph,
-    lineCountyGraph
+  barGraph,
+  lineGraph,
+  lineCountyGraph
 }
 
 @Component({

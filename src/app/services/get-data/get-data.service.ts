@@ -36,7 +36,7 @@ export class GetDataService {
             complete: async () => {
             }
           })
-        });
+    });
     this._graphParams = new BehaviorSubject({});
   }
 
@@ -60,11 +60,11 @@ export class GetDataService {
     }
     var json: JSON_Data = {};
 
-  /**
-   * TODO: Need to aggregate data that is universal accross all 6 csv's
-   * for county/carrier/phone. Maybe temporarily make a set for each
-   * csv round and append to json object belowto compare similarities and differences
-   */
+    /**
+     * TODO: Need to aggregate data that is universal accross all 6 csv's
+     * for county/carrier/phone. Maybe temporarily make a set for each
+     * csv round and append to json object belowto compare similarities and differences
+     */
     for (var i = 1; i < allTextLines.length; i++) {
       var data = allTextLines[i].split(',');
       if (data.length === headers.length) {

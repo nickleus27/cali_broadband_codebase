@@ -54,13 +54,12 @@ export class SideBarComponent implements OnInit, OnChanges {
         }
       });
 
-    this.compDataService.graphType.subscribe(value =>
-      {
-        this.graphOptions.graphType = value;
-        if (!this.isLoading) {
-          this.reSetSideNavOptions();
-        }
+    this.compDataService.graphType.subscribe(value => {
+      this.graphOptions.graphType = value;
+      if (!this.isLoading) {
+        this.reSetSideNavOptions();
       }
+    }
     );
     this.lineGraphOptions = lineGraphOptions;
     this.isLoading = false;
@@ -81,7 +80,7 @@ export class SideBarComponent implements OnInit, OnChanges {
     });
   }
 
-  private setSideNavOptions(): void{
+  private setSideNavOptions(): void {
     this.graphOptions = {
       comparison: false,
       rounds: ['round14', 'round15', 'round16'],
