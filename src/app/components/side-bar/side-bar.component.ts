@@ -2,9 +2,9 @@ import { Component, OnChanges, OnInit } from '@angular/core';
 import { ComponentDataService } from 'src/app/services/component-data/component-data.service';
 import { GetDataService } from 'src/app/services/get-data/get-data.service';
 import { SidebarStateService } from 'src/app/services/sidebar-state/sidebar-state.service';
-import { GraphOptions } from './GraphOptions';
-import { lineGraphOptions, LineGraphOptions } from './LineGraphOptions';
-import { counties } from './counties';
+import { GraphOptions } from './GraphOptions/GraphOptions';
+import { lineGraphOptions, LineGraphOptions } from './GraphOptions/LineGraphOptions';
+import { counties } from './GraphOptions/counties';
 
 @Component({
   selector: 'app-side-bar',
