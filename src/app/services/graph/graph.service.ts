@@ -193,40 +193,53 @@ export class GraphService {
    * @param graphOptions 
    * @param roundData 
    */
-  public countyLineGraph(graphOptions: GraphOptions, roundData: { [key: string]: any }): any {
-    const labels: string[] = [
-      "Fall 2017", "Summer 2020", "Spring 2021", "Fall 2021", "Summer 2022", "Spring 2023"
-    ];
+  public _countyLineGraph(graphOptions: GraphOptions, roundData: { [key: string]: any }, graph: keyof GraphOptions, fill: boolean): any {
     const rounds = ['ctyfa2017', 'ctysu2020', 'ctysp2021', 'ctyfa2021', 'ctysu2022', 'ctysp2023'];
     const avgDls: number[] = [];
     rounds.forEach(round => {
-      const countyData: any = roundData[round][graphOptions.graph1.countySelected!];
-      const carrier = graphOptions.graph1.carrierSelected!;
-      const phone = this.getCurrPhone(carrier, graphOptions.graph1.phoneSelected!, countyData);
+      const countyData: any = roundData[round][graphOptions[graph].countySelected!];
+      const carrier = graphOptions[graph].carrierSelected!;
+      const phone = this.getCurrPhone(carrier, graphOptions[graph].phoneSelected!, countyData);
       avgDls.push(parseInt(countyData[carrier][phone]["avgDl"]))
     });
     return {
-      labels: labels,
-      datasets: [
-        {
-          data: avgDls,
-          label: graphOptions.graph1.carrierSelected! + " " + graphOptions.graph1.countySelected!,
-          fill: true,
-          tension: 0.5,
-          //borderColor: 'black',
-          //backgroundColor: 'rgba(255,0,0,0.3)'
-        }
-      ]
+      data: avgDls,
+      label: graphOptions[graph].carrierSelected! + " " + graphOptions[graph].countySelected!,
+      fill: fill,
+      tension: 0.5,
+      //borderColor: 'black',
+      //backgroundColor: 'rgba(255,0,0,0.3)'
     };
   }
 
-  /**
-   * TODO: need to make adaptor for comparison graph
-   * @param graphOptions 
-   * @param roundData 
-   */
-  public countyComparisonLineGraph(graphOptions: GraphOptions, roundData: { [key: string]: any }): any {
-
+/**
+ * 
+ * @param graphOptions 
+ * @param roundData 
+ * @param isComparison 
+ * @returns lineChartData
+ */
+  public countyLineGraph(graphOptions: GraphOptions, roundData: { [key: string]: any }, isComparison: boolean): any {
+    const labels: string[] = [
+      "Fall 2017", "Summer 2020", "Spring 2021", "Fall 2021", "Summer 2022", "Spring 2023"
+    ];
+    const graphKeys: any[] = ["graph1", "graph2", "graph3"];
+    const dataSets: any[] = [];
+    if (isComparison) {
+      graphKeys.forEach(key => {
+        if (!!graphOptions[key as keyof GraphOptions].phoneSelected) {
+          dataSets.push(this._countyLineGraph(graphOptions, roundData, key as keyof GraphOptions, false));
+        } else {
+          return;
+        }
+      });
+    } else {
+      dataSets.push(this._countyLineGraph(graphOptions, roundData, "graph1", true))
+    }
+    return {
+      labels: labels,
+      datasets: dataSets
+    };
   }
 
   private getErrors(round: string, carrier: string, phone: string): number {

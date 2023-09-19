@@ -42,18 +42,13 @@ export class LineCountyGraphComponent extends UnSubscribeAdaptor implements OnIn
   ngOnInit() {
     this.sub.sink = this.getDataService.graphParams.subscribe({
       next: (options) => {
-        if (!options.comparison) {
-          this.lineChartData = this.graphService.countyLineGraph(options, this.compDataService.roundData);
-        } else {
-          // TODO: need to add comparison graph for county data
-          // this.lineChartData = this.graphService.comparisonLineGraph(options, this.compDataService.roundData);
-        }
+        this.lineChartData = this.graphService.countyLineGraph(options, this.compDataService.roundData, options.comparison);
       },
       error: (err) => {
         this.router.navigate([''], { relativeTo: this.route });
         console.log("Error caught at Subscriber Graph Component: " + err)
       },
-      complete: () => {}
+      complete: () => { }
     });
   }
 
