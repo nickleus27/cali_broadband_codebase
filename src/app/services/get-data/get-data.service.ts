@@ -22,32 +22,7 @@ export class GetDataService {
         forkJoinData[key] = this.http.get(`assets/data/${key}.csv`, { responseType: 'text' })
           .pipe(map(data => { return this.processCountyData(data) }));
       }
-    }
-      // TODO: remove this code?
-      //   })
-      //     .subscribe(
-      //       {
-      //         next: (result) => {
-      //           if (key.includes('round')) {
-      //             this._graphData[key] = this.processData(result);
-      //           } else {
-      //             if (!this._graphData["countyData"]) {
-      //               this._graphData["countyData"] = { [key]: this.processCountyData(result) };
-      //             } else {
-      //               this._graphData["countyData"][key] = this.processCountyData(result);
-      //             }
-      //           }
-      //         },
-      //         error: (err) => {
-      //           console.error('something wrong occurred: ' + err);
-      //         },
-      //         complete: async () => {
-      //         }
-      //       })
-      // });
-    );
-    // forkJoinData["countyData"] = from(forkJoinData["countyData"]);
-    // console.log(forkJoinData)
+    });
     this._graphData = forkJoin(forkJoinData);
     this._graphParams = new BehaviorSubject({});
   }
