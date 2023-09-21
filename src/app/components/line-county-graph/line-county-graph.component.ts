@@ -29,8 +29,8 @@ export class LineCountyGraphComponent extends UnSubscribeAdaptor implements OnIn
       plugins: {
         tooltip: {
           callbacks: {
-            label: function (this: TooltipModel<keyof ChartTypeRegistry>, tooltipItem: TooltipItem<keyof ChartTypeRegistry>) {
-              return tooltipItem.dataset.label + " : " + tooltipItem.formattedValue;
+            label: function (this: TooltipModel<keyof ChartTypeRegistry>, tooltipItem: TooltipItem<keyof ChartTypeRegistry>): string | void | string[] {
+              return [tooltipItem.dataset.label!, "Average Download Speed : " + tooltipItem.formattedValue + " kbps"];
             }
           }
         }
