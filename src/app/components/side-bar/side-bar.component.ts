@@ -124,7 +124,7 @@ export class SideBarComponent implements OnInit, OnChanges {
     } else {
       this.optionsSelected.carriers = Object.keys(this.lineGraphOptions.carriers);
     }
-    if (this.graphOptions.graphType == 'line-county-graph') {
+    if (this.graphOptions.graphType == 'county-line-graph') {
       this.optionsSelected.carriers = this.optionsSelected.carriers.filter((carrier: string) => carrier != 'FirstNet' && carrier != 'Sprint');
     }
   }
@@ -179,7 +179,7 @@ export class SideBarComponent implements OnInit, OnChanges {
     }
   }
   private _changeCountyLineGraphState(): void {
-    if (this.graphOptions.graphType == 'line-county-graph' && this.optionsSelected.phoneSelected && this.optionsSelected.countySelected) {
+    if (this.graphOptions.graphType == 'county-line-graph' && this.optionsSelected.phoneSelected && this.optionsSelected.countySelected) {
       this.sidebarState.acceptingState(this.graphOptions.graphSelected);
       this.getDataService.setGraphParams(this.graphOptions);
       if (this.sidebarState.accepting) {

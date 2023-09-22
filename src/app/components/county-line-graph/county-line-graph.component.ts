@@ -7,11 +7,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentDataService } from 'src/app/services/component-data/component-data.service';
 
 @Component({
-  selector: 'app-line-county-graph',
-  templateUrl: './line-county-graph.component.html',
-  styleUrls: ['./line-county-graph.component.css']
+  selector: 'app-county-line-graph',
+  templateUrl: './county-line-graph.component.html',
+  styleUrls: ['./county-line-graph.component.css']
 })
-export class LineCountyGraphComponent extends UnSubscribeAdaptor implements OnInit {
+export class CountyLineGraphComponent extends UnSubscribeAdaptor implements OnInit {
   lineChartData: ChartConfiguration<'line'>['data'];
   lineChartOptions: ChartOptions<'line'>;
   lineChartLegend;

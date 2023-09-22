@@ -22,7 +22,7 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { NgChartsConfiguration, NgChartsModule } from 'ng2-charts';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { LineGraphComponent } from './components/line-graph/line-graph.component';
-import { LineCountyGraphComponent } from './components/line-county-graph/line-county-graph.component';
+import { CountyLineGraphComponent } from './components/county-line-graph/county-line-graph.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +32,7 @@ import { LineCountyGraphComponent } from './components/line-county-graph/line-co
     GraphComponent,
     SideBarComponent,
     LineGraphComponent,
-    LineCountyGraphComponent
+    CountyLineGraphComponent
   ],
   imports: [
     BrowserModule,

@@ -14,7 +14,7 @@ export class HomePageComponent extends UnSubscribeAdaptor {
   graphType: string;
 
   constructor(
-    private compDataService: ComponentDataService,
+    public compDataService: ComponentDataService,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -30,7 +30,7 @@ export class HomePageComponent extends UnSubscribeAdaptor {
     } else if (this.graphType == 'line-graph') {
       this.router.navigate(['lineGraphs'], { relativeTo: this.route });
     } else {
-      this.router.navigate(['lineCountyGraphs'], { relativeTo: this.route });
+      this.router.navigate(['countyLineGraph'], { relativeTo: this.route });
     }
   }
 

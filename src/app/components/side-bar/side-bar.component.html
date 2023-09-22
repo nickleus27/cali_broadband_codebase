@@ -43,7 +43,7 @@
     </mat-expansion-panel>
     <mat-expansion-panel *ngIf="(compDataService.graphType | async) == 'line-graph'">
         <mat-expansion-panel-header>
-            Test
+            Speed Range
         </mat-expansion-panel-header>
         <mat-radio-group class="radio-group" [(ngModel)]="graphOptions.testSelected" (change)="ngOnChanges()">
             <mat-radio-button *ngFor="let test of lineGraphOptions.tests" [value]="test">
@@ -51,7 +51,7 @@
             </mat-radio-button>
         </mat-radio-group>
     </mat-expansion-panel>
-    <mat-expansion-panel *ngIf="(compDataService.graphType | async) == 'line-county-graph'">
+    <mat-expansion-panel *ngIf="(compDataService.graphType | async) == 'county-line-graph'">
         <mat-expansion-panel-header>
             Counties
         </mat-expansion-panel-header>

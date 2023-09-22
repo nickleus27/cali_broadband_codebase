@@ -41,7 +41,7 @@ export class LayoutComponent {
       this.compDataService.updateGraphType('line-graph');
       this.goHome();
     } else {
-      this.compDataService.updateGraphType('line-county-graph');
+      this.compDataService.updateGraphType('county-line-graph');
       this.goHome();
     }
   }
