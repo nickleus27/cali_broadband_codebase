@@ -42,7 +42,12 @@ export class LineCountyGraphComponent extends UnSubscribeAdaptor implements OnIn
   ngOnInit() {
     this.sub.sink = this.getDataService.graphParams.subscribe({
       next: (options) => {
-        this.lineChartData = this.graphService.countyLineGraph(options, this.compDataService.roundData, options.comparison);
+        try {
+          this.lineChartData = this.graphService.countyLineGraph(options, this.compDataService.roundData, options.comparison);
+        } catch (e) {
+          //console.log(e);
+          this.router.navigate([''], { relativeTo: this.route });
+        }
       },
       error: (err) => {
         this.router.navigate([''], { relativeTo: this.route });
