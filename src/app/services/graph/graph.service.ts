@@ -13,6 +13,10 @@ export class GraphService {
     this.linegraphOptions = lineGraphOptions;
   }
 
+  /**
+   * 
+   * Todo: Correctly label Mbps or mbps. ctrl f to find all occurences and change
+   */
   public getSingleGraph(testOptions: GraphOptions): any {
     var dataSeries: number[] = [];
     const speeds = ["0M-10M", "10M-50M", "50M-100M", "100M-200M", "200M+"];

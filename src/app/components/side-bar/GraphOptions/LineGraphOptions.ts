@@ -17,6 +17,9 @@ const lineGraphOptions: LineGraphOptions = {
         'T-Mobile': ['SM-S901U', 'SM-G998U', 'SM-G970U'],
         'Verizon': ['SM-S901U', 'SM-G998U', 'SM-G970U']
     },
+    /**
+     * TODO: need to correctly label these Mbps or mbps
+     */
     tests: ["N/A", "0M-10M", "10M-50M", "50M-100M", "100M-200M", "200M+"]
 }
 
