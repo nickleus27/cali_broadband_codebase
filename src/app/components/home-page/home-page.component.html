@@ -13,15 +13,16 @@
     <div *ngIf="(compDataService.graphType | async) != 'graph'
         && (compDataService.graphType | async) !='line-graph'
         && (compDataService.graphType | async) != 'county-line-graph'" class="centered-text">
-        Welcome to the CSUMB Calspeed broadband study (Calspeed). From this website, results of the California broadband
-        study can be viewed as different graphs. The different graph options can be chosen from the top menu bar on the
-        right hand side. Once all options are selected on the left hand sidebar menu, the Graph button will be enabled
+        Welcome to the CSUMB Calspeed broadband study. From this website, results of the California broadband
+        study can be viewed as different graphs. The different graph types can be chosen from the top menu bar. Then once
+        all options are selected on the left hand sidebar menu, the Graph button will be enabled
         to display graph results. Also, the Comparison button can be selected to allow for options for a second graph
         (and third graph) in the sidebar menu.
     </div>
     <div *ngIf="(compDataService.graphType | async) == 'line-graph'" class="centered-text">
         The line graph lets you select a specific download speed range for a carrier and phone model. Each point on the
-        graph will show the percentage of tests for the carrier/phone model that were within the chosen download speed range.
+        graph will show the percentage of tests for the carrier/phone model that were within the chosen download speed
+        range.
     </div>
     <div *ngIf="(compDataService.graphType | async) == 'county-line-graph'" class="centered-text">
         The options in the sidebar menu on the left let you choose graph results for county wide data. For example, you
