@@ -13,13 +13,9 @@ export class GraphService {
     this.linegraphOptions = lineGraphOptions;
   }
 
-  /**
-   * 
-   * Todo: Correctly label Mbps or mbps. ctrl f to find all occurences and change
-   */
   public getSingleGraph(testOptions: GraphOptions): any {
     var dataSeries: number[] = [];
-    const speeds = ["0M-10M", "10M-50M", "50M-100M", "100M-200M", "200M+"];
+    const speeds = ["0-10 Mbps", "10-50 Mbps", "50-100 Mbps", "100-200 Mbps", "200+ Mbps"];
 
     dataSeries.push(this.getErrors(
       testOptions.graph1.roundSelected!, testOptions.graph1.carrierSelected!, testOptions.graph1.phoneSelected!
@@ -45,7 +41,7 @@ export class GraphService {
 
   public comparisonGraph(testOptions: GraphOptions): any {
     var dataSets: any = [];
-    const speeds = ["0M-10M", "10M-50M", "50M-100M", "100M-200M", "200M+"];
+    const speeds = ["0-10 Mbps", "10-50 Mbps", "50-100 Mbps", "100-200 Mbps", "200+ Mbps"];
 
     const keys = ['graph1', 'graph2', 'graph3'];
     keys.forEach(key => {
@@ -85,7 +81,7 @@ export class GraphService {
       "Summer 2022"
     ];
     // use speeds to pick correct value from getSpeeds array returned
-    const speeds: { [key: string]: number } = { "0M-10M": 0, "10M-50M": 1, "50M-100M": 2, "100M-200M": 3, "200M+": 4 };
+    const speeds: { [key: string]: number } = { "0-10 Mbps": 0, "10-50 Mbps": 1, "50-100 Mbps": 2, "100-200 Mbps": 3, "200+ Mbps": 4 };
     var dataSeries: number[] = [];
     var roundKeys = Object.keys(roundData);
     roundKeys.forEach(key => {
@@ -136,7 +132,7 @@ export class GraphService {
       "Summer 2022"
     ];
     // use speeds to pick correct value from getSpeeds array returned
-    const speeds: { [key: string]: number } = { "0M-10M": 0, "10M-50M": 1, "50M-100M": 2, "100M-200M": 3, "200M+": 4 };
+    const speeds: { [key: string]: number } = { "0-10 Mbps": 0, "10-50 Mbps": 1, "50-100 Mbps": 2, "100-200 Mbps": 3, "200+ Mbps": 4 };
     var dataSets: any = [];
     graphOptions.graphs.forEach(graphKey => {
       var dataSeries: number[] = [];
@@ -254,6 +250,7 @@ export class GraphService {
   }
 
   private getSpeeds(round: string, carrier: string, phone: string): number[] {
+    // the M in speedRanges stands for Mbps
     const speedRanges = ["0M-10M", "10M-50M", "50M-100M", "100M-200M", "200M+"];
     const testData = this.compDataService.roundData[round][carrier][phone];
     let speeds: number[] = [];

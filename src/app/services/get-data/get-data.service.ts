@@ -77,6 +77,7 @@ export class GetDataService {
       if (data.length === headers.length) {
         let carrier = data[0];
         let phone_model = data[1];
+        // the M in best d/l speeds stands for Mbps
         if (!json[carrier]) { // if carrier is not in json
           json[carrier] = {
             [phone_model]:
@@ -88,6 +89,7 @@ export class GetDataService {
             }
           };
         }
+        // the M in best d/l speeds stands for Mbps
         if (!json[carrier][phone_model]) { //if phone type is not in json
           json[carrier][phone_model] =
           {
