@@ -30,7 +30,7 @@
             <div *ngIf="graphOptions.graphType=='bar-graph' && !optionsSelected.roundSelected">Select Round First</div>
         </mat-radio-group>
     </mat-expansion-panel>
-    <mat-expansion-panel>
+    <mat-expansion-panel *ngIf="(compDataService.graphType | async) != 'county-line-graph'">
         <mat-expansion-panel-header>
             Phone Models
         </mat-expansion-panel-header>

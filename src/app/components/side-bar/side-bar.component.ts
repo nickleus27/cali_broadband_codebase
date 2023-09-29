@@ -135,13 +135,10 @@ export class SideBarComponent implements OnInit, OnChanges {
       if (this.optionsSelected.carrierSelected) {
         this.optionsSelected.phone_models = Object.keys(this.roundData[this.optionsSelected.roundSelected!][this.optionsSelected.carrierSelected]);
       }
-    } else {
+    } else if (this.graphOptions.graphType == 'line-graph'){
       if (this.optionsSelected.carrierSelected) {
         this.optionsSelected.phone_models = this.lineGraphOptions.carriers[this.optionsSelected.carrierSelected];
       }
-      /**
-       * TODO: Need to make this.optionsSelected.phone_models link to county data separate from line graph data
-       */
     }
   }
 
@@ -179,7 +176,7 @@ export class SideBarComponent implements OnInit, OnChanges {
     }
   }
   private _changeCountyLineGraphState(): void {
-    if (this.graphOptions.graphType == 'county-line-graph' && this.optionsSelected.phoneSelected && this.optionsSelected.countySelected) {
+    if (this.graphOptions.graphType == 'county-line-graph' && this.optionsSelected.countySelected) {
       this.sidebarState.acceptingState(this.graphOptions.graphSelected);
       this.getDataService.setGraphParams(this.graphOptions);
       if (this.sidebarState.accepting) {

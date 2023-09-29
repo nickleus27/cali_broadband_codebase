@@ -195,12 +195,18 @@ export class GraphService {
    */
   public _countyLineGraph(graphOptions: GraphOptions, roundData: { [key: string]: any }, graph: keyof GraphOptions, fill: boolean): any {
     const rounds = ['ctyfa2017', 'ctysu2020', 'ctysp2021', 'ctyfa2021', 'ctysu2022', 'ctysp2023'];
-    const avgDls: number[] = [];
-    rounds.forEach(round => {
+    const avgDls: any[] = [];
+    rounds.forEach((round, i) => {
       const countyData: any = roundData[round][graphOptions[graph].countySelected!];
       const carrier = graphOptions[graph].carrierSelected!;
-      const phone = this.getCurrPhone(carrier, graphOptions[graph].phoneSelected!, countyData);
-      avgDls.push(parseInt(countyData[carrier][phone]["avgDl"]))
+      const phone = this.getCurrPhone(carrier, countyData);
+      const testsQuantity = this.getNumberOfTests(carrier, phone, countyData);
+      avgDls.push({
+        x: i,
+        y: parseInt(countyData[carrier][phone]["avgDl"]),
+        phone: phone,
+        tests: testsQuantity
+      });
     });
     return {
       data: avgDls,
@@ -227,7 +233,7 @@ export class GraphService {
     const dataSets: any[] = [];
     if (isComparison) {
       graphKeys.forEach(key => {
-        if (!!graphOptions[key as keyof GraphOptions].phoneSelected) {
+        if (!!graphOptions[key as keyof GraphOptions].carrierSelected) {
           dataSets.push(this._countyLineGraph(graphOptions, roundData, key as keyof GraphOptions, false));
         } else {
           return;
@@ -263,10 +269,11 @@ export class GraphService {
     return speeds;
   }
 
-  private getCurrPhone(carrier: string, phone: string, countyData: any): string {
-    if (!!countyData[carrier][phone]) {
-      return phone;
-    }
+  private getNumberOfTests(carrier: string, phone: string, countyData: any): string {
+    return countyData[carrier][phone]['numTests'];
+  }
+
+  private getCurrPhone(carrier: string, countyData: any): string {
     const phoneMap: { [key: string]: any } = {
       'AT&T': ['SM-S901U', 'SM-G998U', 'SM-G970U', 'SM-G930A'],
       'FirstNet': ['XP8800', 'SM-G998U'],

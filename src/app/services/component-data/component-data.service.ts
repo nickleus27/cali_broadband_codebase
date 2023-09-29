@@ -23,7 +23,17 @@ export class ComponentDataService {
     this._sideNav_GraphComp = new BehaviorSubject(false);
     this._graphType = new BehaviorSubject("bar-graph");
     this._phoneModel = new BehaviorSubject('');
-    this._model_map = { 'XP8800': 'Sonim XP8', 'SM-G970U': 'Galaxy S10e', 'SM-G998U': 'Galaxy S21', 'SM-G973U': 'Galaxy S10', 'SM-S901U': 'Galaxy S22' };
+    this._model_map = {
+      'XP8800': 'Sonim XP8',
+      'SM-G970U': 'Galaxy S10e',
+      'SM-G998U': 'Galaxy S21',
+      'SM-G973U': 'Galaxy S10',
+      'SM-S901U': 'Galaxy S22',
+      'SM-G930A': 'Galaxy S7',
+      'SM-G930P': 'Galaxy S7',
+      'SM-G930T': 'Galaxy S7',
+      'SM-G930V': 'Galaxy S7'
+    };
     this._round_map = { 'round14': 'Spring 2021', 'round15': 'Fall 2021', 'round16': 'Summer 2022' };
     this._graph_map = { 'graph1': 'Graph 1', 'graph2': 'Graph 2', 'graph3': 'Graph 3' };
     this._numCompGraphs = 0;

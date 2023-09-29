@@ -29,8 +29,14 @@ export class CountyLineGraphComponent extends UnSubscribeAdaptor implements OnIn
       plugins: {
         tooltip: {
           callbacks: {
-            label: function (this: TooltipModel<keyof ChartTypeRegistry>, tooltipItem: TooltipItem<keyof ChartTypeRegistry>): string | void | string[] {
-              return [tooltipItem.dataset.label!, "Average Download Speed : " + tooltipItem.formattedValue + " kbps"];
+            label: (tooltipItem: TooltipItem<keyof ChartTypeRegistry>): string | void | string[] => {
+              const tooltipData: any = tooltipItem.dataset.data[tooltipItem.dataIndex]
+              return [
+                tooltipItem.dataset.label!,
+                "Average Download Speed : " + tooltipItem.formattedValue + " kbps",
+                "Phone : " + this.compDataService.getModelMapValue(tooltipData.phone),
+                "Number of Tests : " + tooltipData.tests
+              ];
             }
           }
         }
