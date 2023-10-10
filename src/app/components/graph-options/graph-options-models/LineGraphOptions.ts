@@ -1,0 +1,23 @@
+/**
+ * This object holds phone models for using the line graph
+ * which has no specific round to draw from since each round
+ * is used for points on the graph.
+ */
+interface LineGraphOptions {
+    carriers: { [key: string]: any; },
+    tests: string[],
+}
+
+const lineGraphOptions: LineGraphOptions = {
+    carriers:
+    {
+        'AT&T': ['SM-S901U', 'SM-G998U', 'SM-G970U'],
+        'FirstNet': ['XP8800', 'SM-G998U'],
+        'Sprint': ['SM-G973U'],
+        'T-Mobile': ['SM-S901U', 'SM-G998U', 'SM-G970U'],
+        'Verizon': ['SM-S901U', 'SM-G998U', 'SM-G970U']
+    },
+    tests: ["N/A", "0-10 Mbps", "10-50 Mbps", "50-100 Mbps", "100-200 Mbps", "200+ Mbps"]
+}
+
+export { LineGraphOptions, lineGraphOptions };
