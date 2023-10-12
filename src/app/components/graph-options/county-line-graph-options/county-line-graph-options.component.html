@@ -1,9 +1,9 @@
 <div class="centered-div">
-  <div *ngIf="!(this._next | async)">
+  <div *ngIf="(this._next | async) == dialogViews.countyView">
     <h1 mat-dialog-title class="header-div">Choose County</h1>
     <mat-dialog-content>
-      <div class="wrapper">
-        <mat-radio-group class="box" [(ngModel)]="graphChoices.countySelected">
+      <div class="county-wrapper">
+        <mat-radio-group class="county-box" [(ngModel)]="graphChoices.countySelected">
           <mat-radio-button *ngFor="let county of counties" [value]="county">
             <label style="color: white">{{county}}</label>
           </mat-radio-button>
@@ -17,11 +17,11 @@
         (click)="next()">Next</button>
     </mat-dialog-actions>
   </div>
-  <div *ngIf="(this._next | async)">
+  <div *ngIf="(this._next | async) == dialogViews.carrierView">
     <h1 mat-dialog-title class="header-div">Choose County</h1>
     <mat-dialog-content>
-      <div class="wrapper">
-        <mat-radio-group class="box" [(ngModel)]="graphChoices.carrierSelected">
+      <div class="carrier-wrapper">
+        <mat-radio-group class="carrier-box" [(ngModel)]="graphChoices.carrierSelected" (change)="ngOnChanges()">
           <mat-radio-button *ngFor="let carrier of graphChoices.carriers" [value]="carrier">
             <label style="color: white">{{carrier}}</label>
           </mat-radio-button>
@@ -33,7 +33,7 @@
         (click)="cancel()">Cancel</button>
       <button mat-raised-button style="background-color: grey; color: white;" (click)="back()">Back</button>
       <button mat-raised-button style="background-color: grey; color: white;" (click)="add()">Add More</button>
-      <button mat-raised-button mat-dialog-close style="background-color: grey; color: white;" (click)="display()">Display</button>
+      <button mat-raised-button mat-dialog-close style="background-color: grey; color: white;" [disabled]="(this.disableDisplayButton | async)" (click)="display()">Display</button>
     </mat-dialog-actions>
   </div>
 </div>

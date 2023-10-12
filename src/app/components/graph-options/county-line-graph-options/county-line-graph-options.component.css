@@ -14,19 +14,27 @@
   color: #5A5A5A;
 }
 
-.wrapper {
+.county-wrapper {
   margin: auto;
   border-style: ridge;
   border-radius: 7px;
-  width: 50%;
+  width: 85%;
 }
 
-.box {
+.county-box {
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(160px, 1fr));
+}
+
+.carrier-wrapper {
+  margin: auto;
+  border-style: ridge;
+  border-radius: 7px;
+  width: 85%;
+}
+
+.carrier-box {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.box>* {
-  flex: 1 1 160px;
+  justify-content: center;
+  align-items: center;
 }

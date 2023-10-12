@@ -39,7 +39,7 @@ export class GraphService {
 
   }
 
-  public comparisonGraph(testOptions: GraphOptions): any {
+  public comparisonGraph(data: { [key: string]: any }, testOptions: GraphOptions): any {
     var dataSets: any = [];
     const speeds = ["0-10 Mbps", "10-50 Mbps", "50-100 Mbps", "100-200 Mbps", "200+ Mbps"];
 
@@ -51,12 +51,12 @@ export class GraphService {
       }
       var dataSeries: number[] = [];
       dataSeries.push(this.getErrors(
-        option.roundSelected!, option.carrierSelected!, option.phoneSelected!
+        data, option.roundSelected!, option.carrierSelected!, option.phoneSelected!
       ));
 
       dataSeries.push(
         ...this.getSpeeds(
-          option.roundSelected!, option.carrierSelected!, option.phoneSelected!
+          data, option.roundSelected!, option.carrierSelected!, option.phoneSelected!
         )
       );
       dataSets.push(
@@ -260,17 +260,17 @@ export class GraphService {
     };
   }
 
-  private getErrors(round: string, carrier: string, phone: string): number {
-    const testData = this.compDataService.roundData[round][carrier][phone];
+  private getErrors(data: { [key: string]: any }, round: string, carrier: string, phone: string): number {
+    const testData = data[round][carrier][phone];
     let totalError: number = testData["best d/l speeds"]["N/A"]; // n/a represents errors or tests with speeds not available
     let totalTests: number = testData["best d/l speeds"]["total tests"];
     return parseFloat(((totalError / totalTests) * 100).toFixed(1));
   }
 
-  private getSpeeds(round: string, carrier: string, phone: string): number[] {
+  private getSpeeds(data: { [key: string]: any }, round: string, carrier: string, phone: string): number[] {
     // the M in speedRanges stands for Mbps
     const speedRanges = ["0M-10M", "10M-50M", "50M-100M", "100M-200M", "200M+"];
-    const testData = this.compDataService.roundData[round][carrier][phone];
+    const testData = data[round][carrier][phone];
     let speeds: number[] = [];
     let totalTests = testData["best d/l speeds"]['total tests'];
     speedRanges.forEach(speed => {

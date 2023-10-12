@@ -6,7 +6,7 @@ import { GraphOptions } from 'src/app/components/graph-options/GraphOptionsModel
   providedIn: 'root'
 })
 export class ComponentDataService {
-  private _roundData: any;
+  // private _roundData: any;
   private _model_map: { [key: string]: string };
   private _round_map: { [key: string]: string };
   private _graphChoices: GraphOptions[];
@@ -48,13 +48,13 @@ export class ComponentDataService {
     this._numCompGraphs = 0;
   }
 
-  set roundData(value: any) {
-    this._roundData = value;
-  }
+  // set roundData(value: any) {
+  //   this._roundData = value;
+  // }
 
-  get roundData(): any {
-    return this._roundData;
-  }
+  // get roundData(): any {
+  //   return this._roundData;
+  // }
 
   public getModelMapValue(key: string): string {
     return this._model_map[key];

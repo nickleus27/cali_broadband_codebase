@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentDataService } from 'src/app/services/component-data/component-data.service';
-import { GetDataService } from 'src/app/services/get-data/get-data.service';
+// import { GetDataService } from 'src/app/services/get-data/get-data.service';
 import { UnSubscribeAdaptor } from '../Adaptors/UnSubscribeAdaptor';
 import { MatDialog } from '@angular/material/dialog';
 import { CountyLineGraphOptionsComponent } from '../graph-options/county-line-graph-options/county-line-graph-options.component';
@@ -25,7 +25,7 @@ export class LayoutComponent extends UnSubscribeAdaptor implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private getDataService: GetDataService,
+    // private getDataService: GetDataService,
     private compDataService: ComponentDataService,
     public dialog: MatDialog
   ) {
@@ -39,17 +39,17 @@ export class LayoutComponent extends UnSubscribeAdaptor implements OnInit {
     /**
      * TODO: Should I not get data until getting to graph view
      */
-    this.sub.sink = this.getDataService.roundData.subscribe({
-      next: (data) => {
-        this.compDataService.roundData = data;
-      },
-      error: (err) => {
-        console.error('something wrong occurred: ' + err);
-      },
-      complete: () => {
-        // console.log('done');
-      }
-    });
+    // this.sub.sink = this.getDataService.roundData.subscribe({
+    //   next: (data) => {
+    //     this.compDataService.roundData = data;
+    //   },
+    //   error: (err) => {
+    //     console.error('something wrong occurred: ' + err);
+    //   },
+    //   complete: () => {
+    //     // console.log('done');
+    //   }
+    // });
   }
 
   goHome(): void {
@@ -74,7 +74,7 @@ export class LayoutComponent extends UnSubscribeAdaptor implements OnInit {
     const dialogRef = this.dialog.open(CountyLineGraphOptionsComponent);
 
     /** TODO: should i add this to subsink? */
-    dialogRef.afterClosed().subscribe(result => {
+    this.sub.sink = dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
   }

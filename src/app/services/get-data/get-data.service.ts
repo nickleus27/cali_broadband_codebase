@@ -10,33 +10,45 @@ export class GetDataService {
     'ctyfa2017', 'ctysu2020', 'ctysp2021', 'ctyfa2021', 'ctysu2022', 'ctysp2023'
   ];
   private _graphData: Observable<any>;
-  private _graphParams: Subject<any>;
+  // private _graphParams: Subject<any>;
 
   constructor(private http: HttpClient) {
+    // const forkJoinData: any = {};
+    // this._csvFiles.forEach(key => {
+    //   if (key.includes('round')) {
+    //     forkJoinData[key] = this.http.get(`assets/data/${key}.csv`, { responseType: 'text' })
+    //       .pipe(map(data => { return this.processData(data) }));
+    //   } else {
+    //     forkJoinData[key] = this.http.get(`assets/data/${key}.csv`, { responseType: 'text' })
+    //       .pipe(map(data => { return this.processCountyData(data) }));
+    //   }
+    // });
+    // this._graphData = forkJoin(forkJoinData);
+    // this._graphParams = new BehaviorSubject({});
+  }
+
+  // public get graphParams(): Observable<any> {
+  //   return this._graphParams.asObservable();
+  // }
+
+  // public setGraphParams(params: object) {
+  //   this._graphParams.next(params);
+  // }
+
+  // public get roundData(): Observable<any> {
+  //   //return from([this._graphData]);
+  //   return this._graphData;
+  // }
+
+  public get countyData(): Observable<any> {
     const forkJoinData: any = {};
-    this._csvFiles.forEach(key => {
-      if (key.includes('round')) {
-        forkJoinData[key] = this.http.get(`assets/data/${key}.csv`, { responseType: 'text' })
-          .pipe(map(data => { return this.processData(data) }));
-      } else {
-        forkJoinData[key] = this.http.get(`assets/data/${key}.csv`, { responseType: 'text' })
+    this._csvFiles.forEach(file => {
+      if (file.includes('cty')) {
+        forkJoinData[file] = this.http.get(`assets/data/${file}.csv`, { responseType: 'text' })
           .pipe(map(data => { return this.processCountyData(data) }));
       }
     });
     this._graphData = forkJoin(forkJoinData);
-    this._graphParams = new BehaviorSubject({});
-  }
-
-  public get graphParams(): Observable<any> {
-    return this._graphParams.asObservable();
-  }
-
-  public setGraphParams(params: object) {
-    this._graphParams.next(params);
-  }
-
-  public get roundData(): Observable<any> {
-    //return from([this._graphData]);
     return this._graphData;
   }
 

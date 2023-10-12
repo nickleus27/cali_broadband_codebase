@@ -66,19 +66,19 @@ export class SideBarComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.getDataService.roundData.subscribe({
-      next: (data) => {
-        // console.log(data);
-        this.roundData = data;
-        this.compDataService.roundData = this.roundData;
-      },
-      error: (err) => {
-        console.error('something wrong occurred: ' + err);
-      },
-      complete: () => {
-        // console.log('done');
-      }
-    });
+    // this.getDataService.roundData.subscribe({
+    //   next: (data) => {
+    //     // console.log(data);
+    //     this.roundData = data;
+    //     this.compDataService.roundData = this.roundData;
+    //   },
+    //   error: (err) => {
+    //     console.error('something wrong occurred: ' + err);
+    //   },
+    //   complete: () => {
+    //     // console.log('done');
+    //   }
+    // });
   }
 
   private setSideNavOptions(): void {
@@ -153,7 +153,7 @@ export class SideBarComponent implements OnInit, OnChanges {
   private _changeBarGraphState(): void {
     if (this.graphOptions.graphType == 'bar-graph' && this.optionsSelected.phoneSelected) {
       this.sidebarState.acceptingState(this.graphOptions.graphSelected);
-      this.getDataService.setGraphParams(this.graphOptions);
+      // this.getDataService.setGraphParams(this.graphOptions);
       if (this.sidebarState.accepting) {
         this.compDataService.updateGraphButtonFlag(false);
         if (this.compDataService.numCompGraphs < 2) {
@@ -166,7 +166,7 @@ export class SideBarComponent implements OnInit, OnChanges {
   private _changeLineGraphState(): void {
     if (this.graphOptions.graphType == 'line-graph' && this.optionsSelected.phoneSelected && this.graphOptions.testSelected) {
       this.sidebarState.acceptingState(this.graphOptions.graphSelected);
-      this.getDataService.setGraphParams(this.graphOptions);
+      // this.getDataService.setGraphParams(this.graphOptions);
       if (this.sidebarState.accepting) {
         this.compDataService.updateGraphButtonFlag(false);
         if (this.compDataService.numCompGraphs < 2) {
@@ -178,7 +178,7 @@ export class SideBarComponent implements OnInit, OnChanges {
   private _changeCountyLineGraphState(): void {
     if (this.graphOptions.graphType == 'county-line-graph' && this.optionsSelected.countySelected) {
       this.sidebarState.acceptingState(this.graphOptions.graphSelected);
-      this.getDataService.setGraphParams(this.graphOptions);
+      // this.getDataService.setGraphParams(this.graphOptions);
       if (this.sidebarState.accepting) {
         this.compDataService.updateGraphButtonFlag(false);
         if (this.compDataService.numCompGraphs < 2) {

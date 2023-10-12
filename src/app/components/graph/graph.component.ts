@@ -65,34 +65,34 @@ export class GraphComponent extends UnSubscribeAdaptor implements OnInit {
   }
 
   ngOnInit(): void {
-    this.sub.sink = this.dataService.graphParams
-      .subscribe(
-        {
-          next: (params) => {
-            try {
-              this.params = params;
-              const roundData = this.compDataService.roundData[this.params.graph1.roundSelected];
-              if (!this.params.comparison) { //load graph for single phone carrier
-                let keys = Object.keys(roundData[this.params.graph1.carrierSelected]);
-                if (!keys.includes(this.params.graph1.phoneSelected)) { //update phone selection if old phone is not in carrier phone set
-                  this.compDataService.updatePhoneFlag(keys[0]);
-                  return;
-                }
-                this.barChartData = this.graphService.getSingleGraph(this.params);
-              } else {
-                this.barChartData = this.graphService.comparisonGraph(this.params);
-              }
-            } catch (e) {
-              //console.log(e);
-              this.router.navigate([''], { relativeTo: this.route });
-            }
-          },
-          error: (err) => {
-            this.router.navigate([''], { relativeTo: this.route });
-            console.log("Error caught at Subscriber Graph Component: " + err)
-          },
-        }
-      );
+    // this.sub.sink = this.dataService.graphParams
+    //   .subscribe(
+    //     {
+    //       next: (params) => {
+    //         try {
+    //           this.params = params;
+    //           const roundData = this.compDataService.roundData[this.params.graph1.roundSelected];
+    //           if (!this.params.comparison) { //load graph for single phone carrier
+    //             let keys = Object.keys(roundData[this.params.graph1.carrierSelected]);
+    //             if (!keys.includes(this.params.graph1.phoneSelected)) { //update phone selection if old phone is not in carrier phone set
+    //               this.compDataService.updatePhoneFlag(keys[0]);
+    //               return;
+    //             }
+    //             this.barChartData = this.graphService.getSingleGraph(this.params);
+    //           } else {
+    //             this.barChartData = this.graphService.comparisonGraph(this.params);
+    //           }
+    //         } catch (e) {
+    //           //console.log(e);
+    //           this.router.navigate([''], { relativeTo: this.route });
+    //         }
+    //       },
+    //       error: (err) => {
+    //         this.router.navigate([''], { relativeTo: this.route });
+    //         console.log("Error caught at Subscriber Graph Component: " + err)
+    //       },
+    //     }
+    //   );
   }
 
   // events

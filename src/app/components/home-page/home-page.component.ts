@@ -11,7 +11,7 @@ import { GraphOptions } from '../graph-options/GraphOptionsModels/GraphOptions';
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css']
 })
-export class HomePageComponent extends UnSubscribeAdaptor{
+export class HomePageComponent extends UnSubscribeAdaptor {
   // graphType: string;
   graphChoices: GraphOptions[];
 
@@ -49,11 +49,10 @@ export class HomePageComponent extends UnSubscribeAdaptor{
   // }
 
   openCountyDialog() {
-    const dialogRef = this.dialog.open(CountyLineGraphOptionsComponent);
-
-    /** TODO: should i add this to subsink? */
-    this.sub.sink = dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
+    this.dialog.open(CountyLineGraphOptionsComponent,
+      {
+        width: '75%',
+        // height: '65%',
+      });
   }
 }
