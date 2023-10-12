@@ -19,7 +19,7 @@ export class CountyLineGraphComponent extends UnSubscribeAdaptor implements OnIn
   constructor(
     private graphService: GraphService,
     private getDataService: GetDataService,
-    private compDataService: ComponentDataService,
+    private cmpntDataSrvc: ComponentDataService,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -34,7 +34,7 @@ export class CountyLineGraphComponent extends UnSubscribeAdaptor implements OnIn
               return [
                 tooltipItem.dataset.label!,
                 "Average Download Speed : " + tooltipItem.formattedValue + " kbps",
-                "Phone : " + this.compDataService.getModelMapValue(tooltipData.phone),
+                "Phone : " + this.cmpntDataSrvc.getModelMapValue(tooltipData.phone),
                 "Number of Tests : " + tooltipData.tests
               ];
             }
@@ -45,22 +45,28 @@ export class CountyLineGraphComponent extends UnSubscribeAdaptor implements OnIn
     this.lineChartLegend = true;
   }
 
+  /**
+   * TODO: Should I not get data until getting to graph view
+   */
+
   ngOnInit() {
-    this.sub.sink = this.getDataService.graphParams.subscribe({
-      next: (options) => {
-        try {
-          this.lineChartData = this.graphService.countyLineGraph(options, this.compDataService.roundData, options.comparison);
-        } catch (e) {
-          //console.log(e);
-          this.router.navigate([''], { relativeTo: this.route });
-        }
-      },
-      error: (err) => {
-        this.router.navigate([''], { relativeTo: this.route });
-        console.log("Error caught at Subscriber Graph Component: " + err)
-      },
-      complete: () => { }
-    });
+    this.lineChartData = this.graphService.countyLineGraph(
+      this.cmpntDataSrvc.graphChoices, this.cmpntDataSrvc.roundData);
+    // this.sub.sink = this.getDataService.graphParams.subscribe({
+    //   next: (options) => {
+    //     try {
+    //       this.lineChartData = this.graphService.countyLineGraph(options, this.compDataService.roundData, options.comparison);
+    //     } catch (e) {
+    //       //console.log(e);
+    //       this.router.navigate([''], { relativeTo: this.route });
+    //     }
+    //   },
+    //   error: (err) => {
+    //     this.router.navigate([''], { relativeTo: this.route });
+    //     console.log("Error caught at Subscriber Graph Component: " + err)
+    //   },
+    //   complete: () => { }
+    // });
   }
 
 }

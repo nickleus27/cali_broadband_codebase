@@ -16,7 +16,7 @@
 }
 
 .center-button-container {
-  padding-top: 3vh;
+  /* padding-top: 3vh; */
   display: flex;
   justify-content: center;
 }
@@ -31,7 +31,7 @@
 }
 
 /* Centered text */
-.centered-text {
+.centered-div {
   margin: auto;
   width: 50%;
   padding: 10px;

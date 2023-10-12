@@ -1,14 +1,18 @@
+<!--
 <mat-sidenav-container class="tp-container">
     <mat-sidenav #sidenav mode="side" opened class="tp-sidenav">
         <app-side-bar #sidebar></app-side-bar>
     </mat-sidenav>
     <mat-sidenav-content>
+-->
         <mat-toolbar class="flexSpaceBetween" color="warm">
+            <!--
             <span>
                 <button mat-icon-button color='warm' (click)="sidenav.toggle()">
                     <mat-icon>menu</mat-icon>
                 </button>
             </span>
+            -->
             <span class="tb-buttons"></span>
             <span>
                 <mat-button-toggle-group [value]="graphTypeSelected" (change)="onChange($event)">
@@ -31,5 +35,7 @@
             </span>
         </mat-toolbar>
         <router-outlet></router-outlet>
+<!--
     </mat-sidenav-content>
 </mat-sidenav-container>
+-->
