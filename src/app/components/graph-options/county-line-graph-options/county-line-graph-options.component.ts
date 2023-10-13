@@ -23,6 +23,7 @@ export class CountyLineGraphOptionsComponent implements OptionsDialog, OnChanges
   counties: any[];
   _next: BehaviorSubject<number>;
   disableDisplayButton: BehaviorSubject<boolean>;
+  carriers: string[];
 
 
   constructor(private cmpntDataSrvc: ComponentDataService,
@@ -31,8 +32,8 @@ export class CountyLineGraphOptionsComponent implements OptionsDialog, OnChanges
     this.counties = Counties;
     this.graphChoices = {
       graphType: "county-line-graph",
-      carriers: ["AT&T", "T-Mobile", "Verizon"]
     };
+    this.carriers = ["AT&T", "T-Mobile", "Verizon"];
     this._next = new BehaviorSubject(this.dialogViews.countyView);
     this.disableDisplayButton = new BehaviorSubject(true);
   }
@@ -89,7 +90,6 @@ export class CountyLineGraphOptionsComponent implements OptionsDialog, OnChanges
       this.cmpntDataSrvc.pushGraphChoices(this.graphChoices);
       this.graphChoices = {
         graphType: "county-line-graph",
-        carriers: ["AT&T", "T-Mobile", "Verizon"]
       };
       this.disableDisplayButton.next(true);
       this._next.next(this.dialogViews.countyView);

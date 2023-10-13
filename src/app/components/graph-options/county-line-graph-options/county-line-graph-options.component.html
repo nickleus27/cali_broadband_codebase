@@ -1,5 +1,5 @@
-<div class="centered-div">
-  <div *ngIf="(this._next | async) == dialogViews.countyView">
+<div>
+  <div *ngIf="(this._next | async) == dialogViews.countyView" class="centered-div modal-slide">
     <h1 mat-dialog-title class="header-div">Choose County</h1>
     <mat-dialog-content>
       <div class="county-wrapper">
@@ -17,12 +17,12 @@
         (click)="next()">Next</button>
     </mat-dialog-actions>
   </div>
-  <div *ngIf="(this._next | async) == dialogViews.carrierView">
-    <h1 mat-dialog-title class="header-div">Choose County</h1>
+  <div *ngIf="(this._next | async) == dialogViews.carrierView" class="centered-div modal-slide">
+    <h1 mat-dialog-title class="header-div">Choose Carrier</h1>
     <mat-dialog-content>
       <div class="carrier-wrapper">
         <mat-radio-group class="carrier-box" [(ngModel)]="graphChoices.carrierSelected" (change)="ngOnChanges()">
-          <mat-radio-button *ngFor="let carrier of graphChoices.carriers" [value]="carrier">
+          <mat-radio-button *ngFor="let carrier of carriers" [value]="carrier">
             <label style="color: white">{{carrier}}</label>
           </mat-radio-button>
         </mat-radio-group>

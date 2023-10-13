@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+// import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentDataService } from 'src/app/services/component-data/component-data.service';
 import { UnSubscribeAdaptor } from '../Adaptors/UnSubscribeAdaptor';
 import { MatDialog } from '@angular/material/dialog';
+import { BarGraphOptionsComponent } from '../graph-options/bar-graph-options/bar-graph-options.component';
 import { CountyLineGraphOptionsComponent } from '../graph-options/county-line-graph-options/county-line-graph-options.component';
 import { GraphOptions } from '../graph-options/GraphOptionsModels/GraphOptions';
 
@@ -17,8 +18,8 @@ export class HomePageComponent extends UnSubscribeAdaptor {
 
   constructor(
     public compDataService: ComponentDataService,
-    private route: ActivatedRoute,
-    private router: Router,
+    // private route: ActivatedRoute,
+    // private router: Router,
     public dialog: MatDialog
   ) {
     super();
@@ -47,6 +48,14 @@ export class HomePageComponent extends UnSubscribeAdaptor {
   // resetSideNav() {
   //   this.compDataService.reset_opts();
   // }
+
+  openBarGraphDialog() {
+    this.dialog.open(BarGraphOptionsComponent,
+      {
+        width: '75%',
+        // height: '65%',
+      });
+  }
 
   openCountyDialog() {
     this.dialog.open(CountyLineGraphOptionsComponent,

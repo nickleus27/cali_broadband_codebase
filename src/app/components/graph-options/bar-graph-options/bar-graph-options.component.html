@@ -1,1 +1,59 @@
-<p>bar-graph-options works!</p>
+<div>
+    <div *ngIf="(this._next | async) == dialogViews.roundView" class="centered-div modal-slide">
+      <h1 mat-dialog-title class="header-div">Choose Round</h1>
+      <mat-dialog-content>
+        <div class="wrapper">
+          <mat-radio-group class="box" [(ngModel)]="graphChoices.roundSelected">
+            <mat-radio-button *ngFor="let round of rounds" [value]="round">
+              <label style="color: white">{{roundMap[round]}}</label>
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </mat-dialog-content>
+      <mat-dialog-actions align="center">
+        <button mat-raised-button mat-dialog-close style="background-color: grey; color: white;"
+          (click)="cancel()">Cancel</button>
+        <button mat-raised-button color="blue" style="background-color: grey; color: white;"
+          (click)="next()">Next</button>
+      </mat-dialog-actions>
+    </div>
+    <div *ngIf="(this._next | async) == dialogViews.carrierView" class="centered-div modal-slide">
+      <h1 mat-dialog-title class="header-div">Choose Carrier</h1>
+      <mat-dialog-content>
+        <div class="wrapper">
+          <mat-radio-group class="box" [(ngModel)]="graphChoices.carrierSelected">
+            <mat-radio-button *ngFor="let carrier of carriers" [value]="carrier">
+              <label style="color: white">{{carrier}}</label>
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </mat-dialog-content>
+      <mat-dialog-actions align="center">
+        <button mat-raised-button mat-dialog-close style="background-color: grey; color: white;"
+          (click)="cancel()">Cancel</button>
+        <button mat-raised-button style="background-color: grey; color: white;" (click)="back()">Back</button>
+        <button mat-raised-button color="blue" style="background-color: grey; color: white;"
+        (click)="next()">Next</button>
+      </mat-dialog-actions>
+    </div>
+    <div *ngIf="(this._next | async) == dialogViews.phoneView" class="centered-div modal-slide">
+        <h1 mat-dialog-title class="header-div">Choose Phone</h1>
+        <mat-dialog-content>
+          <div class="wrapper">
+            <mat-radio-group class="box" [(ngModel)]="graphChoices.phoneSelected" (change)="ngOnChanges()">
+              <mat-radio-button *ngFor="let phone of carrierMap[graphChoices.carrierSelected!]" [value]="phone">
+                <label style="color: white">{{phoneMap[phone]}}</label>
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </mat-dialog-content>
+        <mat-dialog-actions align="center">
+          <button mat-raised-button mat-dialog-close style="background-color: grey; color: white;"
+            (click)="cancel()">Cancel</button>
+          <button mat-raised-button style="background-color: grey; color: white;" (click)="back()">Back</button>
+          <button mat-raised-button style="background-color: grey; color: white;" (click)="add()">Add More</button>
+          <button mat-raised-button mat-dialog-close style="background-color: grey; color: white;"
+          [disabled]="(this.disableDisplayButton | async)" (click)="display()">Display</button>
+        </mat-dialog-actions>
+      </div>
+  </div>

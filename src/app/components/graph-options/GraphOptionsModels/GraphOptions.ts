@@ -5,9 +5,5 @@ export interface GraphOptions {
     phoneSelected?: string,
     countySelected?: string,
     testSelected?: string,
-    carriers: string[],
-    phoneModels?: string[],
-    rounds?: string[],
-    counties?: string[],
     tests?: string[]
 }
