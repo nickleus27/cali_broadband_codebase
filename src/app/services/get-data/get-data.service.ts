@@ -52,6 +52,18 @@ export class GetDataService {
     return this._graphData;
   }
 
+  public get roundData(): Observable<any> {
+    const forkJoinData: any = {};
+    this._csvFiles.forEach(file => {
+      if (file.includes('round')) {
+        forkJoinData[file] = this.http.get(`assets/data/${file}.csv`, { responseType: 'text' })
+          .pipe(map(data => { return this.processData(data) }));
+      }
+    });
+    this._graphData = forkJoin(forkJoinData);
+    return this._graphData;
+  }
+
   private processCountyData(allText: string) {
     var allTextLines = allText.split(/\r\n|\n/);
     var headers = allTextLines[0].split(',');

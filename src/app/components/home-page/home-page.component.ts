@@ -17,7 +17,7 @@ export class HomePageComponent extends UnSubscribeAdaptor {
   graphChoices: GraphOptions[];
 
   constructor(
-    public compDataService: ComponentDataService,
+    public cmpntDataSrvc: ComponentDataService,
     // private route: ActivatedRoute,
     // private router: Router,
     public dialog: MatDialog
@@ -50,6 +50,7 @@ export class HomePageComponent extends UnSubscribeAdaptor {
   // }
 
   openBarGraphDialog() {
+    this.cmpntDataSrvc.clearGraphChoices();
     this.dialog.open(BarGraphOptionsComponent,
       {
         width: '75%',
@@ -58,6 +59,7 @@ export class HomePageComponent extends UnSubscribeAdaptor {
   }
 
   openCountyDialog() {
+    this.cmpntDataSrvc.clearGraphChoices();
     this.dialog.open(CountyLineGraphOptionsComponent,
       {
         width: '75%',

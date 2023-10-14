@@ -13,7 +13,37 @@ export class GraphService {
     this.linegraphOptions = lineGraphOptions;
   }
 
-  public getSingleGraph(testOptions: GraphOptions): any {
+  public barGraph(graphChoices: GraphOptions[], roundData: { [key: string]: any }): any {
+    var dataSets: any = [];
+    const speeds = ["0-10 Mbps", "10-50 Mbps", "50-100 Mbps", "100-200 Mbps", "200+ Mbps"];
+
+    graphChoices.forEach(graph => {
+      var dataSeries: number[] = [];
+      dataSeries.push(this.getErrors(
+        roundData, graph.roundSelected!, graph.carrierSelected!, graph.phoneSelected!
+      ));
+
+      dataSeries.push(
+        ...this.getSpeeds(
+          roundData, graph.roundSelected!, graph.carrierSelected!, graph.phoneSelected!
+        )
+      );
+      dataSets.push(
+        {
+          data: dataSeries,
+          label: `${this.compDataService.getRoundMapValue(graph.roundSelected!)} : ${graph.carrierSelected} ${this.compDataService.getModelMapValue(graph.phoneSelected!)}`
+        }
+      );
+    });
+
+
+    return {
+      labels: ['N/A', ...speeds],
+      datasets: dataSets
+    };
+  }
+
+  // public getSingleGraph(testOptions: GraphOptions): any {
   //   var dataSeries: number[] = [];
   //   const speeds = ["0-10 Mbps", "10-50 Mbps", "50-100 Mbps", "100-200 Mbps", "200+ Mbps"];
 
@@ -37,42 +67,42 @@ export class GraphService {
   //     ]
   //   };
 
-  }
+  // }
 
-  public comparisonGraph(data: { [key: string]: any }, testOptions: GraphOptions): any {
-    var dataSets: any = [];
-    const speeds = ["0-10 Mbps", "10-50 Mbps", "50-100 Mbps", "100-200 Mbps", "200+ Mbps"];
+  // public comparisonGraph(data: { [key: string]: any }, testOptions: GraphOptions): any {
+  //   var dataSets: any = [];
+  //   const speeds = ["0-10 Mbps", "10-50 Mbps", "50-100 Mbps", "100-200 Mbps", "200+ Mbps"];
 
-    const keys = ['graph1', 'graph2', 'graph3'];
-    keys.forEach(key => {
-      let option: any = testOptions[key as keyof GraphOptions];
-      if (!option.carrierSelected) {
-        return;
-      }
-      var dataSeries: number[] = [];
-      dataSeries.push(this.getErrors(
-        data, option.roundSelected!, option.carrierSelected!, option.phoneSelected!
-      ));
+  //   const keys = ['graph1', 'graph2', 'graph3'];
+  //   keys.forEach(key => {
+  //     let option: any = testOptions[key as keyof GraphOptions];
+  //     if (!option.carrierSelected) {
+  //       return;
+  //     }
+  //     var dataSeries: number[] = [];
+  //     dataSeries.push(this.getErrors(
+  //       data, option.roundSelected!, option.carrierSelected!, option.phoneSelected!
+  //     ));
 
-      dataSeries.push(
-        ...this.getSpeeds(
-          data, option.roundSelected!, option.carrierSelected!, option.phoneSelected!
-        )
-      );
-      dataSets.push(
-        {
-          data: dataSeries,
-          label: `${this.compDataService.getRoundMapValue(option.roundSelected)} : ${option.carrierSelected} ${this.compDataService.getModelMapValue(option.phoneSelected)}`
-        }
-      );
-    });
+  //     dataSeries.push(
+  //       ...this.getSpeeds(
+  //         data, option.roundSelected!, option.carrierSelected!, option.phoneSelected!
+  //       )
+  //     );
+  //     dataSets.push(
+  //       {
+  //         data: dataSeries,
+  //         label: `${this.compDataService.getRoundMapValue(option.roundSelected)} : ${option.carrierSelected} ${this.compDataService.getModelMapValue(option.phoneSelected)}`
+  //       }
+  //     );
+  //   });
 
 
-    return {
-      labels: ['N/A', ...speeds],
-      datasets: dataSets
-    };
-  }
+  //   return {
+  //     labels: ['N/A', ...speeds],
+  //     datasets: dataSets
+  //   };
+  // }
 
   public getSingleLineGraph(graphOptions: GraphOptions, roundData: { [key: string]: any }): any {
   //   const labels: string[] = [

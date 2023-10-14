@@ -54,11 +54,27 @@ export class BarGraphOptionsComponent implements OptionsDialog, OnChanges {
       'Verizon'
     ];
     this.carrierMap = {
-      'AT&T': ['SM-S901U', 'SM-G998U', 'SM-G970U', 'SM-G930A'],
-      'FirstNet': ['XP8800', 'SM-G998U'],
-      'Sprint': ['SM-G973U', 'SM-G930P'],
-      'T-Mobile': ['SM-S901U', 'SM-G998U', 'SM-G970U', "SM-G930T"],
-      'Verizon': ['SM-S901U', 'SM-G998U', 'SM-G970U', "SM-G930V"]
+      'round14': {
+        'AT&T': ['SM-G998U', 'SM-G970U'],
+        'FirstNet': ['XP8800'],
+        'Sprint': ['SM-G973U'],
+        'T-Mobile': ['SM-G998U', 'SM-G970U'],
+        'Verizon': ['SM-G998U', 'SM-G970U']
+      },
+      'round15': {
+        'AT&T': ['SM-G998U', 'SM-G970U'],
+        'FirstNet': ['XP8800'],
+        'Sprint': ['SM-G973U'],
+        'T-Mobile': ['SM-G998U', 'SM-G970U'],
+        'Verizon': ['SM-G998U', 'SM-G970U']
+      },
+      'round16': {
+        'AT&T': ['SM-S901U'],
+        'FirstNet': ['SM-G998U'],
+        'Sprint': ['SM-G973U'],
+        'T-Mobile': ['SM-S901U', 'SM-G970U'],
+        'Verizon': ['SM-S901U']
+      }
     };
     this.rounds = ['round14', 'round15', 'round16'];
     this.roundMap = { 'round14': 'Spring 2021', 'round15': 'Fall 2021', 'round16': 'Summer 2022' };
@@ -125,7 +141,7 @@ export class BarGraphOptionsComponent implements OptionsDialog, OnChanges {
   }
 
   display() {
-    
+
     if (!!this.graphChoices.phoneSelected) {
       this.cmpntDataSrvc.pushGraphChoices(this.graphChoices);
       this.router.navigate(['graphs'], { relativeTo: this.route });

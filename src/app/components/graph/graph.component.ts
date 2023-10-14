@@ -30,7 +30,7 @@ export class GraphComponent extends UnSubscribeAdaptor implements OnInit {
   constructor(
     private dataService: GetDataService,
     private graphService: GraphService,
-    private compDataService: ComponentDataService,
+    private cmpntDataSrvc: ComponentDataService,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -65,6 +65,22 @@ export class GraphComponent extends UnSubscribeAdaptor implements OnInit {
   }
 
   ngOnInit(): void {
+    this.sub.sink = this.dataService.roundData.subscribe({
+      next: (data) => {
+        try {
+          this.barChartData = this.graphService.barGraph(
+            this.cmpntDataSrvc.graphChoices, data);
+        } catch (e) {
+          //console.log(e);
+          this.router.navigate([''], { relativeTo: this.route });
+        }
+      },
+      error: (err) => {
+        this.router.navigate([''], { relativeTo: this.route });
+        console.log("Error caught at Subscriber County Line Graph Component: " + err)
+      },
+      complete: () => { }
+    });
     // this.sub.sink = this.dataService.graphParams
     //   .subscribe(
     //     {
