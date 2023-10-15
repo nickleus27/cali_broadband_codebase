@@ -49,39 +49,14 @@ export class CountyLineGraphOptionsComponent implements OptionsDialog, OnChanges
   }
 
   back() {
-    /**
-     * This switch statement is just an example for a dialogs that has multiple
-     * views to travel back and forth between. After using this example for
-     * dialogs that need it, this can be refactored.
-     */
-    switch (this._next.value) {
-      case this.dialogViews.countyView:
-        this._next.next(this.dialogViews.countyView);
-        break;
-      case this.dialogViews.carrierView:
-        this._next.next(this.dialogViews.countyView);
-        break;
-      default:
-        console.log("Malformed dialog view value");
-        break;
+    if (this._next.value == this.dialogViews.carrierView) {
+      this._next.next(this.dialogViews.countyView);
     }
   }
 
   next() {
-    /**
-     * This switch statement is just an example for a dialogs that has multiple
-     * views to travel back and forth between. After using this example for
-     * dialogs that need it, this can be refactored.
-     */
-    switch (this._next.value) {
-      case this.dialogViews.countyView:
-        if (!!this.graphChoices.countySelected) {
-          this._next.next(this.dialogViews.carrierView);
-        }
-        break;
-      default:
-        console.log("Malformed dialog view value");
-        break;
+    if (this._next.value == this.dialogViews.countyView && !!this.graphChoices.countySelected) {
+      this._next.next(this.dialogViews.carrierView);
     }
   }
 

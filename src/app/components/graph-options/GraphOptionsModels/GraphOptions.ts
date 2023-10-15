@@ -4,6 +4,5 @@ export interface GraphOptions {
     carrierSelected?: string,
     phoneSelected?: string,
     countySelected?: string,
-    testSelected?: string,
-    tests?: string[]
+    speedRangeSelected?: string,
 }

@@ -1,3 +1,7 @@
+div {
+  background: #58b3e5;
+}
+
 .centered-div {
   margin: auto;
   top: -15px;
@@ -23,7 +27,7 @@
 
 .county-box {
   display: grid;
-  grid-template-columns: repeat(auto-fill,minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
 }
 
 .carrier-wrapper {

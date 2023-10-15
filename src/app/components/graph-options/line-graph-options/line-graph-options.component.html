@@ -1,1 +1,40 @@
-<p>line-graph-options works!</p>
+<div>
+    <div *ngIf="(this._next | async) == dialogViews.carrierView" class="centered-div modal-slide">
+        <h1 mat-dialog-title class="header-div">Choose Carrier</h1>
+        <mat-dialog-content>
+            <div class="wrapper">
+                <mat-radio-group class="box" [(ngModel)]="graphChoices.carrierSelected">
+                    <mat-radio-button *ngFor="let carrier of carriers" [value]="carrier">
+                        <label style="color: white">{{carrier}}</label>
+                    </mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </mat-dialog-content>
+        <mat-dialog-actions align="center">
+            <button mat-raised-button mat-dialog-close style="background-color: grey; color: white;"
+                (click)="cancel()">Cancel</button>
+            <button mat-raised-button color="blue" style="background-color: grey; color: white;"
+                (click)="next()">Next</button>
+        </mat-dialog-actions>
+    </div>
+    <div *ngIf="(this._next | async) == dialogViews.speedRange" class="centered-div modal-slide">
+        <h1 mat-dialog-title class="header-div">Choose Speed Range</h1>
+        <mat-dialog-content>
+            <div class="wrapper">
+                <mat-radio-group class="box" [(ngModel)]="graphChoices.speedRangeSelected" (change)="ngOnChanges()">
+                    <mat-radio-button *ngFor="let range of speedRanges" [value]="range">
+                        <label style="color: white">{{range}}</label>
+                    </mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </mat-dialog-content>
+        <mat-dialog-actions align="center">
+            <button mat-raised-button mat-dialog-close style="background-color: grey; color: white;"
+                (click)="cancel()">Cancel</button>
+            <button mat-raised-button style="background-color: grey; color: white;" (click)="back()">Back</button>
+            <button mat-raised-button style="background-color: grey; color: white;" (click)="add()">Add More</button>
+            <button mat-raised-button mat-dialog-close style="background-color: grey; color: white;"
+                [disabled]="(this.disableDisplayButton | async)" (click)="display()">Display</button>
+        </mat-dialog-actions>
+    </div>
+</div>

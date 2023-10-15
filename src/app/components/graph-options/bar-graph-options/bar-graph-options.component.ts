@@ -33,7 +33,7 @@ export class BarGraphOptionsComponent implements OptionsDialog, OnChanges {
     private route: ActivatedRoute,
     private router: Router) {
     this.graphChoices = {
-      graphType: "county-line-graph",
+      graphType: "bar-graph",
     };
     this.phoneMap = {
       'XP8800': 'Sonim XP8',
@@ -93,11 +93,6 @@ export class BarGraphOptionsComponent implements OptionsDialog, OnChanges {
   }
 
   back() {
-    /**
-     * This switch statement is just an example for a dialogs that has multiple
-     * views to travel back and forth between. After using this example for
-     * dialogs that need it, this can be refactored.
-     */
     switch (this._next.value) {
       case this.dialogViews.carrierView:
         this._next.next(this.dialogViews.roundView);

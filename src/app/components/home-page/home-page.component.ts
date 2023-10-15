@@ -4,6 +4,7 @@ import { ComponentDataService } from 'src/app/services/component-data/component-
 import { UnSubscribeAdaptor } from '../Adaptors/UnSubscribeAdaptor';
 import { MatDialog } from '@angular/material/dialog';
 import { BarGraphOptionsComponent } from '../graph-options/bar-graph-options/bar-graph-options.component';
+import { LineGraphOptionsComponent } from '../graph-options/line-graph-options/line-graph-options.component';
 import { CountyLineGraphOptionsComponent } from '../graph-options/county-line-graph-options/county-line-graph-options.component';
 import { GraphOptions } from '../graph-options/GraphOptionsModels/GraphOptions';
 
@@ -58,6 +59,15 @@ export class HomePageComponent extends UnSubscribeAdaptor {
       });
   }
 
+  openLineGraphDialog() {
+    this.cmpntDataSrvc.clearGraphChoices();
+    this.dialog.open(LineGraphOptionsComponent,
+      {
+        width: '75%',
+        // height: '65%',
+      });
+  }
+
   openCountyDialog() {
     this.cmpntDataSrvc.clearGraphChoices();
     this.dialog.open(CountyLineGraphOptionsComponent,
@@ -66,4 +76,5 @@ export class HomePageComponent extends UnSubscribeAdaptor {
         // height: '65%',
       });
   }
+
 }
