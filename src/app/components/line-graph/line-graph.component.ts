@@ -19,7 +19,7 @@ export class LineGraphComponent extends UnSubscribeAdaptor implements OnInit {
   constructor(
     private graphService: GraphService,
     private getDataService: GetDataService,
-    private compDataService: ComponentDataService,
+    private cmpntDataSrvc: ComponentDataService,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -40,26 +40,22 @@ export class LineGraphComponent extends UnSubscribeAdaptor implements OnInit {
   }
 
   ngOnInit() {
-    // this.sub.sink = this.getDataService.graphParams.subscribe(
-    //   {
-    //     next: (result) => {
-    //       try {
-    //         if (!result.comparison) {
-    //           this.lineChartData = this.graphService.getSingleLineGraph(result, this.compDataService.roundData);
-    //         } else {
-    //           this.lineChartData = this.graphService.comparisonLineGraph(result, this.compDataService.roundData);
-    //         }
-    //       } catch (e) {
-    //         //console.log(e);
-    //         this.router.navigate([''], { relativeTo: this.route });
-    //       }
-    //     },
-    //     error: (err) => {
-    //       this.router.navigate([''], { relativeTo: this.route });
-    //       console.log("Error caught at Subscriber Graph Component: " + err)
-    //     },
-    //   }
-    // );
+    this.sub.sink = this.getDataService.roundData.subscribe({
+      next: (data) => {
+        try {
+          this.lineChartData = this.graphService.lineGraph(
+            this.cmpntDataSrvc.graphChoices, data);
+        } catch (e) {
+          //console.log(e);
+          this.router.navigate([''], { relativeTo: this.route });
+        }
+      },
+      error: (err) => {
+        this.router.navigate([''], { relativeTo: this.route });
+        console.log("Error caught at Subscriber County Line Graph Component: " + err)
+      },
+      complete: () => { }
+    });
   }
 
 }
