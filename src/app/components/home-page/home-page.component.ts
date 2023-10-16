@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 // import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentDataService } from 'src/app/services/component-data/component-data.service';
-import { UnSubscribeAdaptor } from '../Adaptors/UnSubscribeAdaptor';
 import { MatDialog } from '@angular/material/dialog';
 import { BarGraphOptionsComponent } from '../graph-options/bar-graph-options/bar-graph-options.component';
 import { LineGraphOptionsComponent } from '../graph-options/line-graph-options/line-graph-options.component';
@@ -13,7 +12,7 @@ import { GraphOptions } from '../graph-options/GraphOptionsModels/GraphOptions';
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css']
 })
-export class HomePageComponent extends UnSubscribeAdaptor {
+export class HomePageComponent {
   // graphType: string;
   graphChoices: GraphOptions[];
 
@@ -22,33 +21,7 @@ export class HomePageComponent extends UnSubscribeAdaptor {
     // private route: ActivatedRoute,
     // private router: Router,
     public dialog: MatDialog
-  ) {
-    super();
-    // this.sub.sink = this.compDataService.displayButtonFlag.subscribe(flag => this.buttonIsDisabled = flag);
-    // this.sub.sink = this.compDataService.displayCompButtonFlag.subscribe(flag => this.compButtonDisabled = flag);
-    // this.sub.sink = this.compDataService.graphType.subscribe(flag => this.graphType = flag);
-  }
-
-
-  // goToGraphs() {
-  //   if (this.graphType == 'bar-graph') {
-  //     this.router.navigate(['graphs'], { relativeTo: this.route });
-  //   } else if (this.graphType == 'line-graph') {
-  //     this.router.navigate(['lineGraphs'], { relativeTo: this.route });
-  //   } else {
-  //     this.router.navigate(['countyLineGraph'], { relativeTo: this.route });
-  //   }
-  // }
-
-  // comparison() {
-  //   this.compDataService.updateGraphButtonFlag(true);
-  //   this.compDataService.updateCompButtonFlag(true);
-  //   this.compDataService.updateSideNavComp(true);
-  // }
-
-  // resetSideNav() {
-  //   this.compDataService.reset_opts();
-  // }
+  ) { }
 
   openBarGraphDialog() {
     this.cmpntDataSrvc.clearGraphChoices();

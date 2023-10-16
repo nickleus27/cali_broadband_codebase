@@ -1,17 +1,13 @@
 import { Injectable } from '@angular/core';
 import { GraphOptions } from 'src/app/components/graph-options/GraphOptionsModels/GraphOptions';
-import { lineGraphOptions } from 'src/app/components/side-bar/graph-options-models/LineGraphOptions';
 import { ComponentDataService } from '../component-data/component-data.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GraphService {
-  linegraphOptions;
 
-  constructor(private compDataService: ComponentDataService) {
-    this.linegraphOptions = lineGraphOptions;
-  }
+  constructor(private compDataService: ComponentDataService) { }
 
   /**
    * 

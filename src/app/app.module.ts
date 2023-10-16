@@ -19,7 +19,6 @@ import { HomePageComponent } from './components/home-page/home-page.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { MatButtonModule } from '@angular/material/button';
 import { GraphComponent } from './components/graph/graph.component';
-import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { NgChartsConfiguration, NgChartsModule } from 'ng2-charts';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { LineGraphComponent } from './components/line-graph/line-graph.component';
@@ -34,7 +33,6 @@ import { CountyLineGraphOptionsComponent } from './components/graph-options/coun
     HomePageComponent,
     LayoutComponent,
     GraphComponent,
-    SideBarComponent,
     LineGraphComponent,
     CountyLineGraphComponent,
     BarGraphOptionsComponent,

@@ -45,10 +45,6 @@ export class CountyLineGraphComponent extends UnSubscribeAdaptor implements OnIn
     this.lineChartLegend = true;
   }
 
-  /**
-   * TODO: Should I not get data until getting to graph view
-   */
-
   ngOnInit() {
     this.sub.sink = this.getDataService.countyData.subscribe({
       next: (data) => {
@@ -66,21 +62,5 @@ export class CountyLineGraphComponent extends UnSubscribeAdaptor implements OnIn
       },
       complete: () => { }
     });
-    // this.sub.sink = this.getDataService.graphParams.subscribe({
-    //   next: (options) => {
-    //     try {
-    //       this.lineChartData = this.graphService.countyLineGraph(options, this.compDataService.roundData, options.comparison);
-    //     } catch (e) {
-    //       //console.log(e);
-    //       this.router.navigate([''], { relativeTo: this.route });
-    //     }
-    //   },
-    //   error: (err) => {
-    //     this.router.navigate([''], { relativeTo: this.route });
-    //     console.log("Error caught at Subscriber Graph Component: " + err)
-    //   },
-    //   complete: () => { }
-    // });
   }
-
 }

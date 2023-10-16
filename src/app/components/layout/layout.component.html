@@ -1,41 +1,22 @@
-<!--
-<mat-sidenav-container class="tp-container">
-    <mat-sidenav #sidenav mode="side" opened class="tp-sidenav">
-        <app-side-bar #sidebar></app-side-bar>
-    </mat-sidenav>
-    <mat-sidenav-content>
--->
-        <mat-toolbar class="flexSpaceBetween" color="warm">
-            <!--
-            <span>
-                <button mat-icon-button color='warm' (click)="sidenav.toggle()">
-                    <mat-icon>menu</mat-icon>
-                </button>
-            </span>
-            -->
-            <span class="tb-buttons"></span>
-            <span>
-                <mat-button-toggle-group [value]="graphTypeSelected" (change)="onChange($event)">
-                    <mat-button-toggle color='warm' [value]="graphTypeEnum.barGraph" matTooltip="Bar Graphs">
-                        <mat-icon>bar_chart</mat-icon>
-                    </mat-button-toggle>
-                    <mat-button-toggle color='warm' [value]="graphTypeEnum.lineGraph" matTooltip="Line Graphs">
-                        <mat-icon>multiline_chart</mat-icon>
-                    </mat-button-toggle>
-                    <mat-button-toggle color='warm' [value]="graphTypeEnum.lineCountyGraph"
-                        matTooltip="County Line Graphs">
-                        <mat-icon>area_chart</mat-icon>
-                    </mat-button-toggle>
-                </mat-button-toggle-group>
-            </span>
-            <span>
-                <button mat-icon-button color='warm' matTooltip="Home" (click)="goHome()">
-                    <mat-icon>home</mat-icon>
-                </button>
-            </span>
-        </mat-toolbar>
-        <router-outlet></router-outlet>
-<!--
-    </mat-sidenav-content>
-</mat-sidenav-container>
--->
+<mat-toolbar class="flexSpaceBetween" color="warm">
+    <span class="tb-buttons"></span>
+    <span>
+        <mat-button-toggle-group [value]="graphTypeSelected" (change)="onChange($event)">
+            <mat-button-toggle color='warm' [value]="graphTypeEnum.barGraph" matTooltip="Bar Graphs">
+                <mat-icon>bar_chart</mat-icon>
+            </mat-button-toggle>
+            <mat-button-toggle color='warm' [value]="graphTypeEnum.lineGraph" matTooltip="Line Graphs">
+                <mat-icon>multiline_chart</mat-icon>
+            </mat-button-toggle>
+            <mat-button-toggle color='warm' [value]="graphTypeEnum.lineCountyGraph" matTooltip="County Line Graphs">
+                <mat-icon>area_chart</mat-icon>
+            </mat-button-toggle>
+        </mat-button-toggle-group>
+    </span>
+    <span>
+        <button mat-icon-button color='warm' matTooltip="Home" (click)="goHome()">
+            <mat-icon>home</mat-icon>
+        </button>
+    </span>
+</mat-toolbar>
+<router-outlet></router-outlet>

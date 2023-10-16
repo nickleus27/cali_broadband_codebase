@@ -1,44 +1,25 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, forkJoin, from, map, Observable, pipe, Subject } from 'rxjs';
+import { forkJoin, map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GetDataService {
-  private _csvFiles = ['round14', 'round15', 'round16',
+  private _csvFiles = [
+    'round14', 'round15', 'round16',
     'ctyfa2017', 'ctysu2020', 'ctysp2021', 'ctyfa2021', 'ctysu2022', 'ctysp2023'
   ];
   private _graphData: Observable<any>;
-  // private _graphParams: Subject<any>;
 
-  constructor(private http: HttpClient) {
-    // const forkJoinData: any = {};
-    // this._csvFiles.forEach(key => {
-    //   if (key.includes('round')) {
-    //     forkJoinData[key] = this.http.get(`assets/data/${key}.csv`, { responseType: 'text' })
-    //       .pipe(map(data => { return this.processData(data) }));
-    //   } else {
-    //     forkJoinData[key] = this.http.get(`assets/data/${key}.csv`, { responseType: 'text' })
-    //       .pipe(map(data => { return this.processCountyData(data) }));
-    //   }
-    // });
-    // this._graphData = forkJoin(forkJoinData);
-    // this._graphParams = new BehaviorSubject({});
-  }
+  constructor(private http: HttpClient) { }
 
-  // public get graphParams(): Observable<any> {
-  //   return this._graphParams.asObservable();
-  // }
-
-  // public setGraphParams(params: object) {
-  //   this._graphParams.next(params);
-  // }
-
-  // public get roundData(): Observable<any> {
-  //   //return from([this._graphData]);
-  //   return this._graphData;
-  // }
+  /**
+   * TODO: may want to construct forkJoinData object once and hold it as a member variable
+   * 1. one for round data
+   * 2. one for county data
+   * 3. just return the pre-constructed observable object
+   */
 
   public get countyData(): Observable<any> {
     const forkJoinData: any = {};
@@ -64,6 +45,15 @@ export class GetDataService {
     return this._graphData;
   }
 
+  /**
+   * TODO: may want to preproccess csv to json  
+   */
+
+  /**
+   * 
+   * @param allText 
+   * @returns 
+   */
   private processCountyData(allText: string) {
     var allTextLines = allText.split(/\r\n|\n/);
     var headers = allTextLines[0].split(',');
