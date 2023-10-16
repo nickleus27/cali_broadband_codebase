@@ -29,8 +29,12 @@ export class LineGraphComponent extends UnSubscribeAdaptor implements OnInit {
       plugins: {
         tooltip: {
           callbacks: {
-            label: function (this: TooltipModel<keyof ChartTypeRegistry>, tooltipItem: TooltipItem<keyof ChartTypeRegistry>) {
-              return tooltipItem.dataset.label + " : " + tooltipItem.formattedValue + "%";
+            label: (tooltipItem: TooltipItem<keyof ChartTypeRegistry>): string | void | string[] => {
+              const tooltipData: any = tooltipItem.dataset.data[tooltipItem.dataIndex];
+              return [
+                "Speed Range: " + tooltipData.speedRange,
+                tooltipItem.dataset.label + " : " + tooltipItem.formattedValue + "%"
+              ];
             }
           }
         }

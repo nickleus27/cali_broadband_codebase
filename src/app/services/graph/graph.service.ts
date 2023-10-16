@@ -62,26 +62,30 @@ export class GraphService {
     const rounds: string[] = ['round14', 'round15', 'round16'];
     var dataSets: any = [];
     graphChoices.forEach(graph => {
-      var dataSeries: number[] = [];
-      rounds.forEach(round => {
+      var dataSeries: any[] = [];
+      rounds.forEach((round, i) => {
         let carrier = graph.carrierSelected!;
         let phone = this.getCurrPhone(carrier, Object.keys(data[round][carrier]))
         let speedRange = graph.speedRangeSelected!;
         if (speedRange === 'N/A') {
-          dataSeries.push(
-            this.getErrors(data, round, carrier, phone)
-          );
+          dataSeries.push({
+            x: i,
+            y: this.getErrors(data, round, carrier, phone),
+            speedRange: speedRange
+          });
         } else {
           // pick just the test speed from getSpeeds array
-          dataSeries.push(
-            this.getSpeeds(data, round, carrier, phone)[speeds[speedRange!]]
-          );
+          dataSeries.push({
+            x: i,
+            y: this.getSpeeds(data, round, carrier, phone)[speeds[speedRange!]],
+            speedRange: speedRange
+          });
         }
       });
       dataSets.push({
         data: dataSeries,
         label: graph.carrierSelected,
-        fill: false,
+        fill: graphChoices.length == 1,
         tension: 0.5,
         //borderColor: 'black',
         //backgroundColor: 'rgba(255,0,0,0.3)'
