@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GraphOptions } from 'src/app/components/graph-options/GraphOptionsModels/GraphOptions';
+import { GraphOptions } from 'src/app/components/graph-options-dialogs/GraphOptionsModels/GraphOptions';
 import { ComponentDataService } from '../component-data/component-data.service';
 
 @Injectable({
