@@ -1,1 +1,60 @@
-<p>delete-choice works!</p>
+<div>
+    <div *ngIf="graphChoices.length && graphChoices[0].graphType === 'bar-graph'" class="centered-div modal-slide">
+        <h1 mat-dialog-title class="header-div">Select Choices To Delete</h1>
+        <mat-dialog-content>
+            <div class="wrapper">
+                <mat-selection-list [(ngModel)]="deletionList" (ngModelChange)="onNgModelChange($event)">
+                    <mat-list-option *ngFor="let choice of graphChoices" [value]="choice">
+                        <span class="badge-left">Round: {{getCmpntDataSrvc.getRoundMapValue(choice.roundSelected!)}}</span>
+                        <span class="badge-mid">Carrier: {{choice.carrierSelected}}</span>
+                        <span class="badge-right">Phone: {{getCmpntDataSrvc.getModelMapValue(choice.phoneSelected!)}}</span>
+                    </mat-list-option>
+                </mat-selection-list>
+            </div>
+        </mat-dialog-content>
+        <mat-dialog-actions align="center">
+            <button mat-raised-button mat-dialog-close style="background-color: grey; color: white;"
+                (click)="cancel()">Cancel</button>
+            <button mat-raised-button mat-dialog-close color="blue" style="background-color: grey; color: white;"
+                (click)="deleteItems()">Delete</button>
+        </mat-dialog-actions>
+    </div>
+    <div *ngIf="graphChoices.length && graphChoices[0].graphType === 'line-graph'" class="centered-div modal-slide">
+        <h1 mat-dialog-title class="header-div">Select Choices To Delete</h1>
+        <mat-dialog-content>
+            <div class="wrapper">
+                <mat-selection-list [(ngModel)]="deletionList" (ngModelChange)="onNgModelChange($event)">
+                    <mat-list-option *ngFor="let choice of graphChoices" [value]="choice">
+                        <span class="badge-left">Carrier: {{choice.carrierSelected}}</span>
+                        <span class="badge-right">Speed Range: {{choice.speedRangeSelected}}</span>
+                    </mat-list-option>
+                </mat-selection-list>
+            </div>
+        </mat-dialog-content>
+        <mat-dialog-actions align="center">
+            <button mat-raised-button mat-dialog-close style="background-color: grey; color: white;"
+                (click)="cancel()">Cancel</button>
+            <button mat-raised-button mat-dialog-close color="blue" style="background-color: grey; color: white;"
+                (click)="deleteItems()">Delete</button>
+        </mat-dialog-actions>
+    </div>
+    <div *ngIf="graphChoices.length && graphChoices[0].graphType === 'county-line-graph'" class="centered-div modal-slide">
+        <h1 mat-dialog-title class="header-div">Select Choices To Delete</h1>
+        <mat-dialog-content>
+            <div class="wrapper">
+                <mat-selection-list [(ngModel)]="deletionList" (ngModelChange)="onNgModelChange($event)">
+                    <mat-list-option *ngFor="let choice of graphChoices" [value]="choice">
+                        <span class="badge-left">Carrier: {{choice.carrierSelected}}</span>
+                        <span class="badge-right">County: {{choice.countySelected}}</span>
+                    </mat-list-option>
+                </mat-selection-list>
+            </div>
+        </mat-dialog-content>
+        <mat-dialog-actions align="center">
+            <button mat-raised-button mat-dialog-close style="background-color: grey; color: white;"
+                (click)="cancel()">Cancel</button>
+            <button mat-raised-button mat-dialog-close color="blue" style="background-color: grey; color: white;"
+                (click)="deleteItems()">Delete</button>
+        </mat-dialog-actions>
+    </div>
+</div>

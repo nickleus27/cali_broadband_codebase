@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { GraphOptions } from 'src/app/components/graph-options-dialogs/GraphOptionsModels/GraphOptions';
 
 @Injectable({
@@ -8,6 +9,7 @@ export class ComponentDataService {
   private _model_map: { [key: string]: string };
   private _round_map: { [key: string]: string };
   private _graphChoices: GraphOptions[];
+  private _graphChoicesSubject: Subject<GraphOptions[]>;
 
   constructor() {
     this._model_map = {
@@ -23,6 +25,7 @@ export class ComponentDataService {
     };
     this._round_map = { 'round14': 'Spring 2021', 'round15': 'Fall 2021', 'round16': 'Summer 2022' };
     this._graphChoices = [];
+    this._graphChoicesSubject = new Subject();
   }
 
   public getModelMapValue(key: string): string {
@@ -44,4 +47,49 @@ export class ComponentDataService {
     return this._graphChoices.map(choice => choice);
   }
 
+  get graphChoicesObsrv(): Observable<GraphOptions[]> {
+    return this._graphChoicesSubject;
+  }
+
+  public updateGraphChoices(): void {
+    this._graphChoicesSubject.next(this._graphChoices);
+  }
+
+  /**
+   * 
+   * @param deletionList 
+   */
+  public deleteGraphChoiceItems(deletionList: any): void {
+    this._graphChoices = this._graphChoices.filter(item => {
+      switch (item.graphType) {
+        case 'bar-graph':
+          return !this.inList(deletionList,
+            (itemToDelete: GraphOptions) => {
+              return item.roundSelected === itemToDelete.roundSelected
+                && item.carrierSelected === itemToDelete.carrierSelected
+                && item.phoneSelected === itemToDelete.phoneSelected
+            });
+        case 'line-graph':
+          return !this.inList(deletionList,
+            (itemToDelete: GraphOptions) => {
+              return item.carrierSelected === itemToDelete.carrierSelected
+                && item.speedRangeSelected === itemToDelete.speedRangeSelected;
+            });
+        case 'county-line-graph':
+          return !this.inList(deletionList,
+            (itemToDelete: GraphOptions) => {
+              return item.countySelected === itemToDelete.countySelected
+                && item.carrierSelected === itemToDelete.carrierSelected;
+            });
+        default:
+          console.log("Malformed graph choice");
+          return false;
+      }
+    });
+    this.updateGraphChoices();
+  }
+
+  private inList(list: any[], cb: any): boolean {
+    return list.some(cb);
+  }
 }

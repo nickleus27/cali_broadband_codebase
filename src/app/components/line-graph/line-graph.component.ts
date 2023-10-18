@@ -44,22 +44,34 @@ export class LineGraphComponent extends UnSubscribeAdaptor implements OnInit {
   }
 
   ngOnInit() {
-    this.sub.sink = this.getDataService.roundData.subscribe({
-      next: (data) => {
-        try {
-          this.lineChartData = this.graphService.lineGraph(
-            this.cmpntDataSrvc.graphChoices, data);
-        } catch (e) {
-          //console.log(e);
-          this.router.navigate([''], { relativeTo: this.route });
-        }
+    this.sub.sink = this.cmpntDataSrvc.graphChoicesObsrv.subscribe({
+      next: (graphChoices) => {
+        this.getDataService.roundData.subscribe({
+          next: (data) => {
+            try {
+              this.lineChartData = this.graphService.lineGraph(graphChoices, data);
+            } catch (e) {
+              //console.log(e);
+              // TODO
+              this.router.navigate([''], { relativeTo: this.route });
+            }
+          },
+          error: (err) => {
+            // TODO
+            this.router.navigate([''], { relativeTo: this.route });
+            console.log("Error caught for roundData at subscriber Line Graph Component: " + err);
+          },
+          complete: () => { }
+        });
       },
       error: (err) => {
+        // TODO
         this.router.navigate([''], { relativeTo: this.route });
-        console.log("Error caught at Subscriber County Line Graph Component: " + err)
+        console.log("Error caught for graphChoicesObsrv at subscriber Line Graph Component: " + err);
       },
       complete: () => { }
     });
+    this.cmpntDataSrvc.updateGraphChoices();
   }
 
 }

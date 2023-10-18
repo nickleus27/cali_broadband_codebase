@@ -47,3 +47,36 @@ div {
         width: 100%;
     }
 }
+
+.badge-left {
+    display: inline-block;
+    font-size: small;
+    color: white;
+    padding: 0.8em 0.7em 0.8em 0.7em;
+    background-color: grey;
+    line-height: 1em;
+    margin-right: .1em;
+    border-radius: 3px 0 0 3px;
+}
+
+.badge-mid {
+    display: inline-block;
+    font-size: small;
+    color: white;
+    padding: 0.8em 0.7em 0.8em 0.7em;
+    background-color: grey;
+    line-height: 1em;
+    margin-left: .1em;
+    margin-right: .1em;
+}
+
+.badge-right {
+    display: inline-block;
+    font-size: small;
+    color: white;
+    padding: 0.8em 0.7em 0.8em 0.7em;
+    background-color: grey;
+    line-height: 1em;
+    margin-left: .1em;
+    border-radius: 0 3px 3px 0;
+}

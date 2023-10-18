@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 // import { ComponentDataService } from 'src/app/services/component-data/component-data.service';
 import { MatDialog } from '@angular/material/dialog';
+import { ComponentDataService } from 'src/app/services/component-data/component-data.service';
+import { DeleteChoiceDialogComponent } from '../toolbar-components/delete-choice-dialog/delete-choice-dialog.component';
 
 export enum GraphTypeEnum {
   barGraph,
@@ -23,7 +25,8 @@ export class LayoutComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     // private compDataService: ComponentDataService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private cmpntDataSrvc: ComponentDataService
   ) {
     this.graphTypeEnum = GraphTypeEnum;
     this.graphTypeSelected = this.graphTypeEnum.barGraph;
@@ -34,6 +37,14 @@ export class LayoutComponent implements OnInit {
 
   goHome(): void {
     this.router.navigate([''], { relativeTo: this.route });
+  }
+
+  deleteItemsDialog() {
+    this.dialog.open(DeleteChoiceDialogComponent,
+      {
+        width: '75%',
+        // height: '65%',
+      });
   }
 
   onChange(event: any): void {

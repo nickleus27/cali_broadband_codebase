@@ -46,21 +46,37 @@ export class CountyLineGraphComponent extends UnSubscribeAdaptor implements OnIn
   }
 
   ngOnInit() {
-    this.sub.sink = this.getDataService.countyData.subscribe({
-      next: (data) => {
-        try {
-          this.lineChartData = this.graphService.countyLineGraph(
-            this.cmpntDataSrvc.graphChoices, data);
-        } catch (e) {
-          //console.log(e);
-          this.router.navigate([''], { relativeTo: this.route });
-        }
+    this.sub.sink = this.cmpntDataSrvc.graphChoicesObsrv.subscribe({
+      next: (graphChoices) => {
+        this.getDataService.countyData.subscribe({
+          next: (data) => {
+            try {
+              this.lineChartData = this.graphService.countyLineGraph(graphChoices, data);
+            } catch (e) {
+              console.log(e);
+              // TODO
+              this.router.navigate([''], { relativeTo: this.route });
+            }
+          },
+          error: (err) => {
+            /**
+             * TODO: Make error handling component
+             */
+            this.router.navigate([''], { relativeTo: this.route });
+            console.log("Error for countyData subscriber caught at County Line Graph Component: " + err)
+          },
+          complete: () => { }
+        });
       },
       error: (err) => {
+        /**
+         * TODO: Make error handling component
+         */
         this.router.navigate([''], { relativeTo: this.route });
-        console.log("Error caught at Subscriber County Line Graph Component: " + err)
+        console.log("Error for graphChoicesObsrv subscriber caught at County Line Graph Component: " + err)
       },
       complete: () => { }
     });
+    this.cmpntDataSrvc.updateGraphChoices();
   }
 }

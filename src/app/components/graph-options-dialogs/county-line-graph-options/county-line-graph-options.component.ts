@@ -73,7 +73,7 @@ export class CountyLineGraphOptionsComponent implements OptionsDialog, OnChanges
 
   display() {
     if (!!this.graphChoices.carrierSelected) {
-      console.log(this.dialogViews);
+      // console.log(this.dialogViews);
       this.cmpntDataSrvc.pushGraphChoices(this.graphChoices);
       this.router.navigate(['countyLineGraph'], { relativeTo: this.route });
     }

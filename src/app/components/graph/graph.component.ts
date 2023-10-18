@@ -65,22 +65,42 @@ export class GraphComponent extends UnSubscribeAdaptor implements OnInit {
   }
 
   ngOnInit(): void {
-    this.sub.sink = this.dataService.roundData.subscribe({
-      next: (data) => {
-        try {
-          this.barChartData = this.graphService.barGraph(
-            this.cmpntDataSrvc.graphChoices, data);
-        } catch (e) {
-          //console.log(e);
-          this.router.navigate([''], { relativeTo: this.route });
-        }
+    /**
+     * TODO: finish function
+     * && create an observable to subscribe to for graphChoices
+     */
+    this.sub.sink = this.cmpntDataSrvc.graphChoicesObsrv.subscribe({
+      next: (graphChoices) => {
+        this.dataService.roundData.subscribe({
+          next: (data) => {
+            try {
+              this.barChartData = this.graphService.barGraph(graphChoices, data);
+            } catch (e) {
+              console.log(e);
+              // TODO
+              this.router.navigate([''], { relativeTo: this.route });
+            }
+          },
+          error: (err) => {
+            /**
+             * TODO: Make error handling component
+             */
+            this.router.navigate([''], { relativeTo: this.route });
+            console.log("Error caught for roundData subscriber at Graph Component: " + err)
+          },
+          complete: () => { }
+        });
       },
       error: (err) => {
+        /**
+         * TODO: Make error handling component
+         */
         this.router.navigate([''], { relativeTo: this.route });
-        console.log("Error caught at Subscriber County Line Graph Component: " + err)
+        console.log("Error for graphChoicesObsrv subscriber caught at Graph Component: " + err)
       },
       complete: () => { }
     });
+    this.cmpntDataSrvc.updateGraphChoices();
   }
 
   // events
