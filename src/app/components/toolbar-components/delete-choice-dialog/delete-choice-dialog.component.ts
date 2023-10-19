@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ToolbarDialog } from '../ToolbarDialogInterface/ToolbarDialogInterface';
 import { ComponentDataService } from 'src/app/services/component-data/component-data.service';
 import { GraphOptions } from '../../graph-options-dialogs/GraphOptionsModels/GraphOptions';
+import { MatSelectionList } from '@angular/material/list';
 
 @Component({
   selector: 'app-delete-choice',
@@ -9,6 +10,7 @@ import { GraphOptions } from '../../graph-options-dialogs/GraphOptionsModels/Gra
   styleUrls: ['./delete-choice-dialog.component.css']
 })
 export class DeleteChoiceDialogComponent implements ToolbarDialog {
+  @ViewChild(MatSelectionList) selectAllList: MatSelectionList;
   graphChoices;
   deletionList: any;
 
@@ -17,6 +19,10 @@ export class DeleteChoiceDialogComponent implements ToolbarDialog {
   ) {
     this.graphChoices = this.cmpntDataSrvc.graphChoices;
     this.deletionList = [];
+  }
+
+  ngAfterViewInit() {
+    console.log(this.selectAllList)
   }
 
   onNgModelChange($changes: any): void {
@@ -29,6 +35,10 @@ export class DeleteChoiceDialogComponent implements ToolbarDialog {
 
   deleteItems(): void {
     this.cmpntDataSrvc.deleteGraphChoiceItems(this.deletionList);
+  }
+
+  selectAll(): void {
+    this.selectAllList.selectAll();
   }
 
   get getCmpntDataSrvc(): ComponentDataService {

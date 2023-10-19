@@ -45,7 +45,7 @@ export class CountyLineGraphOptionsComponent implements OptionsDialog, OnChanges
   }
 
   cancel() {
-    this.cmpntDataSrvc.clearGraphChoices();
+    // this.cmpntDataSrvc.clearGraphChoices();
   }
 
   back() {
@@ -73,9 +73,12 @@ export class CountyLineGraphOptionsComponent implements OptionsDialog, OnChanges
 
   display() {
     if (!!this.graphChoices.carrierSelected) {
-      // console.log(this.dialogViews);
       this.cmpntDataSrvc.pushGraphChoices(this.graphChoices);
-      this.router.navigate(['countyLineGraph'], { relativeTo: this.route });
+      if (this.router.url === '/') { // home route
+        this.router.navigate(['countyLineGraph'], { relativeTo: this.route });
+      } else { // already at graph
+        this.cmpntDataSrvc.updateGraphChoices();
+      }
     }
   }
 

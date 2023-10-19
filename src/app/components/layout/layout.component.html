@@ -1,8 +1,17 @@
 <mat-toolbar class="flexSpaceBetween" color="warm">
     <span class="tb-buttons"></span>
     <span>
-        <button mat-icon-button color='warm' matTooltip="Delete Graph Choices" (click)="deleteItemsDialog()">
+        <button mat-icon-button color='warm' matTooltip="Delete Graph Choices"
+            [disabled]="!(cmpntDataSrvc.graphChoicesObsrv | async)?.length" (click)="deleteItemsDialog()">
             <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-icon-button color='warm' matTooltip="Add Graph Choices"
+            [disabled]="!(cmpntDataSrvc.graphChoicesObsrv | async)?.length" (click)="addItemsDialog()">
+            <mat-icon>add</mat-icon>
+        </button>
+        <button mat-icon-button color='warm' matTooltip="Display Graph"
+            [disabled]="!(cmpntDataSrvc.graphChoicesObsrv | async)?.length" (click)="displayGraph()">
+            <mat-icon>visibility</mat-icon>
         </button>
         <!-- <mat-button-toggle-group [value]="graphTypeSelected" (change)="onChange($event)">
             <mat-button-toggle color='warm' [value]="graphTypeEnum.barGraph" matTooltip="Bar Graphs">

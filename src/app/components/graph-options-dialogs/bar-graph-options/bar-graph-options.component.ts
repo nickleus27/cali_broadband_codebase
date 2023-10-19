@@ -89,7 +89,7 @@ export class BarGraphOptionsComponent implements OptionsDialog, OnChanges {
   }
 
   cancel() {
-    this.cmpntDataSrvc.clearGraphChoices();
+    // this.cmpntDataSrvc.clearGraphChoices();
   }
 
   back() {
@@ -136,10 +136,13 @@ export class BarGraphOptionsComponent implements OptionsDialog, OnChanges {
   }
 
   display() {
-
     if (!!this.graphChoices.phoneSelected) {
       this.cmpntDataSrvc.pushGraphChoices(this.graphChoices);
-      this.router.navigate(['graphs'], { relativeTo: this.route });
+      if (this.router.url === '/') { // home route
+        this.router.navigate(['graphs'], { relativeTo: this.route });
+      } else { // already at graph
+        this.cmpntDataSrvc.updateGraphChoices();
+      }
     }
   }
 

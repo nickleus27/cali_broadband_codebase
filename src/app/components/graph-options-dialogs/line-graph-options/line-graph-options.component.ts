@@ -50,7 +50,7 @@ export class LineGraphOptionsComponent implements OptionsDialog, OnChanges {
   }
 
   cancel() {
-    this.cmpntDataSrvc.clearGraphChoices();
+    // this.cmpntDataSrvc.clearGraphChoices();
   }
 
   back() {
@@ -79,7 +79,11 @@ export class LineGraphOptionsComponent implements OptionsDialog, OnChanges {
   display() {
     if (!!this.graphChoices.speedRangeSelected) {
       this.cmpntDataSrvc.pushGraphChoices(this.graphChoices);
-      this.router.navigate(['lineGraphs'], { relativeTo: this.route });
+      if (this.router.url === '/') { // home route
+        this.router.navigate(['lineGraphs'], { relativeTo: this.route });
+      } else { // already at graph
+        this.cmpntDataSrvc.updateGraphChoices();
+      }
     }
   }
 

@@ -4,6 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ComponentDataService } from 'src/app/services/component-data/component-data.service';
 import { DeleteChoiceDialogComponent } from '../toolbar-components/delete-choice-dialog/delete-choice-dialog.component';
+import { BarGraphOptionsComponent } from '../graph-options-dialogs/bar-graph-options/bar-graph-options.component';
+import { LineGraphOptionsComponent } from '../graph-options-dialogs/line-graph-options/line-graph-options.component';
+import { CountyLineGraphOptionsComponent } from '../graph-options-dialogs/county-line-graph-options/county-line-graph-options.component';
 
 export enum GraphTypeEnum {
   barGraph,
@@ -26,14 +29,14 @@ export class LayoutComponent implements OnInit {
     private router: Router,
     // private compDataService: ComponentDataService,
     public dialog: MatDialog,
-    private cmpntDataSrvc: ComponentDataService
+    public cmpntDataSrvc: ComponentDataService
   ) {
     this.graphTypeEnum = GraphTypeEnum;
     this.graphTypeSelected = this.graphTypeEnum.barGraph;
     //this.graphTypeOptions = ['barGraph', 'lineGraph'];
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   goHome(): void {
     this.router.navigate([''], { relativeTo: this.route });
@@ -46,19 +49,60 @@ export class LayoutComponent implements OnInit {
         // height: '65%',
       });
   }
+  addItemsDialog() {
+    const type = this.cmpntDataSrvc.graphChoices.length ? this.cmpntDataSrvc.graphChoices[0].graphType : null;
+    if (!type) {
+      return;
+    }
+    switch (type) {
+      case 'bar-graph':
+        this.dialog.open(BarGraphOptionsComponent,
+          {
+            width: '75%',
+            // height: '65%',
+          });
+        break;
+      case 'line-graph':
+        this.dialog.open(LineGraphOptionsComponent,
+          {
+            width: '75%',
+            // height: '65%',
+          });
+        break;
+      case 'county-line-graph':
+        this.dialog.open(CountyLineGraphOptionsComponent,
+          {
+            width: '75%',
+            // height: '65%',
+          });
+        break;
+      default:
+        console.log("Malformed Graph Type");
+        // TODO: error component
+        break;
+    }
+  }
 
-  onChange(event: any): void {
-  //   this.graphTypeSelected = event.value;
-  //   if (this.graphTypeSelected === this.graphTypeEnum.barGraph) {
-  //     this.compDataService.updateGraphType('bar-graph');
-  //     this.goHome();
-  //   } else if (this.graphTypeSelected === this.graphTypeEnum.lineGraph) {
-  //     this.compDataService.updateGraphType('line-graph');
-  //     this.goHome();
-  //   } else {
-  //     this.compDataService.updateGraphType('county-line-graph');
-  //     this.goHome();
-  //   }
+  displayGraph() {
+    const type = this.cmpntDataSrvc.graphChoices.length ? this.cmpntDataSrvc.graphChoices[0].graphType : null;
+    if (!type) {
+      return;
+    }
+    switch (type) {
+      case 'bar-graph':
+        this.router.navigate(['graphs'], { relativeTo: this.route });
+        break;
+      case 'line-graph':
+        this.router.navigate(['lineGraphs'], { relativeTo: this.route });
+        break;
+      case 'county-line-graph':
+        this.router.navigate(['countyLineGraph'], { relativeTo: this.route });
+        break;
+      default:
+        console.log("Malformed Graph Type");
+        // TODO: error component
+        break;
+    }
   }
 
 }
