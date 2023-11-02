@@ -31,10 +31,11 @@ export class CountyLineGraphComponent extends UnSubscribeAdaptor implements OnIn
           callbacks: {
             label: (tooltipItem: TooltipItem<keyof ChartTypeRegistry>): string | void | string[] => {
               const tooltipData: any = tooltipItem.dataset.data[tooltipItem.dataIndex]
+              const phone = !!this.cmpntDataSrvc.getModelMapValue(tooltipData.phone) ? this.cmpntDataSrvc.getModelMapValue(tooltipData.phone) : 'All Phones';
               return [
                 tooltipItem.dataset.label!,
                 "Average Download Speed : " + tooltipItem.formattedValue + " kbps",
-                "Phone : " + this.cmpntDataSrvc.getModelMapValue(tooltipData.phone),
+                "Phone : " + phone,
                 "Number of Tests : " + tooltipData.tests
               ];
             }

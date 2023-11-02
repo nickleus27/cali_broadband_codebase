@@ -112,14 +112,17 @@ export class GraphService {
     graphChoices.forEach(graph => {
       const avgDls: any[] = [];
       rounds.forEach((round, i) => {
-        const countyData: any = roundData[round][graph.countySelected!];
-        const carrier = graph.carrierSelected!;
-        const phone = this.getCurrPhone(carrier, Object.keys(countyData[carrier]));
-        const testsQuantity = this.getNumberOfTests(carrier, phone, countyData);
+        const county = graph.countySelected!;
+        const data: any = roundData[round];
+        const carrier = graph.carrierSelected! === 'All Carriers' ? 'all_carrier' : graph.carrierSelected!;
+        // make a phone an array so you can pass by reference
+        const phone = [(county === 'Entire State' || carrier === 'all_carrier') ? 'NA' : this.getCurrPhone(carrier, Object.keys(data[county][carrier]))];
+        const avgDlSpeed = this.getAvgDl(county, carrier, phone, data);
+        const testsQuantity = this.getNumberOfTests(county, carrier, phone, data);
         avgDls.push({
           x: i,
-          y: parseInt(countyData[carrier][phone]["avgDl"]),
-          phone: phone,
+          y: avgDlSpeed,
+          phone: phone[0],
           tests: testsQuantity
         });
       });
@@ -136,6 +139,60 @@ export class GraphService {
       labels: labels,
       datasets: dataSets
     };
+  }
+  /**
+   * 
+   * TODO: Test Data Display for correctness
+   * 
+   */
+  private getAvgDl(county: string, carrier: string, phone: string[], data: { [key: string]: any }): number {
+    if (county !== 'Entire State') { // this is for "specific county"
+      return parseInt(data[county][carrier][phone[0]]["avgDl"]);
+    }
+    let avgDl: number = 0;
+    let count: number = 0;
+    if (carrier === 'all_carrier') { // this is for "entire state", "all carriers"
+      Object.keys(data).forEach(countyKey => { // find average of all counties in state
+        avgDl += parseInt(data[countyKey][carrier][phone[0]]['avgDl']);
+        count++;
+      });
+    } else { // this is for "entire state", "specific carrier"
+      const countyList = Object.keys(data);
+      phone[0] = this.getCurrPhone(carrier, Object.keys(data[countyList[0]][carrier]));
+      countyList.forEach(countyKey => {
+        avgDl += parseInt(data[countyKey][carrier][phone[0]]['avgDl']);
+        count++;
+      });
+      // Object.keys(data).forEach(countyKey => { // find average of all counties in state
+      //   let countyPhone = this.getCurrPhone(carrier, Object.keys(data[countyKey][carrier]));
+      //   avgDl += parseInt(data[countyKey][carrier][countyPhone]['avgDl']);
+      //   count++;
+      // });
+    }
+    return Math.round(avgDl / count);
+  }
+
+  private getNumberOfTests(county: string, carrier: string, phone: string[], data: any): string {
+    if (county !== 'Entire State') { // this is for "specific county"
+      return data[county][carrier][phone[0]]["numTests"];
+    }
+    let totalTests: number = 0;
+    if (carrier === 'all_carrier') { // this is for "entire state", "all carriers"
+      Object.keys(data).forEach(countyKey => { // sum the number of tests in each county
+        totalTests += parseInt(data[countyKey][carrier][phone[0]]['numTests']);
+      });
+    } else { // this is for "entire state", "specific carrier"
+      const countyList = Object.keys(data);
+      phone[0] = this.getCurrPhone(carrier, Object.keys(data[countyList[0]][carrier]));
+      countyList.forEach(countyKey => {
+        totalTests += parseInt(data[countyKey][carrier][phone[0]]['numTests']);;
+      });
+      // Object.keys(data).forEach(countyKey => { // sum the number of tests in each county
+      //   let countyPhone = this.getCurrPhone(carrier, Object.keys(data[countyKey][carrier]));
+      //   totalTests += parseInt(data[countyKey][carrier][countyPhone]['numTests']);
+      // });
+    }
+    return totalTests.toString();
   }
 
   private getErrors(data: { [key: string]: any }, round: string, carrier: string, phone: string): number {
@@ -157,10 +214,6 @@ export class GraphService {
     }
     );
     return speeds;
-  }
-
-  private getNumberOfTests(carrier: string, phone: string, countyData: any): string {
-    return countyData[carrier][phone]['numTests'];
   }
 
   private getCurrPhone(carrier: string, roundModels: string[]): string {

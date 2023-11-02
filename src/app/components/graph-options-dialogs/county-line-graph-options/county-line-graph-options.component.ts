@@ -33,7 +33,7 @@ export class CountyLineGraphOptionsComponent implements OptionsDialog, OnChanges
     this.graphChoices = {
       graphType: "county-line-graph",
     };
-    this.carriers = ["AT&T", "T-Mobile", "Verizon"];
+    this.carriers = ["AT&T", "T-Mobile", "Verizon", "All Carriers"];
     this._next = new BehaviorSubject(this.dialogViews.countyView);
     this.disableDisplayButton = new BehaviorSubject(true);
   }
