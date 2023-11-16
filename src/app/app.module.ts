@@ -15,6 +15,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -27,6 +28,7 @@ import { BarGraphOptionsComponent } from './components/graph-options-dialogs/bar
 import { LineGraphOptionsComponent } from './components/graph-options-dialogs/line-graph-options/line-graph-options.component';
 import { CountyLineGraphOptionsComponent } from './components/graph-options-dialogs/county-line-graph-options/county-line-graph-options.component';
 import { DeleteChoiceDialogComponent } from './components/toolbar-components/delete-choice-dialog/delete-choice-dialog.component';
+import { AggrOptionsDialogsComponent } from './components/graph-options-dialogs/aggr-options-dialogs/aggr-options-dialogs.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { DeleteChoiceDialogComponent } from './components/toolbar-components/del
     BarGraphOptionsComponent,
     LineGraphOptionsComponent,
     CountyLineGraphOptionsComponent,
-    DeleteChoiceDialogComponent
+    DeleteChoiceDialogComponent,
+    AggrOptionsDialogsComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +62,8 @@ import { DeleteChoiceDialogComponent } from './components/toolbar-components/del
     FormsModule,
     ReactiveFormsModule,
     NgChartsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule
   ],
   providers: [{ provide: NgChartsConfiguration, useValue: { generateColors: false } }],
   bootstrap: [AppComponent]

@@ -9,6 +9,10 @@
             [disabled]="!(cmpntDataSrvc.graphChoicesObsrv | async)?.length" (click)="addItemsDialog()">
             <mat-icon>add</mat-icon>
         </button>
+        <button mat-icon-button color='warm' matTooltip="Graph Options"
+            [disabled]="!(cmpntDataSrvc.graphChoicesObsrv | async)?.length" (click)="graphSettingsDialog()">
+            <mat-icon>settings</mat-icon>
+        </button>
         <button mat-icon-button color='warm' matTooltip="Display Graph"
             [disabled]="!(cmpntDataSrvc.graphChoicesObsrv | async)?.length" (click)="displayGraph()">
             <mat-icon>visibility</mat-icon>

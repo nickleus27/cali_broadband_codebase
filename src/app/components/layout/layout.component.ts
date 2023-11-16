@@ -7,6 +7,7 @@ import { DeleteChoiceDialogComponent } from '../toolbar-components/delete-choice
 import { BarGraphOptionsComponent } from '../graph-options-dialogs/bar-graph-options/bar-graph-options.component';
 import { LineGraphOptionsComponent } from '../graph-options-dialogs/line-graph-options/line-graph-options.component';
 import { CountyLineGraphOptionsComponent } from '../graph-options-dialogs/county-line-graph-options/county-line-graph-options.component';
+import { AggrOptionsDialogsComponent } from '../graph-options-dialogs/aggr-options-dialogs/aggr-options-dialogs.component';
 
 export enum GraphTypeEnum {
   barGraph,
@@ -40,6 +41,14 @@ export class LayoutComponent implements OnInit {
 
   goHome(): void {
     this.router.navigate([''], { relativeTo: this.route });
+  }
+
+  graphSettingsDialog() {
+    this.dialog.open(AggrOptionsDialogsComponent,
+      {
+        width: '75%',
+        // height: '65%',
+      });
   }
 
   deleteItemsDialog() {
