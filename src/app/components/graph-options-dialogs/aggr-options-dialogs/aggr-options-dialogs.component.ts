@@ -26,7 +26,7 @@ export class AggrOptionsDialogsComponent implements OptionsDialog, OnChanges {
   disableDisplayButton: BehaviorSubject<boolean>;
 
   constructor(
-    private cmpntDataSrvc: ComponentDataService,
+    public cmpntDataSrvc: ComponentDataService,
     private router: Router,
     private route: ActivatedRoute
   ) {
@@ -41,14 +41,12 @@ export class AggrOptionsDialogsComponent implements OptionsDialog, OnChanges {
       graphType: "county-line-graph",
     };
     this.carriers = ["AT&T", "T-Mobile", "Verizon", "All Carriers"];
-    this.aggrOpts = {
-      opts: ["Aggregate Settings", "State Data"],
-    }
+    this.aggrOpts = ["State Data"];
     this.settingChoice = DialogViews.aggrOptsView;
   }
 
   ngOnChanges(): void {
-    switch(this.settingChoice) {
+    switch (this.settingChoice) {
       case this.dialogViews.stateDataView:
         this.graphChoices.countySelected = "Entire State";
         break;

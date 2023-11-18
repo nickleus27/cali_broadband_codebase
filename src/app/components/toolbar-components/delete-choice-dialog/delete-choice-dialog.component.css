@@ -1,12 +1,12 @@
 div {
-    background: #58b3e5;
+    background: #1B79AC;
 }
 
 .centered-div {
     margin: auto;
     top: -15px;
     padding: 10px;
-    background: #58b3e5;
+    background: #1B79AC;
     color: white;
     border-style: double;
     border-radius: 7px;
@@ -15,7 +15,7 @@ div {
 
 .header-div {
     text-align: center;
-    color: #5A5A5A;
+    color: white;
 }
 
 .wrapper {
@@ -53,7 +53,7 @@ div {
     font-size: small;
     color: white;
     padding: 0.8em 0.7em 0.8em 0.7em;
-    background-color: grey;
+    background-color: #707070;
     line-height: 1em;
     margin-right: .1em;
     border-radius: 3px 0 0 3px;
@@ -64,7 +64,7 @@ div {
     font-size: small;
     color: white;
     padding: 0.8em 0.7em 0.8em 0.7em;
-    background-color: grey;
+    background-color: #707070;
     line-height: 1em;
     margin-left: .1em;
     margin-right: .1em;
@@ -75,7 +75,7 @@ div {
     font-size: small;
     color: white;
     padding: 0.8em 0.7em 0.8em 0.7em;
-    background-color: grey;
+    background-color: #707070;
     line-height: 1em;
     margin-left: .1em;
     border-radius: 0 3px 3px 0;

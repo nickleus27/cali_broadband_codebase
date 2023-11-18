@@ -1,6 +1,10 @@
 <mat-toolbar class="flexSpaceBetween" color="warm">
     <span class="tb-buttons"></span>
     <span>
+        <button *ngIf="(this.cmpntDataSrvc.graphChoicesObsrv | async)?.at(0)?.graphType == 'county-line-graph'"
+            mat-icon-button color='warm' matTooltip="Graph Options" (click)="graphSettingsDialog()">
+            <mat-icon>settings</mat-icon>
+        </button>
         <button mat-icon-button color='warm' matTooltip="Delete Graph Choices"
             [disabled]="!(cmpntDataSrvc.graphChoicesObsrv | async)?.length" (click)="deleteItemsDialog()">
             <mat-icon>delete</mat-icon>
@@ -8,10 +12,6 @@
         <button mat-icon-button color='warm' matTooltip="Add Graph Choices"
             [disabled]="!(cmpntDataSrvc.graphChoicesObsrv | async)?.length" (click)="addItemsDialog()">
             <mat-icon>add</mat-icon>
-        </button>
-        <button mat-icon-button color='warm' matTooltip="Graph Options"
-            [disabled]="!(cmpntDataSrvc.graphChoicesObsrv | async)?.length" (click)="graphSettingsDialog()">
-            <mat-icon>settings</mat-icon>
         </button>
         <button mat-icon-button color='warm' matTooltip="Display Graph"
             [disabled]="!(cmpntDataSrvc.graphChoicesObsrv | async)?.length" (click)="displayGraph()">

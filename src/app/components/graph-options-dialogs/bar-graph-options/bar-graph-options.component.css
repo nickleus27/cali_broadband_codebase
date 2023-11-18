@@ -1,12 +1,12 @@
 div {
-  background: #58b3e5;
+  background: #1B79AC;
 }
 
 .centered-div {
   margin: auto;
   top: -15px;
   padding: 10px;
-  background: #58b3e5;
+  background: #1B79AC;
   color: white;
   border-style: double;
   border-radius: 7px;
@@ -15,7 +15,7 @@ div {
 
 .header-div {
   text-align: center;
-  color: #5A5A5A;
+  color: white;
 }
 
 .wrapper {
