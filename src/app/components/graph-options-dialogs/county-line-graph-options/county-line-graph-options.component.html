@@ -3,11 +3,22 @@
     <h1 mat-dialog-title class="header-div">Choose County</h1>
     <mat-dialog-content>
       <div class="county-wrapper">
-        <mat-radio-group class="county-box" [(ngModel)]="graphChoices.countySelected">
-          <mat-radio-button *ngFor="let county of counties" [value]="county">
-            <label style="color: white">{{county}}</label>
-          </mat-radio-button>
-        </mat-radio-group>
+        <table mat-table [dataSource]="countyDataSource" style="background: #1B79AC;">
+          <mat-radio-group [(ngModel)]="graphChoices.countySelected">
+            <ng-container [matColumnDef]="county" *ngFor="let county of displayedColumns">
+              <th mat-header-cell *matHeaderCellDef>{{ county }}</th>
+              <td mat-cell *matCellDef="let cty" style="color: white;">
+                <mat-radio-button [value]="cty[county]"></mat-radio-button>
+                {{ cty[county] }}
+              </td>
+            </ng-container>
+            <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr> -->
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </mat-radio-group>
+        </table>
+        <mat-paginator #paginator [length]="counties.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 50, 100]"
+          aria-label="Select page" showFirstLastButtons>
+        </mat-paginator>
       </div>
     </mat-dialog-content>
     <mat-dialog-actions align="center">
@@ -33,7 +44,8 @@
         (click)="cancel()">Cancel</button>
       <button mat-raised-button style="background-color: #707070; color: white;" (click)="back()">Back</button>
       <button mat-raised-button style="background-color: #707070; color: white;" (click)="add()">Add More</button>
-      <button mat-raised-button mat-dialog-close style="background-color: #707070; color: white;" [disabled]="(this.disableDisplayButton | async)" (click)="display()">Display</button>
+      <button mat-raised-button mat-dialog-close style="background-color: #707070; color: white;"
+        [disabled]="(this.disableDisplayButton | async)" (click)="display()">Display</button>
     </mat-dialog-actions>
   </div>
 </div>

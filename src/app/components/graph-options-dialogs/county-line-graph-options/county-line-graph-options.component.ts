@@ -1,10 +1,12 @@
-import { Component, OnChanges } from '@angular/core';
+import { Component, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { GraphOptions } from '../GraphOptionsModels/GraphOptions';
 import { Counties } from '../GraphOptionsModels/Counties';
 import { BehaviorSubject } from 'rxjs';
 import { OptionsDialog } from '../OptionsDialogInterface/OptionsDialog';
 import { ComponentDataService } from 'src/app/services/component-data/component-data.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 export enum DialogViews {
   countyView,
@@ -21,21 +23,34 @@ export class CountyLineGraphOptionsComponent implements OptionsDialog, OnChanges
   dialogViews = DialogViews;
   graphChoices: GraphOptions;
   counties: any[];
+  countyDataSource;
+  displayedColumns: string[];
   _next: BehaviorSubject<number>;
   disableDisplayButton: BehaviorSubject<boolean>;
   carriers: string[];
 
+  @ViewChild('paginator') paginator: MatPaginator;
 
   constructor(private cmpntDataSrvc: ComponentDataService,
     private route: ActivatedRoute,
     private router: Router) {
-    this.counties = Counties;
+    this.counties = Counties.map((elem, index) => {
+      return { id: index, county: elem };
+    });
+    this.countyDataSource = new MatTableDataSource(this.counties);
+    this.displayedColumns = [
+      'county',
+    ];
     this.graphChoices = {
       graphType: "county-line-graph",
     };
     this.carriers = ["AT&T", "T-Mobile", "Verizon", "All Carriers"];
     this._next = new BehaviorSubject(this.dialogViews.countyView);
     this.disableDisplayButton = new BehaviorSubject(true);
+  }
+
+  ngAfterViewInit() {
+    this.countyDataSource.paginator = this.paginator;
   }
 
   ngOnChanges() {

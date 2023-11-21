@@ -16,6 +16,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table'  
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -63,7 +65,9 @@ import { AggrOptionsDialogsComponent } from './components/graph-options-dialogs/
     ReactiveFormsModule,
     NgChartsModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatPaginatorModule,
+    MatTableModule
   ],
   providers: [{ provide: NgChartsConfiguration, useValue: { generateColors: false } }],
   bootstrap: [AppComponent]
