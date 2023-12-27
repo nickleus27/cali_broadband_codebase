@@ -1,30 +1,23 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GetDataService } from 'src/app/services/get-data/get-data.service';
-import { ChartConfiguration, ChartData, ChartEvent, ChartType, ChartTypeRegistry, TooltipItem, TooltipModel } from 'chart.js';
-import { BaseChartDirective } from 'ng2-charts';
-
+import { ChartData, ChartType, ChartTypeRegistry, TooltipItem, TooltipModel } from 'chart.js';
 import DataLabelsPlugin from 'chartjs-plugin-datalabels';
 import { GraphService } from 'src/app/services/graph/graph.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentDataService } from 'src/app/services/component-data/component-data.service';
-import { UnSubscribeAdaptor } from '../Adaptors/UnSubscribeAdaptor';
+import { GraphAdaptor } from '../Adaptors/GraphAdaptor';
+import { ThemeService } from 'src/app/services/theme-service/theme.service';
 
 @Component({
   selector: 'app-graph',
   templateUrl: './graph.component.html',
   styleUrls: ['./graph.component.css']
 })
-export class GraphComponent extends UnSubscribeAdaptor implements OnInit {
-
-  params: any;
-  @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
-
-  public barChartOptions: ChartConfiguration['options'];
+export class GraphComponent extends GraphAdaptor<'bar'> implements OnInit {
   public barChartType: ChartType = 'bar';
   public barChartPlugins = [
     DataLabelsPlugin
   ];
-
   public barChartData: ChartData<'bar'>;
 
   constructor(
@@ -32,10 +25,11 @@ export class GraphComponent extends UnSubscribeAdaptor implements OnInit {
     private graphService: GraphService,
     private cmpntDataSrvc: ComponentDataService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    public override themeService: ThemeService
   ) {
-    super();
-    this.barChartOptions = {
+    super(themeService);
+    this.chartOptions = {
       responsive: true,
       maintainAspectRatio: false,
       // We use these empty structures as placeholders for dynamic theming.
@@ -101,14 +95,5 @@ export class GraphComponent extends UnSubscribeAdaptor implements OnInit {
       complete: () => { }
     });
     this.cmpntDataSrvc.updateGraphChoices();
-  }
-
-  // events
-  public chartClicked({ event, active }: { event?: ChartEvent, active?: {}[] }): void {
-    //console.log(event, active);
-  }
-
-  public chartHovered({ event, active }: { event?: ChartEvent, active?: {}[] }): void {
-    //console.log(event, active);
   }
 }

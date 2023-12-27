@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { UnSubscribeAdaptor } from '../Adaptors/UnSubscribeAdaptor';
-import { ChartConfiguration, ChartOptions, ChartTypeRegistry, TooltipItem } from 'chart.js';
+import { ChartData, ChartTypeRegistry, TooltipItem } from 'chart.js';
 import { GraphService } from 'src/app/services/graph/graph.service';
 import { GetDataService } from 'src/app/services/get-data/get-data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentDataService } from 'src/app/services/component-data/component-data.service';
+import { GraphAdaptor } from '../Adaptors/GraphAdaptor';
+import { ThemeService } from 'src/app/services/theme-service/theme.service';
 
 @Component({
   selector: 'app-county-line-graph',
   templateUrl: './county-line-graph.component.html',
   styleUrls: ['./county-line-graph.component.css']
 })
-export class CountyLineGraphComponent extends UnSubscribeAdaptor implements OnInit {
-  lineChartData: ChartConfiguration<'line'>['data'];
-  lineChartOptions: ChartOptions<'line'>;
+export class CountyLineGraphComponent extends GraphAdaptor<'line'> implements OnInit {
+  chartData: ChartData<'line'>;
   lineChartLegend;
 
   constructor(
@@ -21,10 +21,11 @@ export class CountyLineGraphComponent extends UnSubscribeAdaptor implements OnIn
     private getDataService: GetDataService,
     private cmpntDataSrvc: ComponentDataService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    public override themeService: ThemeService
   ) {
-    super();
-    this.lineChartOptions = {
+    super(themeService);
+    this.chartOptions = {
       responsive: true,
       plugins: {
         tooltip: {
@@ -52,7 +53,7 @@ export class CountyLineGraphComponent extends UnSubscribeAdaptor implements OnIn
         this.getDataService.countyData.subscribe({
           next: (data) => {
             try {
-              this.lineChartData = this.graphService.countyLineGraph(graphChoices, data);
+              this.chartData = this.graphService.countyLineGraph(graphChoices, data);
             } catch (e) {
               console.log(e);
               // TODO

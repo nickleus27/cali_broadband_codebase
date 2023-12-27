@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ChartConfiguration, ChartOptions, ChartTypeRegistry, TooltipItem, TooltipModel } from 'chart.js';
+import { ChartData, ChartTypeRegistry, TooltipItem } from 'chart.js';
 import { ComponentDataService } from 'src/app/services/component-data/component-data.service';
 import { GetDataService } from 'src/app/services/get-data/get-data.service';
 import { GraphService } from 'src/app/services/graph/graph.service';
-import { UnSubscribeAdaptor } from '../Adaptors/UnSubscribeAdaptor';
+import { GraphAdaptor } from '../Adaptors/GraphAdaptor';
+import { ThemeService } from 'src/app/services/theme-service/theme.service';
 
 @Component({
   selector: 'app-line-graph',
   templateUrl: './line-graph.component.html',
   styleUrls: ['./line-graph.component.css']
 })
-export class LineGraphComponent extends UnSubscribeAdaptor implements OnInit {
-  lineChartData: ChartConfiguration<'line'>['data'];
-  lineChartOptions: ChartOptions<'line'>;
+export class LineGraphComponent extends GraphAdaptor<'line'> implements OnInit {
+  lineChartData: ChartData<'line'>;
   lineChartLegend;
 
   constructor(
@@ -21,10 +21,11 @@ export class LineGraphComponent extends UnSubscribeAdaptor implements OnInit {
     private getDataService: GetDataService,
     private cmpntDataSrvc: ComponentDataService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    public override themeService: ThemeService
   ) {
-    super();
-    this.lineChartOptions = {
+    super(themeService);
+    this.chartOptions = {
       responsive: true,
       plugins: {
         tooltip: {
